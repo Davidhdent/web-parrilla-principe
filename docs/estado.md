@@ -3,13 +3,20 @@
 Se sigue el prompt maestro `C:\Users\Vinchy\PROYECTOS CLAUDE\Prompt creación web restaurante\prompt-webs-restaurantes_2.md`, fase por fase y con validación en cada ⏸️.
 
 ## Fase actual
-**Fase 3 validada por el usuario el 30/09/2026.** Supuestos confirmados: reservas solo por teléfono, español e inglés, y hosting en Netlify por ahora. **Fase 4:** el usuario eligió **solo el panel del dueño** (Keystatic, gratis). Descartados: formulario de grupos, reservas online, chat con IA y newsletter. El panel se entregó el 30/09/2026 y **está pendiente de validación**:
-- funciona en local y se probó guardar → JSON → web;
-- tiene casilla de «teléfono revisado»;
-- la CSP de Netlify solo se aplica a las páginas públicas;
-- guía para el dueño en `docs/panel.md`.
+**Fase 5 hecha, salvo el lanzamiento (30/09/2026).** La web está publicada en **https://parrilla-principe.netlify.app** (repositorio privado `Davidhdent/web-parrilla-principe`, despliegue automático desde `main`), con `noindex` y etiquetas «Por confirmar». El lanzamiento espera a los datos del dueño: checklist en `docs/seo-geo.md` §7.
 
-En producción irá en modo GitHub + Netlify (Fase 5).
+- **PageSpeed (URL publicada):**
+  - móvil 97/100/100 (LCP 2,1 s, CLS 0);
+  - escritorio 100/100/100 (LCP 0,4 s, CLS 0,002);
+  - SEO 69 solo por el `noindex`.
+- **e2e contra producción:** 98 de 98 (`E2E_BASE=https://parrilla-principe.netlify.app npm run test:e2e`).
+- **Arreglado al publicar** (detalle en `docs/retrospectiva.md`):
+  - la insignia de Netlify tapaba la barra móvil;
+  - la CSP bloqueaba una fuente incrustada como `data:`;
+  - CLS de 0,41 al cargar la fuente del titular.
+- **Panel del dueño en producción: NO activado todavía.** Hace falta la GitHub App de Keystatic y las variables en Netlify; pasos en `docs/panel.md`. Se activa cuando se vaya a entregar al dueño.
+
+Fases anteriores: Fase 3 validada (reservas solo por teléfono, ES + EN, Netlify). Fase 4 validada: solo el panel del dueño (Keystatic); descartados el formulario de grupos, las reservas online, el chat con IA y la newsletter.
 
 ## Historial
 - **Fase 0:** restaurante Parrilla Príncipe, C/ Floridablanca 6, 28200 San Lorenzo de El Escorial. El usuario pidió investigarlo todo.
@@ -37,6 +44,6 @@ En producción irá en modo GitHub + Netlify (Fase 5).
 Nombre oficial · teléfono que se publica (hay tres) · horario (¿cenas?) · precio e inclusiones del menú del día · carta con precios · plato de la casa · alérgenos · **huerta propia** · historia · si el hotel sigue abierto · salones y grupos · terraza · niños · formas de pago · aparcamiento recomendado · fotos y logo · datos fiscales para el aviso legal.
 
 ## Próximos pasos
-1. El usuario valida la Fase 4 (el panel).
-2. Fase 5: SEO local y GEO, repositorio privado en GitHub, Netlify con el panel en modo GitHub, PageSpeed sobre la URL publicada y checklist de lanzamiento.
+1. Enviar al dueño `docs/cuestionario-dueno.md` y la URL de la vista previa.
+2. Con sus respuestas: meter los datos (o que los meta él en el panel), activar el panel en producción y seguir la checklist de lanzamiento de `docs/seo-geo.md` §7 (dominio, `PUBLIC_INDEXAR`, Search Console, Bing, IndexNow y unificar el NAP).
 3. Recomendado: abrir una sesión nueva de Claude Code en esta carpeta, porque `preview_start` lee el `.claude/launch.json` de la carpeta de la sesión.

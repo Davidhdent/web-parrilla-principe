@@ -18,6 +18,9 @@ npm run build      # genera /dist (HTML estático)
 npm run build
 npm run test:e2e                                        # ES/EN × escritorio/móvil + capturas en ../docs/capturas
 powershell -File tests/lighthouse.ps1 [-Escritorio]     # Lighthouse local (el móvil local es ruidoso: validar con PageSpeed tras publicar)
+node tests/cls-fuentes.mjs                              # CLS con las fuentes retrasadas (lo que el Lighthouse local no ve)
+node tests/jsonld.mjs                                   # datos estructurados de dist/ (solo datos confirmados)
+E2E_BASE=https://parrilla-principe.netlify.app npm run test:e2e   # las mismas pruebas contra producción
 ```
 
 ## Estructura
