@@ -1,0 +1,172 @@
+---
+/**
+ * Hero «Brasa y castaño»: la parrilla a pantalla completa (Ken Burns), ascuas que suben
+ * y el titular revelado letra a letra. Todo con CSS generado en el servidor:
+ * no espera a ningún JavaScript (LCP rápido) y el texto está en el HTML inicial.
+ */
+import { Picture } from 'astro:assets';
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { fotos } from '../data/imagenes';
+import { t } from '../i18n/textos';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang);
+
+// Titular: cada palabra en un bloque que no se parte; cada letra con su retraso.
+let n = 0;
+const palabras = tx.hero.titular.split(' ').map((p, i) => ({
+  enfasis: i >= tx.hero.enfasisDesde,
+  letras: [...p].map((l) => ({ l, i: n++ })),
+}));
+
+// Ascuas: posiciones y tiempos fijos (pseudoaleatorios pero estables entre compilaciones).
+const ascuas = Array.from({ length: 18 }, (_, k) => {
+  const r = (s: number) => ((Math.sin(k * 12.9898 + s * 78.233) * 43758.5453) % 1 + 1) % 1;
+  return {
+    x: 30 + r(1) * 68,
+    dx: Math.round(r(2) * 120 - 60),
+    dur: (5 + r(3) * 6).toFixed(2),
+    delay: (r(4) * 8).toFixed(2),
+    t: (2 + r(5) * 3).toFixed(1),
+  };
+});
+---
+<section class="hero oscuro" aria-labelledby="hero-titulo">
+  <div class="hero__imagen">
+    <Picture
+      src={fotos.parrillaBrasas.src}
+      formats={['avif', 'webp']}
+      widths={[640, 960, 1280, 1600, 2000]}
+      sizes="100vw"
+      alt={tx.hero.imagenAlt}
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+  <div class="hero__velo" aria-hidden="true"></div>
+  <div class="hero__ascuas" aria-hidden="true">
+    {ascuas.map((a) => (
+      <i style={`left:${a.x}%;--dx:${a.dx}px;--t:${a.t}px;animation-duration:${a.dur}s;animation-delay:${a.delay}s`}></i>
+    ))}
+  </div>
+
+  <div class="hero__contenido contenedor">
+    <p class="hero__antetitulo" data-hero-aparece><span class="marcas" aria-hidden="true"></span>{tx.hero.antetitulo}</p>
+    <h1 id="hero-titulo" class="hero__titular">
+      <span class="sr-only">{tx.hero.titular}</span>
+      <span aria-hidden="true">
+        {palabras.map((p, i) => (
+          <><span class:list={['palabra', { enfasis: p.enfasis }]}>{p.letras.map(({ l, i: k }) => <span class="letra" style={`--i:${k}`}>{l}</span>)}</span>{i < palabras.length - 1 && ' '}</>
+        ))}
+      </span>
+    </h1>
+    <p class="hero__entradilla" data-hero-aparece>{tx.hero.entradilla}</p>
+    <div class="hero__acciones" data-hero-aparece>
+      <a class="boton boton--ambar" href={restaurante.telefono.enlace}>
+        <Icono nombre="telefono" />{tx.acciones.llamar}
+      </a>
+      <a class="boton boton--claro" href="#carta">{tx.acciones.verCarta}</a>
+    </div>
+  </div>
+
+  <p class="hero__direccion" data-hero-aparece>
+    {restaurante.direccion.calle}<br />{restaurante.direccion.localidad}
+  </p>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero__imagen { position: absolute; inset: 0; z-index: -3; }
+  .hero__imagen :global(img) {
+    width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%;
+    transform-origin: 70% 55%;
+    animation: hero-kenburns 24s ease-out both;
+  }
+  @keyframes hero-kenburns {
+    from { transform: scale(1.14) translate3d(1.5%, 1%, 0); }
+    to { transform: scale(1) translate3d(0, 0, 0); }
+  }
+  .hero__velo {
+    position: absolute; inset: 0; z-index: -2;
+    background:
+      linear-gradient(100deg, rgb(23 18 15 / 0.94) 0%, rgb(23 18 15 / 0.72) 42%, rgb(23 18 15 / 0.12) 100%),
+      linear-gradient(to top, rgb(23 18 15 / 0.9), transparent 45%),
+      linear-gradient(to bottom, rgb(23 18 15 / 0.6), transparent 25%);
+  }
+
+  /* Ascuas que suben desde la parrilla */
+  .hero__ascuas { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .hero__ascuas i {
+    position: absolute; bottom: -10px;
+    width: var(--t); height: var(--t); border-radius: 50%;
+    background: #ffb26b;
+    box-shadow: 0 0 8px 2px rgb(255 120 40 / 0.8);
+    opacity: 0;
+    animation-name: hero-ascua;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes hero-ascua {
+    0% { transform: translate(0, 0); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translate(var(--dx), -85vh); opacity: 0; }
+  }
+
+  .hero__contenido { padding-block: 8rem clamp(5.5rem, 11vh, 7.5rem); }
+  .hero__antetitulo {
+    display: flex; align-items: center; gap: 0.9rem; margin: 0 0 1.5rem;
+    font-family: var(--font-display); font-style: italic; font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    color: var(--color-ambar);
+  }
+  .hero__titular {
+    font-size: clamp(2.9rem, 7.6vw, 7.4rem);
+    font-weight: 300;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    max-width: 15ch;
+    margin: 0 0 clamp(1.5rem, 3.5vh, 2.25rem);
+  }
+  .palabra { display: inline-block; white-space: nowrap; }
+  .enfasis { font-style: italic; color: var(--color-ambar); }
+  .letra {
+    display: inline-block;
+    animation: hero-letra 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(0.05s + var(--i) * 18ms);
+  }
+  /* Opacidad inicial mínima pero no nula: el navegador cuenta el titular como pintado
+     desde el primer fotograma (LCP) y la animación se ve igual. */
+  @keyframes hero-letra { from { opacity: 0.01; transform: translateY(0.35em); } }
+  [data-hero-aparece] {
+    animation: hero-aparece 1s ease-out both;
+    animation-delay: 0.9s;
+  }
+  @keyframes hero-aparece { from { opacity: 0; transform: translateY(16px); } }
+
+  .hero__entradilla {
+    margin: 0; max-width: 44ch;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    color: rgb(242 233 218 / 0.88);
+  }
+  .hero__acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+  .hero__direccion {
+    position: absolute; right: var(--gutter); bottom: clamp(5.5rem, 11vh, 7.5rem);
+    margin: 0; font-family: var(--font-display); font-style: italic; font-size: 1.05rem;
+    text-align: right; color: var(--color-humo); display: none;
+  }
+  @media (min-width: 64rem) { .hero__direccion { display: block; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__imagen :global(img) { animation: none; }
+    .hero__ascuas { display: none; }
+    .letra, [data-hero-aparece] { animation: none; }
+  }
+</style>

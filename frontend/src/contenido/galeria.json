@@ -1,0 +1,60 @@
+{
+  "fotos": [
+    {
+      "imagen": null,
+      "titulo": { "es": "La terraza, bajo los castaños", "en": "The terrace, under the chestnut trees" },
+      "texto": { "es": "Grandes castaños dan sombra a las mesas de fuera. En verano es donde todo el mundo quiere comer.", "en": "Large chestnut trees shade the outdoor tables. In summer, everyone wants to eat out here." },
+      "alt": { "es": "La terraza a la sombra de los castaños", "en": "The terrace in the shade of the chestnut trees" },
+      "formato": "alta",
+      "credito": ""
+    },
+    {
+      "imagen": "../assets/img/galeria/monasterio-torre.jpg",
+      "titulo": { "es": "El Monasterio, a unos pasos", "en": "The Monastery, a few steps away" },
+      "texto": { "es": "El Real Monasterio de San Lorenzo de El Escorial, Patrimonio Mundial desde 1984. Muchos vienen a comer antes o después de la visita.", "en": "The Royal Monastery of San Lorenzo de El Escorial, a World Heritage Site since 1984. Many guests come to eat before or after their visit." },
+      "alt": { "es": "Torre del Monasterio de El Escorial bajo un cielo azul", "en": "A tower of the Monastery of El Escorial under a blue sky" },
+      "formato": "ancha",
+      "credito": "Fernando Mola-Davis · Unsplash"
+    },
+    {
+      "imagen": null,
+      "titulo": { "es": "Huevos al ajillo", "en": "Garlic eggs" },
+      "texto": { "es": "El plato que más nombran las reseñas.", "en": "The dish reviews mention most." },
+      "alt": { "es": "Huevos al ajillo", "en": "Garlic eggs" },
+      "formato": "normal",
+      "credito": ""
+    },
+    {
+      "imagen": null,
+      "titulo": { "es": "El comedor", "en": "The dining room" },
+      "texto": { "es": "Dentro, un comedor climatizado para los días de frío serrano y las tardes de agosto.", "en": "Inside, an air-conditioned dining room for cold mountain days and August afternoons." },
+      "alt": { "es": "El comedor interior", "en": "The indoor dining room" },
+      "formato": "normal",
+      "credito": ""
+    },
+    {
+      "imagen": "../assets/img/galeria/monasterio-fachada.jpg",
+      "titulo": { "es": "Granito de la sierra", "en": "Mountain granite" },
+      "texto": { "es": "La fachada del Monasterio, levantada en granito de la sierra de Guadarrama.", "en": "The Monastery façade, built in granite from the Guadarrama mountains." },
+      "alt": { "es": "Fachada de granito del Monasterio de El Escorial", "en": "The granite façade of the Monastery of El Escorial" },
+      "formato": "ancha",
+      "credito": "Alejandro Pohlenz · Unsplash"
+    },
+    {
+      "imagen": null,
+      "titulo": { "es": "De la huerta", "en": "From the garden" },
+      "texto": { "es": "El tomate de la huerta que recomienda el dueño.", "en": "The garden tomato the owner recommends." },
+      "alt": { "es": "Tomates de la huerta", "en": "Garden tomatoes" },
+      "formato": "ancha",
+      "credito": ""
+    },
+    {
+      "imagen": null,
+      "titulo": { "es": "La parrilla encendida", "en": "The grill, lit" },
+      "texto": { "es": "Entrecot, chuletón, solomillo y chuletillas de cordero, a la brasa.", "en": "Entrecôte, rib steak, fillet and lamb cutlets, over the embers." },
+      "alt": { "es": "La parrilla del restaurante con las brasas encendidas", "en": "The restaurant grill with glowing embers" },
+      "formato": "ancha",
+      "credito": ""
+    }
+  ]
+}

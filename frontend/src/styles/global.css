@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Dirección de arte A · «Brasa y castaño»
+   El carbón y la brasa de la parrilla, el castaño de los árboles
+   que dan sombra a la terraza y el hueso de los manteles.
+   Contrastes comprobados (WCAG 2.x): ver docs/direcciones-arte.md.
+   ========================================================= */
+@theme {
+  --color-carbon: #17120f;
+  --color-carbon-2: #211a15;
+  --color-castano: #5a3521;
+  --color-brasa: #c4552b;          /* solo decorativo o texto grande sobre carbón (4,1:1) */
+  --color-brasa-oscura: #9a3b1b;   /* enlaces y acentos sobre hueso (5,8:1) */
+  --color-ambar: #e8a25c;          /* acento sobre fondos oscuros (8,6:1) */
+  --color-hueso: #f2e9da;
+  --color-hueso-2: #e7dbc6;
+  --color-ceniza: #6e5b4c;         /* texto secundario sobre hueso (5,3:1) */
+  --color-humo: #b8a792;           /* texto secundario sobre carbón (7,9:1) */
+
+  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Manrope Variable", "Manrope", system-ui, sans-serif;
+}
+
+:root {
+  --gutter: clamp(1rem, 4vw, 3.5rem);
+  --ancho: 76rem;
+  --ease-lento: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: light;
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--color-hueso);
+  color: var(--color-carbon);
+  font-family: var(--font-sans);
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--color-brasa-oscura);
+  outline-offset: 3px;
+}
+.oscuro :focus-visible { outline-color: var(--color-ambar); }
+
+.salto {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 200;
+  padding: 0.6rem 1rem;
+  background: var(--color-carbon);
+  color: var(--color-hueso);
+}
+.salto:focus { top: 1rem; }
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.seccion { padding-block: clamp(5rem, 12vw, 10rem); }
+
+/* Secciones oscuras: carbón con texto hueso */
+.oscuro { background: var(--color-carbon); color: var(--color-hueso); }
+
+.titulo-seccion {
+  font-size: clamp(2.6rem, 6.4vw, 5rem);
+  font-weight: 300;
+}
+
+/* Letra pequeña en versalitas reales (en lugar de etiquetas en mayúsculas) */
+.versalitas {
+  font-family: var(--font-sans);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.1em;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* ---------- Motivo: marcas de la parrilla ----------
+   Trazos en diagonal, como las marcas que deja la parrilla en la carne.
+   Solo como separador antes de los títulos. */
+.marcas {
+  display: block;
+  width: 3.6rem;
+  height: 1.1rem;
+  background-image: repeating-linear-gradient(
+    -58deg,
+    transparent 0 7px,
+    currentColor 7px 11px,
+    transparent 11px 17px
+  );
+  color: var(--color-brasa-oscura);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.oscuro .marcas { color: var(--color-ambar); }
+
+/* ---------- Botones ---------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0.8rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  transition: background-color 0.35s var(--ease-lento), color 0.35s var(--ease-lento),
+    border-color 0.35s var(--ease-lento);
+}
+.boton svg { width: 1.1rem; height: 1.1rem; flex: none; }
+.boton--ambar { background: var(--color-ambar); border-color: var(--color-ambar); color: var(--color-carbon); }
+.boton--ambar:hover { background: #f2b879; border-color: #f2b879; }
+.boton--claro { color: var(--color-hueso); border-color: rgb(242 233 218 / 0.5); }
+.boton--claro:hover { background: var(--color-hueso); color: var(--color-carbon); }
+.boton--oscuro { color: var(--color-carbon); }
+.boton--oscuro:hover { background: var(--color-carbon); color: var(--color-hueso); }
+.boton--brasa { background: var(--color-brasa-oscura); border-color: var(--color-brasa-oscura); color: var(--color-hueso); }
+.boton--brasa:hover { background: #7f2f14; border-color: #7f2f14; }
+
+/* ---------- «Por confirmar» ---------- */
+.pendiente {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: 0.5rem;
+  padding: 0.05rem 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  vertical-align: middle;
+  color: #6b3310;
+  background: #f6dcc0;
+  border: 1px dashed #b5652e;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* ---------- Marcador de foto pendiente ---------- */
+.foto-pendiente {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 12rem;
+  color: var(--color-humo);
+  background:
+    repeating-linear-gradient(-58deg, rgb(232 162 92 / 0.07) 0 4px, transparent 4px 16px),
+    radial-gradient(120% 90% at 50% 115%, #3d2619, var(--color-carbon-2));
+}
+.foto-pendiente span {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  text-align: center;
+  padding: 0 1rem;
+}
+.foto-pendiente span small {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+/* ---------- Rendimiento: no maquetar lo que aún no se ve ---------- */
+main > section:not(.hero),
+body > footer,
+body > section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+/* ---------- Revelados al hacer scroll ----------
+   La clase .anim la pone efectos.ts (sin JS o con «reducir movimiento» todo se ve). */
+.anim [data-revelar] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.1s var(--ease-lento), transform 1.1s var(--ease-lento);
+}
+.anim [data-revelar].visible { opacity: 1; transform: none; }
+
+.anim [data-revelar-mascara] {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.5s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.anim [data-revelar-mascara].visible { clip-path: inset(0 0 0 0); }
+
+.anim [data-capa] {
+  opacity: 0;
+  transform: translateY(calc(var(--capa, 1) * 40px));
+  transition: opacity 1.3s var(--ease-lento), transform 1.3s var(--ease-lento);
+  transition-delay: calc((var(--capa, 1) - 1) * 150ms);
+}
+.anim .visible [data-capa] { opacity: 1; transform: none; }
+
+/* ---------- Accesibilidad: movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

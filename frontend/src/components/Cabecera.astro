@@ -1,0 +1,221 @@
+---
+import { getImage } from 'astro:assets';
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { fotos } from '../data/imagenes';
+import { t, rutaIdioma } from '../i18n/textos';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang);
+const otroIdioma: Lang = lang === 'es' ? 'en' : 'es';
+
+// Cada enlace del menú a pantalla completa tiene su propia imagen de fondo.
+const [imgFuego, imgPinzas, imgMonasterio] = await Promise.all(
+  [fotos.fuegoParrilla.src, fotos.pinzasParrilla.src, fotos.monasterioCupula.src].map((src) =>
+    getImage({ src, width: 1400, format: 'webp' }),
+  ),
+);
+const enlaces = [
+  { href: '#historia', texto: tx.nav.historia, fondo: imgFuego.src },
+  { href: '#carta', texto: tx.nav.carta, fondo: imgPinzas.src },
+  { href: '#galeria', texto: tx.nav.galeria, fondo: imgMonasterio.src },
+  { href: '#grupos', texto: tx.nav.grupos, fondo: imgFuego.src },
+  { href: '#zona', texto: tx.nav.zona, fondo: imgMonasterio.src },
+  { href: '#preguntas', texto: tx.nav.preguntas, fondo: imgPinzas.src },
+];
+---
+<header class="cabecera" data-cabecera>
+  <div class="cabecera__barra contenedor">
+    <a href={rutaIdioma[lang]} class="marca">
+      Parrilla <em>Príncipe</em>
+    </a>
+
+    <nav class="cabecera__nav" aria-label={tx.nav.menu}>
+      {enlaces.map((e) => <a href={e.href}>{e.texto}</a>)}
+    </nav>
+
+    <div class="cabecera__acciones">
+      <a class="idioma" href={rutaIdioma[otroIdioma]} hreflang={otroIdioma} lang={otroIdioma} aria-label={tx.nav.idioma}>
+        {tx.nav.idiomaCorto}
+      </a>
+      <a class="boton boton--claro cabecera__llamar" href={restaurante.telefono.enlace}>
+        <Icono nombre="telefono" />{restaurante.telefono.visible}
+      </a>
+      <button class="cabecera__menu" type="button" aria-expanded="false" aria-controls="menu-completo" data-abrir-menu>
+        <Icono nombre="menu" /><span>{tx.nav.menu}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-completo oscuro" id="menu-completo" hidden data-menu>
+  <div class="menu-completo__fondo" aria-hidden="true">
+    {enlaces.map((e, i) => <img src={e.fondo} alt="" data-fondo={i} class={i === 0 ? 'activo' : ''} loading="lazy" decoding="async" />)}
+  </div>
+  <div class="menu-completo__contenido contenedor">
+    <button class="menu-completo__cerrar" type="button" data-cerrar-menu>
+      <Icono nombre="cerrar" /><span>{tx.nav.cerrar}</span>
+    </button>
+    <nav aria-label={tx.nav.menu}>
+      <ul>
+        {enlaces.map((e, i) => <li><a href={e.href} data-enlace-menu={i}>{e.texto}</a></li>)}
+      </ul>
+    </nav>
+    <div class="menu-completo__pie">
+      <p>{restaurante.direccion.calle}<br />{restaurante.direccion.localidad}</p>
+      <a href={restaurante.telefono.enlace}>{restaurante.telefono.visible}</a>
+      <a href={rutaIdioma[otroIdioma]} hreflang={otroIdioma} lang={otroIdioma}>{tx.nav.idioma}</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cabecera {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    color: var(--color-hueso);
+    transition: background-color 0.5s var(--ease-lento), padding 0.5s var(--ease-lento),
+      transform 0.5s var(--ease-lento);
+    padding-block: 1.25rem;
+  }
+  .cabecera.solida {
+    background: rgb(23 18 15 / 0.94);
+    backdrop-filter: blur(8px);
+    padding-block: 0.6rem;
+  }
+  .cabecera.oculta { transform: translateY(-100%); }
+  .cabecera :global(:focus-visible) { outline-color: var(--color-ambar); }
+  .cabecera__barra { display: flex; align-items: center; gap: 2rem; max-width: none; }
+
+  .marca {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.2vw, 1.65rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-inline-end: auto;
+  }
+  .marca em { font-weight: 300; color: var(--color-ambar); }
+
+  .cabecera__nav { display: none; gap: 1.9rem; font-size: 0.92rem; }
+  .cabecera__nav a {
+    text-decoration: none;
+    white-space: nowrap;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 0.4s var(--ease-lento);
+    padding-block: 0.25rem;
+  }
+  .cabecera__nav a:hover { background-size: 100% 1px; }
+
+  .cabecera__acciones { display: flex; align-items: center; gap: 1rem; }
+  .idioma {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem;
+    min-width: 2.75rem;
+    text-align: center;
+  }
+  .cabecera__llamar { display: none; min-height: 2.6rem; padding: 0.5rem 1.1rem; white-space: nowrap; }
+  .cabecera__menu {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    min-height: 2.75rem; padding: 0.5rem; font-size: 0.9rem; cursor: pointer;
+  }
+  .cabecera__menu :global(svg) { width: 1.4rem; height: 1.4rem; }
+  @media (min-width: 48rem) { .cabecera__llamar { display: inline-flex; } }
+  @media (min-width: 80rem) {
+    .cabecera__nav { display: flex; }
+    .cabecera__menu { display: none; }
+  }
+
+  /* ---- Menú a pantalla completa ---- */
+  .menu-completo { position: fixed; inset: 0; z-index: 100; overflow-y: auto; }
+  .menu-completo[hidden] { display: none; }
+  .menu-completo__fondo { position: absolute; inset: 0; }
+  .menu-completo__fondo img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; filter: brightness(0.32) saturate(0.8);
+    transition: opacity 0.8s var(--ease-lento), transform 1.6s var(--ease-lento);
+    transform: scale(1.06);
+  }
+  .menu-completo__fondo img.activo { opacity: 1; transform: scale(1); }
+  .menu-completo__contenido {
+    position: relative; min-height: 100%;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding-block: 1.25rem 2rem;
+  }
+  .menu-completo__cerrar {
+    align-self: flex-end; display: inline-flex; gap: 0.5rem; align-items: center;
+    min-height: 2.75rem; padding: 0.5rem; cursor: pointer; font-size: 0.9rem;
+  }
+  .menu-completo__cerrar :global(svg) { width: 1.4rem; height: 1.4rem; }
+  .menu-completo ul { list-style: none; padding: 0; margin: 2rem 0; }
+  .menu-completo li a {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2.5rem, 10vw, 4.8rem);
+    line-height: 1.15;
+    text-decoration: none;
+    padding-block: 0.1rem;
+    transition: color 0.3s, padding 0.5s var(--ease-lento);
+  }
+  .menu-completo li a:hover, .menu-completo li a:focus-visible {
+    color: var(--color-ambar); font-style: italic; padding-inline-start: 0.75rem;
+  }
+  .menu-completo__pie {
+    display: grid; gap: 0.75rem; font-size: 0.95rem;
+    border-top: 1px solid rgb(242 233 218 / 0.2); padding-top: 1.25rem;
+  }
+  .menu-completo__pie p { margin: 0; color: var(--color-humo); }
+</style>
+
+<script>
+  const cabecera = document.querySelector<HTMLElement>('[data-cabecera]')!;
+  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  const abrir = document.querySelector<HTMLButtonElement>('[data-abrir-menu]')!;
+  const cerrar = document.querySelector<HTMLButtonElement>('[data-cerrar-menu]')!;
+  const fondos = menu.querySelectorAll<HTMLImageElement>('[data-fondo]');
+
+  // Cabecera: sólida al bajar del hero, se esconde al bajar y reaparece al subir.
+  let ultimaY = 0;
+  const alDesplazar = () => {
+    const y = window.scrollY;
+    cabecera.classList.toggle('solida', y > window.innerHeight * 0.6);
+    cabecera.classList.toggle('oculta', y > window.innerHeight && y > ultimaY);
+    ultimaY = y;
+  };
+  window.addEventListener('scroll', alDesplazar, { passive: true });
+  requestAnimationFrame(alDesplazar); // tras el primer pintado: no fuerza layout al cargar
+
+  const abrirMenu = () => {
+    menu.hidden = false;
+    abrir.setAttribute('aria-expanded', 'true');
+    document.documentElement.style.overflow = 'hidden';
+    menu.querySelector<HTMLElement>('a')?.focus();
+  };
+  const cerrarMenu = () => {
+    menu.hidden = true;
+    abrir.setAttribute('aria-expanded', 'false');
+    document.documentElement.style.overflow = '';
+    abrir.focus();
+  };
+  abrir.addEventListener('click', abrirMenu);
+  cerrar.addEventListener('click', cerrarMenu);
+  menu.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
+  menu.querySelectorAll<HTMLAnchorElement>('[data-enlace-menu]').forEach((a) => {
+    const i = a.dataset.enlaceMenu;
+    const activar = () => fondos.forEach((f) => f.classList.toggle('activo', f.dataset.fondo === i));
+    a.addEventListener('mouseenter', activar);
+    a.addEventListener('focus', activar);
+    a.addEventListener('click', () => {
+      menu.hidden = true;
+      abrir.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+    });
+  });
+</script>

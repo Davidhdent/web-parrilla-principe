@@ -1,0 +1,418 @@
+{
+  "categorias": [
+    {
+      "id": "entrantes",
+      "nombre": {
+        "es": "Para empezar",
+        "en": "To start"
+      },
+      "platos": [
+        {
+          "id": "tomate-ventresca",
+          "nombre": {
+            "es": "Tomate de la huerta con ventresca",
+            "en": "Garden tomato with tuna belly"
+          },
+          "descripcion": {
+            "es": "Tomate de la huerta con ventresca, uno de los entrantes que más se piden.",
+            "en": "Garden tomato with tuna belly, one of the most ordered starters."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "huevos-ajillo",
+          "nombre": {
+            "es": "Huevos al ajillo",
+            "en": "Garlic eggs"
+          },
+          "descripcion": {
+            "es": "El plato que más repiten las reseñas de la casa.",
+            "en": "The dish guests mention most in their reviews."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "crujientes-queso",
+          "nombre": {
+            "es": "Crujientes de queso",
+            "en": "Cheese crisps"
+          },
+          "descripcion": {
+            "es": "Para picar al centro de la mesa.",
+            "en": "To share in the middle of the table."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "croquetas",
+          "nombre": {
+            "es": "Croquetas caseras",
+            "en": "Homemade croquettes"
+          },
+          "descripcion": {
+            "es": "Las reseñas citan las de jamón, las de cordero y las de rabo de toro.",
+            "en": "Reviews mention ham, lamb and oxtail croquettes."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "pulpo",
+          "nombre": {
+            "es": "Pulpo a la gallega",
+            "en": "Galician-style octopus"
+          },
+          "descripcion": {
+            "es": "Pulpo a la gallega.",
+            "en": "Octopus, Galician style."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "brandada",
+          "nombre": {
+            "es": "Brandada de bacalao",
+            "en": "Salt cod brandade"
+          },
+          "descripcion": {
+            "es": "Brandada de bacalao.",
+            "en": "Salt cod brandade."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        }
+      ]
+    },
+    {
+      "id": "parrilla",
+      "nombre": {
+        "es": "De la parrilla",
+        "en": "From the grill"
+      },
+      "platos": [
+        {
+          "id": "entrecot",
+          "nombre": {
+            "es": "Entrecot a la parrilla",
+            "en": "Grilled entrecôte"
+          },
+          "descripcion": {
+            "es": "El corte de la parrilla que más nombran quienes vuelven.",
+            "en": "The grill cut returning guests mention most."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "chuleton",
+          "nombre": {
+            "es": "Chuletón",
+            "en": "Bone-in rib steak"
+          },
+          "descripcion": {
+            "es": "Chuletón a la parrilla.",
+            "en": "Bone-in rib steak from the grill."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "solomillo",
+          "nombre": {
+            "es": "Solomillo a la pimienta",
+            "en": "Pepper fillet steak"
+          },
+          "descripcion": {
+            "es": "Solomillo de ternera a la pimienta.",
+            "en": "Beef fillet steak with pepper sauce."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "chuletillas",
+          "nombre": {
+            "es": "Chuletillas de cordero",
+            "en": "Lamb cutlets"
+          },
+          "descripcion": {
+            "es": "Chuletillas de cordero a la parrilla.",
+            "en": "Grilled lamb cutlets."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        }
+      ]
+    },
+    {
+      "id": "guisos",
+      "nombre": {
+        "es": "Guisos y pescados",
+        "en": "Stews and fish"
+      },
+      "platos": [
+        {
+          "id": "rabo",
+          "nombre": {
+            "es": "Rabo de toro",
+            "en": "Oxtail stew"
+          },
+          "descripcion": {
+            "es": "Rabo de toro guisado.",
+            "en": "Slow-cooked oxtail stew."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "carrillera",
+          "nombre": {
+            "es": "Carrillera",
+            "en": "Braised cheek"
+          },
+          "descripcion": {
+            "es": "Carrillera guisada.",
+            "en": "Braised beef cheek."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "lubina",
+          "nombre": {
+            "es": "Lubina a la bilbaína",
+            "en": "Bilbao-style sea bass"
+          },
+          "descripcion": {
+            "es": "Lubina a la bilbaína.",
+            "en": "Sea bass, Bilbao style."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "patatas-langostinos",
+          "nombre": {
+            "es": "Patatas con huevo y langostinos",
+            "en": "Potatoes with egg and prawns"
+          },
+          "descripcion": {
+            "es": "Patatas con huevo y langostinos.",
+            "en": "Potatoes with egg and prawns."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        }
+      ]
+    },
+    {
+      "id": "postres",
+      "nombre": {
+        "es": "Postres caseros",
+        "en": "Homemade desserts"
+      },
+      "platos": [
+        {
+          "id": "tarta-natillas",
+          "nombre": {
+            "es": "Tarta de natillas",
+            "en": "Custard cake"
+          },
+          "descripcion": {
+            "es": "Hecha en casa.",
+            "en": "Made in-house."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "tarta-queso",
+          "nombre": {
+            "es": "Tarta de queso",
+            "en": "Cheesecake"
+          },
+          "descripcion": {
+            "es": "Hecha en casa.",
+            "en": "Made in-house."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "torrijas",
+          "nombre": {
+            "es": "Torrijas",
+            "en": "Torrijas"
+          },
+          "descripcion": {
+            "es": "Hechas en casa.",
+            "en": "Spanish-style French toast, made in-house."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        },
+        {
+          "id": "brownie",
+          "nombre": {
+            "es": "Brownie",
+            "en": "Brownie"
+          },
+          "descripcion": {
+            "es": "Hecho en casa.",
+            "en": "Made in-house."
+          },
+          "precio": "",
+          "alergenosConfirmados": false,
+          "alergenos": [],
+          "maridaje": {
+            "es": "",
+            "en": ""
+          },
+          "vegetariano": false,
+          "sinGluten": false,
+          "temporada": false
+        }
+      ]
+    }
+  ]
+}

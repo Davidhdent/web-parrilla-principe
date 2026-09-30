@@ -1,0 +1,61 @@
+---
+/**
+ * El plato de la casa: pantalla completa con el fuego de fondo (parallax)
+ * y los textos entrando por capas. [VERIFICAR] huevos al ajillo, el más citado en reseñas.
+ * La foto del plato es un marcador hasta tener una propia: nunca una foto ajena como si fuera suya.
+ */
+import { Picture } from 'astro:assets';
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { fotos } from '../data/imagenes';
+import { t } from '../i18n/textos';
+import Pendiente from './Pendiente.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang);
+const plato = restaurante.platoCasa;
+---
+<section class="plato oscuro" aria-labelledby="plato-titulo">
+  <div class="plato__fondo" data-parallax>
+    <Picture src={fotos.fuegoParrilla.src} formats={['avif', 'webp']} widths={[800, 1400, 1920]} sizes="100vw" alt="" />
+  </div>
+  <div class="contenedor plato__rejilla" data-capas>
+    <div class="plato__texto">
+      <p class="plato__etiqueta" data-capa style="--capa: 1"><span class="marcas" aria-hidden="true"></span>{tx.platoCasa.etiqueta}<Pendiente lang={lang} si={plato.pendiente} /></p>
+      <h2 id="plato-titulo" class="plato__titulo" data-capa style="--capa: 2">{plato.nombre[lang]}</h2>
+      {plato.texto && <p class="plato__descripcion" data-capa style="--capa: 3">{plato.texto[lang]}</p>}
+    </div>
+    <figure class="plato__foto" data-capa style="--capa: 2">
+      <div class="foto-pendiente"><span>{tx.galeria.fotoPendiente}<small>{tx.platoCasa.fotoAlt}</small></span></div>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .plato {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: 100svh; display: flex; align-items: center;
+    padding-block: 6rem;
+  }
+  .plato__fondo { position: absolute; inset: -12% 0; z-index: -1; }
+  .plato__fondo :global(img) {
+    width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%;
+    filter: brightness(0.3) saturate(0.9);
+  }
+  .plato__rejilla { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 56rem) { .plato__rejilla { grid-template-columns: 7fr 5fr; } }
+  .plato__etiqueta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; margin: 0 0 1.25rem;
+    font-family: var(--font-display); font-style: italic; font-size: 1.3rem; color: var(--color-ambar);
+  }
+  .plato__titulo {
+    font-size: clamp(3.4rem, 10vw, 8.5rem); font-weight: 300; line-height: 0.95; margin: 0 0 2rem;
+  }
+  .plato__descripcion { max-width: 36ch; font-size: 1.15rem; color: rgb(242 233 218 / 0.88); margin: 0; }
+  .plato__foto {
+    margin: 0; aspect-ratio: 16 / 10; padding: 0.75rem;
+    border: 1px solid rgb(232 162 92 / 0.45);
+  }
+  @media (min-width: 56rem) { .plato__foto { aspect-ratio: 4 / 5; } }
+</style>

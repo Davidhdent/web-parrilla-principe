@@ -1,0 +1,107 @@
+---
+/**
+ * Datos estructurados schema.org (JSON-LD): Restaurant + Menu + FAQPage.
+ * Regla: solo se publican datos CONFIRMADOS. Lo que está «Por confirmar»
+ * (horario, precios, plato de la casa…) no se envía a Google ni a las IA
+ * hasta que el restaurante lo revise en el panel.
+ */
+import { getImage } from 'astro:assets';
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { carta } from '../data/carta';
+import { fotos } from '../data/imagenes';
+import { t, rutaIdioma } from '../i18n/textos';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang);
+const site = Astro.site!;
+const url = new URL(rutaIdioma[lang], site).href;
+const r = restaurante;
+
+const og = await getImage({ src: fotos.parrillaBrasas.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const imagen = new URL(og.src, site).href;
+
+const DIAS_SCHEMA = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const horario = r.horario.pendiente
+  ? undefined
+  : r.horario.dias.flatMap((d) =>
+      d.tramos.map(([opens, closes]) => ({
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: `https://schema.org/${DIAS_SCHEMA[d.dia - 1]}`,
+        opens,
+        closes,
+      })),
+    );
+
+const menu = {
+  '@type': 'Menu',
+  '@id': `${url}#carta`,
+  name: tx.carta.titulo,
+  inLanguage: lang,
+  hasMenuSection: carta.map((c) => ({
+    '@type': 'MenuSection',
+    name: c.nombre[lang],
+    hasMenuItem: c.platos.map((p) => ({
+      '@type': 'MenuItem',
+      name: p.nombre[lang],
+      description: p.descripcion[lang] || undefined,
+      offers: p.precio !== null ? { '@type': 'Offer', price: p.precio.toFixed(2), priceCurrency: 'EUR' } : undefined,
+      suitableForDiet: [
+        p.etiquetas?.vegetariano && 'https://schema.org/VegetarianDiet',
+        p.etiquetas?.sinGluten && 'https://schema.org/GlutenFreeDiet',
+      ].filter(Boolean),
+    })),
+  })),
+};
+
+const restauranteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  '@id': `${new URL('/', site).href}#restaurante`,
+  name: r.nombre,
+  description: tx.meta.descripcion,
+  url,
+  image: imagen,
+  telephone: r.telefono.pendiente ? undefined : r.telefono.enlace.replace('tel:', ''),
+  servesCuisine:
+    lang === 'es'
+      ? ['Parrilla', 'Cocina casera', 'Cocina tradicional española']
+      : ['Grill', 'Home cooking', 'Traditional Spanish'],
+  priceRange: '€€',
+  acceptsReservations: true,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: r.direccion.calle,
+    postalCode: r.direccion.cp,
+    addressLocality: r.direccion.localidad,
+    addressRegion: r.direccion.provincia,
+    addressCountry: r.direccion.pais,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: r.geo.lat, longitude: r.geo.lng },
+  hasMap: r.enlaces.comoLlegar,
+  openingHoursSpecification: horario,
+  hasMenu: menu,
+  sameAs: [r.enlaces.facebook, r.enlaces.tripadvisor, r.enlaces.instagram].filter(Boolean),
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: lang,
+  mainEntity: tx.preguntas.lista
+    .filter((q) => !('pendiente' in q && q.pendiente))
+    .map((q) => ({
+      '@type': 'Question',
+      name: q.p,
+      acceptedAnswer: { '@type': 'Answer', text: q.r },
+    })),
+};
+---
+<meta property="og:image" content={imagen} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content={url} />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json" set:html={JSON.stringify(restauranteLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqLd)} />

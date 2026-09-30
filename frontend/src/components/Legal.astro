@@ -1,0 +1,60 @@
+---
+/**
+ * Aviso legal, privacidad y cookies (LSSI y RGPD). BORRADOR: faltan los datos fiscales
+ * del titular, que debe facilitar el restaurante. Revisar con un asesor antes de publicar.
+ */
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { rutaIdioma } from '../i18n/textos';
+import Base from '../layouts/Base.astro';
+import Pendiente from './Pendiente.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const d = restaurante.direccion;
+---
+<Base lang={lang} titulo={es ? 'Aviso legal, privacidad y cookies · Parrilla Príncipe' : 'Legal notice, privacy and cookies · Parrilla Príncipe'} rutas={{ es: '/legal/', en: '/en/legal/' }}>
+  <main id="contenido" class="legal contenedor">
+    <a href={rutaIdioma[lang]} class="legal__volver">{es ? 'Volver al inicio' : 'Back to home'}</a>
+    <h1>{es ? 'Aviso legal' : 'Legal notice'}<Pendiente lang={lang} /></h1>
+    <p>
+      {es
+        ? 'En cumplimiento de la Ley 34/2002 (LSSI-CE), se informa de los datos del titular de este sitio web:'
+        : 'In accordance with Spanish Law 34/2002 (LSSI-CE), the owner of this website is:'}
+    </p>
+    <ul>
+      <li>{es ? 'Titular' : 'Owner'}: [{es ? 'Nombre o razón social' : 'Name or company name'}] <Pendiente lang={lang} /></li>
+      <li>NIF: [—] <Pendiente lang={lang} /></li>
+      <li>{es ? 'Domicilio' : 'Address'}: {d.calle}, {d.cp} {d.localidad} ({d.provincia})</li>
+      <li>{es ? 'Teléfono' : 'Phone'}: {restaurante.telefono.visible}</li>
+    </ul>
+
+    <h2 id="privacidad">{es ? 'Privacidad' : 'Privacy'}</h2>
+    <p>
+      {es
+        ? 'Esta web no tiene formularios ni recoge datos personales. Las reservas se hacen por teléfono.'
+        : 'This website has no forms and does not collect personal data. Bookings are taken by phone.'}
+    </p>
+    <p>
+      {es
+        ? 'El mapa se carga desde OpenStreetMap, que recibe la dirección IP del visitante para servir las imágenes del mapa. Si en el futuro se añaden reservas en línea o un boletín, esta política se actualizará con la base legal, la finalidad y los derechos de las personas usuarias.'
+        : 'The map is loaded from OpenStreetMap, which receives the visitor’s IP address to serve the map tiles. If online booking or a newsletter is added in the future, this policy will be updated with the legal basis, purpose and users’ rights.'}
+    </p>
+
+    <h2 id="cookies">Cookies</h2>
+    <p>
+      {es
+        ? 'Esta web no usa cookies propias ni de terceros para analítica o publicidad, por eso no muestra ningún aviso de consentimiento. Solo guarda en tu navegador, durante la visita, datos técnicos imprescindibles para que la página funcione.'
+        : 'This website uses no first- or third-party cookies for analytics or advertising, so it shows no consent banner. During your visit it only keeps the technical data your browser needs for the page to work.'}
+    </p>
+  </main>
+</Base>
+
+<style>
+  .legal { max-width: 46rem; padding-block: 4rem 6rem; }
+  .legal__volver { font-size: 0.9rem; color: var(--color-brasa-oscura); }
+  .legal h1 { font-size: clamp(2.5rem, 6vw, 3.75rem); font-weight: 300; margin: 2rem 0 1.5rem; }
+  .legal h2 { font-size: 2rem; font-weight: 300; margin: 3rem 0 1rem; }
+  .legal ul { padding-left: 1.2rem; }
+</style>

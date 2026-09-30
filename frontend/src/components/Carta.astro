@@ -1,0 +1,303 @@
+---
+/**
+ * La carta interactiva. Todo el contenido está en el HTML inicial
+ * (lo leen buscadores e IA sin JavaScript); las pestañas y el despliegue
+ * de cada plato son una mejora progresiva.
+ */
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { carta, ALERGENOS } from '../data/carta';
+import { t } from '../i18n/textos';
+import Pendiente from './Pendiente.astro';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang).carta;
+// «20 €» si es un precio redondo; «12,50 €» si lleva céntimos
+const euros = {
+  format: (n: number) =>
+    new Intl.NumberFormat(lang === 'es' ? 'es-ES' : 'en-GB', {
+      style: 'currency', currency: 'EUR', minimumFractionDigits: Number.isInteger(n) ? 0 : 2,
+    }).format(n),
+};
+const menu = restaurante.menuDelDia;
+const hayEtiquetas =carta.some((c) => c.platos.some((p) => p.etiquetas !== null));
+const filtros = [
+  { id: 'vegetariano', texto: tx.filtroVegetariano },
+  { id: 'sinGluten', texto: tx.filtroSinGluten },
+  { id: 'temporada', texto: tx.filtroTemporada },
+];
+---
+<section id="carta" class="carta seccion" aria-labelledby="carta-titulo" data-carta>
+  <div class="contenedor">
+    <header class="carta__cabecera">
+      <div>
+        <div class="marcas" aria-hidden="true"></div>
+        <h2 id="carta-titulo" class="titulo-seccion" data-revelar>{tx.titulo}</h2>
+      </div>
+      <div class="carta__intro">
+        <p data-revelar>{tx.intro}</p>
+        <p class="carta__aviso"><Pendiente lang={lang} /> {tx.provisional}</p>
+      </div>
+    </header>
+
+    <div class="carta__rejilla">
+      <div>
+        <div class="carta__controles">
+          <div class="pestanas" role="tablist" aria-label={tx.titulo} data-pestanas>
+            {carta.map((c, i) => (
+              <button
+                role="tab"
+                type="button"
+                id={`pestana-${c.id}`}
+                aria-controls={`panel-${c.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+              >{c.nombre[lang]}</button>
+            ))}
+            <span class="pestanas__subrayado" aria-hidden="true"></span>
+          </div>
+
+          <fieldset class="filtros" disabled={!hayEtiquetas}>
+            <legend class="sr-only">{tx.filtros}</legend>
+            {filtros.map((f) => (
+              <label class="filtro">
+                <input type="checkbox" value={f.id} data-filtro />
+                <span>{f.texto}</span>
+              </label>
+            ))}
+            {!hayEtiquetas && <p class="filtros__nota">{tx.filtrosPendientes}</p>}
+          </fieldset>
+        </div>
+
+        {carta.map((c) => (
+          <div class="panel" role="tabpanel" id={`panel-${c.id}`} aria-labelledby={`pestana-${c.id}`} data-panel>
+            <h3 class="panel__titulo">{c.nombre[lang]}</h3>
+            <ul class="platos">
+              {c.platos.map((p) => (
+                <li class="plato-fila" data-etiquetas={p.etiquetas ? Object.keys(p.etiquetas).filter((k) => (p.etiquetas as any)[k]).join(' ') : ''}>
+                  <button class="plato-fila__boton" type="button" aria-expanded="false" aria-controls={`detalle-${p.id}`}>
+                    <span class="plato-fila__nombre">{p.nombre[lang]}</span>
+                    <span class="plato-fila__guia" aria-hidden="true"></span>
+                    <span class="plato-fila__precio">
+                      {p.precio !== null ? euros.format(p.precio) : <span class="sr-only">{tx.precioPendiente}</span>}
+                      {p.precio === null && <span aria-hidden="true">—</span>}
+                    </span>
+                    <Icono nombre="mas" class="plato-fila__icono" />
+                  </button>
+                  <div class="plato-fila__detalle" id={`detalle-${p.id}`}>
+                    <div class="plato-fila__interior">
+                      <p>{p.descripcion[lang]}</p>
+                      <dl>
+                        <div>
+                          <dt>{tx.alergenos}</dt>
+                          <dd>
+                            {p.alergenos === null && <span class="nota">{tx.alergenosPendientes}</span>}
+                            {p.alergenos !== null && p.alergenos.length === 0 && <span>{tx.sinAlergenos}</span>}
+                            {p.alergenos !== null && p.alergenos.length > 0 && (
+                              <ul class="alergenos">
+                                {p.alergenos.map((a) => (
+                                  <li class="alergeno" title={ALERGENOS[a][lang]}>
+                                    <span aria-hidden="true">{ALERGENOS[a][lang].slice(0, 2)}</span>
+                                    <span class="sr-only">{ALERGENOS[a][lang]}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </dd>
+                        </div>
+                        {p.maridaje && (
+                          <div><dt>{tx.maridaje}</dt><dd>{p.maridaje[lang]}</dd></div>
+                        )}
+                        {p.precio === null && (
+                          <div><dt>{tx.precio}</dt><dd>{tx.precioPendiente}</dd></div>
+                        )}
+                      </dl>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <aside class="cartela" aria-labelledby="menu-dia-titulo">
+        <h3 id="menu-dia-titulo">{tx.menuDia}</h3>
+        <p>{menu.descripcion[lang]}</p>
+        <p class="cartela__precio">
+          {menu.precio !== null ? euros.format(menu.precio) : tx.menuDiaPrecio}
+          <Pendiente lang={lang} si={menu.pendiente} />
+        </p>
+        {menu.precio !== null && menu.precioFinde !== null && menu.precioFinde !== menu.precio && (
+          <p class="cartela__finde">{tx.menuDiaFinde} {euros.format(menu.precioFinde)}</p>
+        )}
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .carta { background: var(--color-hueso); }
+  .carta__cabecera {
+    display: grid; gap: 2rem; align-items: end; margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .carta__cabecera h2 { margin: 1.5rem 0 0; }
+  .carta__intro p { margin: 0 0 1rem; max-width: 40ch; }
+  .carta__aviso { font-size: 0.88rem; color: var(--color-ceniza); }
+  .carta__aviso :global(.pendiente) { margin-inline-start: 0; }
+  @media (min-width: 56rem) { .carta__cabecera { grid-template-columns: 1fr 1fr; } }
+
+  /* minmax(0, 1fr): sin él, la fila de pestañas (con scroll propio) ensancha la columna y la página */
+  .carta__rejilla { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.5rem; align-items: start; }
+  @media (min-width: 64rem) { .carta__rejilla { grid-template-columns: minmax(0, 1fr) 19rem; gap: 5rem; } }
+
+  .carta__controles { display: none; }
+  :global(.js) .carta__controles { display: block; margin-bottom: 2rem; }
+
+  .pestanas {
+    position: relative; display: flex; gap: clamp(1.25rem, 4vw, 2.75rem);
+    overflow-x: auto; scrollbar-width: none;
+    border-bottom: 1px solid var(--color-hueso-2);
+  }
+  .pestanas button {
+    font-family: var(--font-display); font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    padding: 0.5rem 0 0.9rem; white-space: nowrap; cursor: pointer;
+    color: var(--color-ceniza); transition: color 0.3s;
+  }
+  .pestanas button[aria-selected='true'] { color: var(--color-carbon); }
+  .pestanas__subrayado {
+    position: absolute; bottom: -1px; left: 0; height: 2px; width: 0;
+    background: var(--color-brasa-oscura);
+    transition: transform 0.55s var(--ease-lento), width 0.55s var(--ease-lento);
+  }
+
+  .filtros { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 1.25rem 0 0; padding: 0; border: 0; }
+  .filtro { position: relative; cursor: pointer; }
+  .filtro input { position: absolute; opacity: 0; inset: 0; cursor: inherit; }
+  .filtro span {
+    display: inline-block; padding: 0.35rem 0.9rem; font-size: 0.85rem;
+    border: 1px solid var(--color-hueso-2); border-radius: 999px; transition: all 0.3s;
+  }
+  .filtro input:checked + span { background: var(--color-carbon-2); color: var(--color-hueso); border-color: var(--color-carbon-2); }
+  .filtro input:focus-visible + span { outline: 2px solid var(--color-brasa-oscura); outline-offset: 2px; }
+  .filtros:disabled .filtro { opacity: 0.45; cursor: not-allowed; }
+  .filtros__nota { flex-basis: 100%; margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--color-ceniza); }
+
+  .panel { margin-bottom: 3rem; }
+  .panel__titulo { font-size: 1.9rem; font-weight: 400; margin: 0 0 0.5rem; }
+  :global(.js) .panel__titulo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  :global(.js) .panel[hidden] { display: none; }
+
+  .platos { list-style: none; margin: 0; padding: 0; }
+  .plato-fila { border-bottom: 1px solid var(--color-hueso-2); }
+  .plato-fila[hidden] { display: none; }
+  .plato-fila__boton {
+    display: flex; align-items: baseline; gap: 0.75rem; width: 100%;
+    padding: 1.15rem 0; text-align: left; cursor: pointer;
+  }
+  .plato-fila__nombre {
+    font-family: var(--font-display); font-size: clamp(1.4rem, 2.6vw, 1.85rem); line-height: 1.2;
+    transition: color 0.3s;
+  }
+  .plato-fila__boton:hover .plato-fila__nombre { color: var(--color-brasa-oscura); }
+  .plato-fila__guia { flex: 1; border-bottom: 1px dotted var(--color-ceniza); opacity: 0.5; transform: translateY(-0.3rem); }
+  .plato-fila__precio { font-variant-numeric: tabular-nums; color: var(--color-ceniza); }
+  .plato-fila__boton :global(.plato-fila__icono) {
+    width: 1.1rem; height: 1.1rem; flex: none; align-self: center; color: var(--color-brasa-oscura);
+    transition: transform 0.45s var(--ease-lento);
+  }
+  .plato-fila__boton[aria-expanded='true'] :global(.plato-fila__icono) { transform: rotate(45deg); }
+
+  .plato-fila__detalle { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.55s var(--ease-lento); }
+  .plato-fila__boton[aria-expanded='true'] + .plato-fila__detalle { grid-template-rows: 1fr; }
+  .plato-fila__interior { overflow: hidden; }
+  .plato-fila__interior > p { margin: 0 0 1rem; max-width: 52ch; }
+  .plato-fila__interior dl { margin: 0 0 1.5rem; display: grid; gap: 0.75rem; font-size: 0.92rem; }
+  .plato-fila__interior dt { font-weight: 600; font-size: 0.8rem; color: var(--color-ceniza); }
+  .plato-fila__interior dd { margin: 0.15rem 0 0; }
+  .nota { color: #6b4a1a; }
+  .alergenos { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0; padding: 0; }
+  .alergeno {
+    display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%;
+    border: 1px solid var(--color-brasa-oscura); font-size: 0.72rem; font-weight: 600;
+  }
+
+  /* Sin JS, los detalles se muestran abiertos */
+  :global(html:not(.js)) .plato-fila__detalle { grid-template-rows: 1fr; }
+
+  /* El menú del día es lo que más trae gente: en móvil va antes que la carta */
+  .cartela {
+    order: -1;
+    padding: 2.25rem 2rem; text-align: center;
+    background: var(--color-carbon); color: var(--color-hueso);
+    outline: 1px solid rgb(232 162 92 / 0.55); outline-offset: -0.6rem;
+  }
+  @media (min-width: 64rem) { .cartela { order: 0; position: sticky; top: 6rem; } }
+  .cartela h3 { font-size: 2rem; font-weight: 300; font-style: italic; margin: 0 0 1rem; color: var(--color-ambar); }
+  .cartela p { font-size: 0.95rem; color: rgb(242 233 218 / 0.88); margin: 0 0 1.25rem; }
+  .cartela__precio {
+    font-family: var(--font-display); font-weight: 300; font-size: 3.5rem !important; line-height: 1;
+    margin: 0 !important; color: var(--color-hueso) !important;
+  }
+  .cartela__precio :global(.pendiente) { display: flex; width: fit-content; margin: 0.75rem auto 0; }
+  .cartela__finde { margin: 0.5rem 0 0 !important; font-size: 0.88rem !important; }
+</style>
+
+<script>
+  const raiz = document.querySelector<HTMLElement>('[data-carta]')!;
+  const lista = raiz.querySelector<HTMLElement>('[data-pestanas]')!;
+  const pestanas = [...lista.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  const paneles = [...raiz.querySelectorAll<HTMLElement>('[data-panel]')];
+  const subrayado = lista.querySelector<HTMLElement>('.pestanas__subrayado')!;
+
+  const moverSubrayado = (tab: HTMLElement) => {
+    subrayado.style.width = `${tab.offsetWidth}px`;
+    subrayado.style.transform = `translateX(${tab.offsetLeft}px)`;
+  };
+  const activar = (i: number, foco = false) => {
+    pestanas.forEach((p, j) => {
+      p.setAttribute('aria-selected', String(i === j));
+      p.tabIndex = i === j ? 0 : -1;
+    });
+    paneles.forEach((p, j) => (p.hidden = i !== j));
+    // Medir en el siguiente fotograma evita un reflow forzado
+    requestAnimationFrame(() => moverSubrayado(pestanas[i]));
+    if (foco) pestanas[i].focus();
+  };
+  pestanas.forEach((p, i) => {
+    p.addEventListener('click', () => activar(i));
+    p.addEventListener('keydown', (e) => {
+      const n = pestanas.length;
+      if (e.key === 'ArrowRight') activar((i + 1) % n, true);
+      if (e.key === 'ArrowLeft') activar((i - 1 + n) % n, true);
+      if (e.key === 'Home') activar(0, true);
+      if (e.key === 'End') activar(n - 1, true);
+    });
+  });
+  activar(0);
+  window.addEventListener('resize', () => {
+    const i = pestanas.findIndex((p) => p.getAttribute('aria-selected') === 'true');
+    moverSubrayado(pestanas[i]);
+  });
+
+  // Despliegue de cada plato
+  raiz.querySelectorAll<HTMLButtonElement>('.plato-fila__boton').forEach((b) => {
+    b.addEventListener('click', () => {
+      b.setAttribute('aria-expanded', String(b.getAttribute('aria-expanded') !== 'true'));
+    });
+  });
+
+  // Filtros (se activan solos cuando los platos tengan etiquetas)
+  const casillas = [...raiz.querySelectorAll<HTMLInputElement>('[data-filtro]')];
+  casillas.forEach((c) =>
+    c.addEventListener('change', () => {
+      const activos = casillas.filter((x) => x.checked).map((x) => x.value);
+      raiz.querySelectorAll<HTMLElement>('.plato-fila').forEach((fila) => {
+        const et = (fila.dataset.etiquetas ?? '').split(' ');
+        fila.hidden = !activos.every((a) => et.includes(a));
+      });
+    }),
+  );
+</script>

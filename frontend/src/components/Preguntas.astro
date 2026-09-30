@@ -1,0 +1,51 @@
+---
+/** Preguntas frecuentes: respuestas cortas y citables (útiles también para buscadores e IA). */
+import type { Lang } from '../data/restaurante';
+import { t } from '../i18n/textos';
+import Pendiente from './Pendiente.astro';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang).preguntas;
+---
+<section id="preguntas" class="preguntas seccion" aria-labelledby="preguntas-titulo">
+  <div class="contenedor preguntas__rejilla">
+    <div>
+      <div class="marcas" aria-hidden="true"></div>
+      <h2 id="preguntas-titulo" class="titulo-seccion" data-revelar>{tx.titulo}</h2>
+    </div>
+    <div>
+      {tx.lista.map((q) => (
+        <details>
+          <summary>
+            <span>{q.p}</span>
+            <Icono nombre="mas" />
+          </summary>
+          <p>{q.r}{'pendiente' in q && q.pendiente && <Pendiente lang={lang} />}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .preguntas__rejilla { display: grid; gap: 2.5rem; }
+  @media (min-width: 56rem) { .preguntas__rejilla { grid-template-columns: 5fr 7fr; gap: 5rem; } }
+  .preguntas h2 { margin: 1.5rem 0 0; }
+  details { border-bottom: 1px solid var(--color-hueso-2); }
+  summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    padding: 1.25rem 0; cursor: pointer; list-style: none;
+    font-family: var(--font-display); font-size: clamp(1.3rem, 2.4vw, 1.6rem); line-height: 1.25;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(svg) {
+    width: 1.1rem; height: 1.1rem; flex: none; color: var(--color-brasa-oscura);
+    transition: transform 0.45s var(--ease-lento);
+  }
+  details[open] summary :global(svg) { transform: rotate(45deg); }
+  details p { margin: 0 0 1.5rem; max-width: 56ch; }
+  details[open] p { animation: despliega 0.5s var(--ease-lento); }
+  @keyframes despliega { from { opacity: 0; transform: translateY(-0.4rem); } }
+</style>

@@ -1,0 +1,14 @@
+{
+  "telefono": "696 63 67 65",
+  "platoCasa": {
+    "nombre": { "es": "Huevos al ajillo", "en": "Garlic eggs" },
+    "texto": {
+      "es": "Es el plato que más repiten quienes han comido aquí, en Google y en Tripadvisor. Detrás van el entrecot a la parrilla y el tomate de la huerta con ventresca.",
+      "en": "It is the dish guests mention most, on Google and on Tripadvisor. Close behind come the grilled entrecôte and the garden tomato with tuna belly."
+    },
+    "confirmado": false
+  },
+  "facebook": "https://www.facebook.com/p/Restaurante-PARRILLA-PRINCIPE-100070293513731/",
+  "instagram": null,
+  "tripadvisor": "https://www.tripadvisor.es/Restaurant_Review-g562659-d989904-Reviews-Rte_Parrilla_Principe-San_Lorenzo_de_El_Escorial.html"
+}

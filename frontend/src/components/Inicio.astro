@@ -1,0 +1,42 @@
+---
+/** Página de inicio completa; la usan / (español) y /en/ (inglés). */
+import type { Lang } from '../data/restaurante';
+import Base from '../layouts/Base.astro';
+import Cabecera from './Cabecera.astro';
+import Hero from './Hero.astro';
+import Historia from './Historia.astro';
+import PlatoCasa from './PlatoCasa.astro';
+import Carta from './Carta.astro';
+import Galeria from './Galeria.astro';
+import Grupos from './Grupos.astro';
+import Zona from './Zona.astro';
+import Opiniones from './Opiniones.astro';
+import Preguntas from './Preguntas.astro';
+import Pie from './Pie.astro';
+import BarraMovil from './BarraMovil.astro';
+import DatosEstructurados from './DatosEstructurados.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<Base lang={lang}>
+  <DatosEstructurados lang={lang} slot="head" />
+  <Cabecera lang={lang} />
+  <main id="contenido">
+    <Hero lang={lang} />
+    <Historia lang={lang} />
+    <PlatoCasa lang={lang} />
+    <Carta lang={lang} />
+    <Galeria lang={lang} />
+    <Grupos lang={lang} />
+    <Zona lang={lang} />
+    <Opiniones lang={lang} />
+    <Preguntas lang={lang} />
+  </main>
+  <Pie lang={lang} />
+  <BarraMovil lang={lang} />
+</Base>
+
+<script>
+  import '../scripts/efectos';
+</script>

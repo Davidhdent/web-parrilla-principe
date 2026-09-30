@@ -1,0 +1,36 @@
+# Despliegue en Netlify. La web vive en /frontend.
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+  # LANZAMIENTO (cuando el restaurante haya confirmado sus datos):
+  #   PUBLIC_MOSTRAR_PENDIENTES = "false"  → oculta las etiquetas «Por confirmar»
+  #   PUBLIC_INDEXAR = "true"              → quita el noindex y deja que Google indexe
+  PUBLIC_MOSTRAR_PENDIENTES = "true"
+  PUBLIC_INDEXAR = "false"
+
+# Las vistas previas de despliegue nunca se indexan
+[context.deploy-preview.environment]
+  PUBLIC_INDEXAR = "false"
+[context.branch-deploy.environment]
+  PUBLIC_INDEXAR = "false"
+
+# ---- Cabeceras de seguridad ----
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.tile.openstreetmap.org; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+
+# Caché larga para recursos con hash
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

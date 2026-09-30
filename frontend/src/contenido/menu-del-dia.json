@@ -1,0 +1,9 @@
+{
+  "precio": "20",
+  "precioFinde": "",
+  "descripcion": {
+    "es": "Entre semana. Cinco primeros y cinco segundos a elegir, con pan, bebida, postre y café.",
+    "en": "Weekdays. A choice of five starters and five mains, with bread, a drink, dessert and coffee."
+  },
+  "confirmado": false
+}

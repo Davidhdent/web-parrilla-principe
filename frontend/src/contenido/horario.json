@@ -1,0 +1,10 @@
+{
+  "lunes": { "abierto": false, "apertura": "", "cierre": "", "apertura2": "", "cierre2": "" },
+  "martes": { "abierto": true, "apertura": "11:00", "cierre": "17:00", "apertura2": "", "cierre2": "" },
+  "miercoles": { "abierto": true, "apertura": "11:00", "cierre": "17:00", "apertura2": "", "cierre2": "" },
+  "jueves": { "abierto": true, "apertura": "11:00", "cierre": "17:00", "apertura2": "", "cierre2": "" },
+  "viernes": { "abierto": true, "apertura": "11:00", "cierre": "17:00", "apertura2": "", "cierre2": "" },
+  "sabado": { "abierto": true, "apertura": "11:00", "cierre": "17:00", "apertura2": "", "cierre2": "" },
+  "domingo": { "abierto": true, "apertura": "11:00", "cierre": "17:30", "apertura2": "", "cierre2": "" },
+  "confirmado": false
+}

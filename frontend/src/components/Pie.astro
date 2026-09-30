@@ -1,0 +1,117 @@
+---
+import type { Lang } from '../data/restaurante';
+import { restaurante, diasSemana } from '../data/restaurante';
+import { fotos, galeria } from '../data/imagenes';
+import { t } from '../i18n/textos';
+import Icono from './Icono.astro';
+import Pendiente from './Pendiente.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang);
+const creditos = Object.values(fotos).map((f) => f.credito);
+// Créditos de fotos de la galería que no estén ya en la lista anterior
+const creditosGaleria = [...new Set(galeria.map((f) => f.credito.trim()).filter(Boolean))].filter(
+  (c) => !creditos.some((k) => c.includes(k.autor)),
+);
+const legal = lang === 'es' ? '/legal/' : '/en/legal/';
+---
+<section class="reserva" aria-labelledby="reserva-titulo">
+  <div class="contenedor reserva__rejilla">
+    <h2 id="reserva-titulo" class="reserva__titulo" data-revelar>{tx.reserva.titulo}</h2>
+    <div>
+      <p>{tx.reserva.texto}</p>
+      <a class="reserva__telefono" href={restaurante.telefono.enlace}>
+        <Icono nombre="telefono" />{restaurante.telefono.visible}
+      </a>
+      <Pendiente lang={lang} si={restaurante.telefono.pendiente} />
+    </div>
+  </div>
+</section>
+
+<footer class="pie oscuro">
+  <div class="contenedor">
+    <div class="pie__rejilla">
+      <div>
+        <p class="pie__marca">Parrilla <em>Príncipe</em></p>
+        <address>
+          {restaurante.direccion.calle}<br />
+          {restaurante.direccion.cp} {restaurante.direccion.localidad}<br />
+          <a href={restaurante.telefono.enlace}>{restaurante.telefono.visible}</a>
+        </address>
+      </div>
+      <div>
+        <p class="pie__etiqueta">{tx.zona.horario}<Pendiente lang={lang} si={restaurante.horario.pendiente} /></p>
+        <ul class="pie__horario">
+          {restaurante.horario.dias.map((h) => (
+            <li><span>{diasSemana[lang][h.dia - 1]}</span> {h.tramos.length ? h.tramos.map(([a, b]) => `${a}–${b}`).join(', ') : tx.zona.cerrado}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="pie__etiqueta">{tx.pie.redes}</p>
+        <ul class="pie__enlaces">
+          {restaurante.enlaces.facebook && <li><a href={restaurante.enlaces.facebook} target="_blank" rel="noopener">Facebook</a></li>}
+          {restaurante.enlaces.instagram && <li><a href={restaurante.enlaces.instagram} target="_blank" rel="noopener">Instagram</a></li>}
+          {restaurante.enlaces.tripadvisor && <li><a href={restaurante.enlaces.tripadvisor} target="_blank" rel="noopener">Tripadvisor</a></li>}
+        </ul>
+      </div>
+    </div>
+
+    <div class="pie__legal">
+      <p>© {new Date().getFullYear()} {tx.pie.derechos}</p>
+      <a href={legal}>{tx.pie.avisoLegal}</a>
+      <a href={`${legal}#privacidad`}>{tx.pie.privacidad}</a>
+      <a href={`${legal}#cookies`}>{tx.pie.cookies}</a>
+      <details class="pie__creditos">
+        <summary>{tx.pie.creditos}</summary>
+        <p>{tx.pie.creditosTexto}</p>
+        <ul>
+          {creditos.map((c) => (
+            <li><a href={c.origen} target="_blank" rel="noopener">{c.autor}</a>, <a href={c.licenciaUrl} target="_blank" rel="noopener">{c.licencia}</a></li>
+          ))}
+          {creditosGaleria.map((c) => <li>{c}</li>)}
+          <li>Mapa: © OpenStreetMap</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .reserva {
+    background: var(--color-ambar); color: var(--color-carbon);
+    padding-block: clamp(4rem, 9vw, 7rem);
+  }
+  .reserva__rejilla { display: grid; gap: 2rem; align-items: end; }
+  @media (min-width: 56rem) { .reserva__rejilla { grid-template-columns: 1fr auto; } }
+  .reserva__titulo { font-size: clamp(2.75rem, 7vw, 5.5rem); font-weight: 300; margin: 0; }
+  .reserva p { margin: 0 0 0.75rem; max-width: 38ch; }
+  .reserva__telefono {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 3rem); text-decoration: none;
+    border-bottom: 1px solid rgb(23 18 15 / 0.5);
+  }
+  .reserva__telefono :global(svg) { width: 1.75rem; height: 1.75rem; }
+  .reserva :global(:focus-visible) { outline-color: var(--color-carbon); }
+
+  .pie { padding-block: 4rem 2rem; font-size: 0.93rem; }
+  .pie__rejilla { display: grid; gap: 2.5rem; margin: 0 0 3rem; }
+  @media (min-width: 56rem) { .pie__rejilla { grid-template-columns: 2fr 2fr 1fr; } }
+  .pie__marca { font-family: var(--font-display); font-size: 1.9rem; margin: 0 0 1rem; }
+  .pie__marca em { font-weight: 300; color: var(--color-ambar); }
+  .pie address { font-style: normal; color: var(--color-humo); line-height: 1.8; }
+  .pie__etiqueta { font-family: var(--font-display); font-style: italic; font-size: 1.25rem; margin: 0 0 0.75rem; color: var(--color-ambar); }
+  .pie ul { list-style: none; margin: 0; padding: 0; }
+  .pie__horario li { color: var(--color-humo); }
+  .pie__horario span { display: inline-block; min-width: 6.5rem; text-transform: capitalize; color: var(--color-hueso); }
+  .pie__enlaces li { margin-bottom: 0.4rem; }
+  .pie__legal {
+    display: flex; flex-wrap: wrap; gap: 0.75rem 1.75rem; align-items: baseline;
+    border-top: 1px solid rgb(242 233 218 / 0.15); padding-top: 1.5rem; font-size: 0.82rem; color: var(--color-humo);
+  }
+  .pie__legal p { margin: 0; }
+  .pie__creditos { flex-basis: 100%; }
+  .pie__creditos summary { cursor: pointer; }
+  .pie__creditos p { margin: 0.75rem 0 0.4rem; }
+</style>

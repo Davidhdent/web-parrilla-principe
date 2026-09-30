@@ -1,0 +1,174 @@
+---
+import { Picture } from 'astro:assets';
+// CSS de Leaflet incluido en la página (≈4 KB comprimido). No se puede importar de forma
+// dinámica porque, con inlineStylesheets: 'always', ese archivo CSS no llega a generarse.
+import 'leaflet/dist/leaflet.css';
+import type { Lang } from '../data/restaurante';
+import { restaurante, diasSemana } from '../data/restaurante';
+import { fotos } from '../data/imagenes';
+import { t } from '../i18n/textos';
+import Pendiente from './Pendiente.astro';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang).zona;
+const acc = t(lang).acciones;
+const { direccion: d } = restaurante;
+---
+<section id="zona" class="zona" aria-labelledby="zona-titulo">
+  <div class="zona__portada">
+    <div class="zona__imagen" data-parallax>
+      <Picture src={fotos.monasterioCupula.src} formats={['avif', 'webp']} widths={[640, 1024, 1600]} sizes="100vw" alt="" />
+    </div>
+    <div class="contenedor zona__portada-texto">
+      <h2 id="zona-titulo" class="titulo-seccion" data-revelar>{tx.titulo}</h2>
+      <p data-revelar>{tx.intro}</p>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <ul class="lugares">
+      {tx.lugares.map((l) => (
+        <li data-revelar>
+          <h3>{l.nombre}</h3>
+          <p>{l.texto}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="visita">
+      <div class="visita__datos">
+        <div class="marcas" aria-hidden="true"></div>
+        <h3 class="visita__titulo">{tx.llegar}</h3>
+
+        <dl>
+          <div>
+            <dt>{tx.direccion}</dt>
+            <dd>
+              <address>{d.calle}<br />{d.cp} {d.localidad}, {d.provincia}</address>
+            </dd>
+          </div>
+          <div>
+            <dt>{tx.telefono}</dt>
+            <dd><a href={restaurante.telefono.enlace}>{restaurante.telefono.visible}</a></dd>
+          </div>
+          <div>
+            <dt>{tx.horario}<Pendiente lang={lang} si={restaurante.horario.pendiente} /></dt>
+            <dd>
+              <table class="horario">
+                <tbody>
+                  {restaurante.horario.dias.map((h) => (
+                    <tr>
+                      <th scope="row">{diasSemana[lang][h.dia - 1]}</th>
+                      <td>{h.tramos.length ? h.tramos.map(([a, b]) => `${a}–${b}`).join(' · ') : tx.cerrado}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </dd>
+          </div>
+        </dl>
+
+        <p class="visita__nota">{tx.transporte}<Pendiente lang={lang} /></p>
+        <p class="visita__nota">{tx.parking}<Pendiente lang={lang} /></p>
+
+        <div class="visita__acciones">
+          <a class="boton boton--brasa" href={restaurante.enlaces.comoLlegar} target="_blank" rel="noopener">
+            <Icono nombre="mapa" />{acc.comoLlegar}
+          </a>
+          <a class="boton boton--oscuro" href={restaurante.telefono.enlace}>
+            <Icono nombre="telefono" />{acc.llamarCorto}
+          </a>
+        </div>
+      </div>
+
+      <div
+        class="mapa"
+        role="img"
+        aria-label={tx.mapaAlt}
+        data-mapa
+        data-lat={restaurante.geo.lat}
+        data-lng={restaurante.geo.lng}
+        data-nombre={restaurante.nombre}
+      ></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .zona { background: var(--color-hueso); padding-bottom: clamp(5rem, 12vw, 10rem); }
+  .zona__portada {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: 85svh; display: flex; align-items: flex-end;
+    color: var(--color-hueso);
+  }
+  .zona__imagen { position: absolute; inset: -10% 0; z-index: -2; }
+  .zona__imagen :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .zona__portada::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to top, rgb(23 18 15 / 0.92) 10%, rgb(23 18 15 / 0.55) 45%, rgb(23 18 15 / 0.1) 80%);
+  }
+  .zona__portada-texto { padding-block: 6rem 4rem; }
+  .zona__portada-texto h2 { margin: 0 0 1.25rem; max-width: 14ch; }
+  .zona__portada-texto p { max-width: 44ch; font-size: 1.15rem; margin: 0; opacity: 0.92; }
+
+  .lugares {
+    list-style: none; margin: 0; padding: clamp(3.5rem, 7vw, 6rem) 0;
+    display: grid; gap: 2.5rem;
+  }
+  @media (min-width: 56rem) { .lugares { grid-template-columns: repeat(3, 1fr); gap: 3.5rem; } }
+  .lugares li { border-top: 1px solid var(--color-brasa-oscura); padding-top: 1.5rem; }
+  .lugares h3 { font-size: 1.75rem; font-weight: 400; margin: 0 0 0.75rem; }
+  .lugares p { margin: 0; }
+
+  .visita { display: grid; gap: 3rem; align-items: stretch; }
+  @media (min-width: 64rem) { .visita { grid-template-columns: 5fr 6fr; gap: 5rem; } }
+  .visita__titulo { font-size: clamp(2.25rem, 4vw, 3rem); font-weight: 400; margin: 1.5rem 0 2rem; }
+  .visita dl { display: grid; gap: 1.5rem; margin: 0 0 2rem; }
+  .visita dt { font-size: 0.82rem; font-weight: 600; color: var(--color-ceniza); margin-bottom: 0.3rem; }
+  .visita dd { margin: 0; }
+  .visita address { font-style: normal; font-family: var(--font-display); font-size: 1.45rem; line-height: 1.3; }
+  .visita dd > a { font-family: var(--font-display); font-size: 1.45rem; text-decoration: none; }
+  .horario { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .horario th { text-align: left; font-weight: 400; padding: 0.2rem 2rem 0.2rem 0; text-transform: capitalize; }
+  .horario td { padding: 0.2rem 0; }
+  .visita__nota { font-size: 0.92rem; color: var(--color-ceniza); margin: 0 0 0.75rem; max-width: 46ch; }
+  .visita__acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+
+  .mapa {
+    min-height: 26rem; height: 100%;
+    background: var(--color-hueso-2);
+    outline: 1px solid var(--color-brasa-oscura); outline-offset: 0.6rem;
+  }
+  /* Mapa de OpenStreetMap en tonos hueso y castaño, a juego con la paleta */
+  .mapa :global(.leaflet-tile-pane) { filter: grayscale(1) sepia(0.45) contrast(0.92) brightness(1.02) hue-rotate(-8deg); }
+  .mapa :global(.marcador-parrilla) {
+    width: 20px !important; height: 20px !important; margin: -10px 0 0 -10px !important;
+    background: var(--color-brasa); border: 3px solid var(--color-carbon); border-radius: 50%;
+    box-shadow: 0 0 0 7px rgb(196 85 43 / 0.28), 0 0 18px 4px rgb(232 162 92 / 0.55);
+  }
+  .mapa :global(.leaflet-popup-content) { font-family: var(--font-display); font-size: 1.1rem; }
+</style>
+
+<script>
+  // Leaflet se carga solo cuando el mapa se acerca a la pantalla.
+  const el = document.querySelector<HTMLElement>('[data-mapa]');
+  if (el) {
+    const observador = new IntersectionObserver(async ([entrada]) => {
+      if (!entrada.isIntersecting) return;
+      observador.disconnect();
+      const { default: L } = await import('leaflet');
+      const pos: [number, number] = [Number(el.dataset.lat), Number(el.dataset.lng)];
+      const mapa = L.map(el, { scrollWheelZoom: false, attributionControl: true }).setView(pos, 17);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(mapa);
+      L.marker(pos, { icon: L.divIcon({ className: 'marcador-parrilla' }), title: el.dataset.nombre })
+        .addTo(mapa)
+        .bindPopup(el.dataset.nombre ?? '');
+    }, { rootMargin: '400px' });
+    observador.observe(el);
+  }
+</script>

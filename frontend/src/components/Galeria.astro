@@ -1,0 +1,207 @@
+---
+/**
+ * Galería en mosaico. Al pulsar una imagen se abre ampliada con su historia.
+ * Las fotos del restaurante son marcadores hasta recibir las reales.
+ */
+import { Picture, getImage } from 'astro:assets';
+import type { Lang } from '../data/restaurante';
+import { galeria } from '../data/imagenes';
+import { t } from '../i18n/textos';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang).galeria;
+
+// Versión grande de cada foto para la vista ampliada.
+const grandes = await Promise.all(
+  galeria.map((f) => (f.src ? getImage({ src: f.src, width: 1600, format: 'webp' }).then((i) => i.src) : null)),
+);
+---
+<section id="galeria" class="galeria seccion" aria-labelledby="galeria-titulo">
+  <div class="contenedor">
+    <div class="marcas" aria-hidden="true"></div>
+    <h2 id="galeria-titulo" class="titulo-seccion galeria__titulo" data-revelar>{tx.titulo}</h2>
+
+    <ul class="mosaico" data-mosaico>
+      {galeria.map((f, i) => (
+        <li class={`mosaico__item mosaico__item--${f.formato}`}>
+          <button
+            type="button"
+            class="mosaico__boton"
+            data-abrir-foto={i}
+            data-grande={grandes[i] ?? ''}
+            data-titulo={f.titulo[lang]}
+            data-texto={f.texto[lang]}
+            data-alt={f.alt[lang]}
+            data-cursor={tx.ver}
+          >
+            {f.src ? (
+              <Picture src={f.src} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(min-width: 56rem) 40vw, 100vw" alt={f.alt[lang]} />
+            ) : (
+              <div class="foto-pendiente"><span>{tx.fotoPendiente}<small>{f.alt[lang]}</small></span></div>
+            )}
+            <span class="mosaico__pie">{f.titulo[lang]}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <dialog class="visor" data-visor aria-labelledby="visor-titulo">
+    <div class="visor__marco">
+      <div class="visor__imagen" data-visor-imagen></div>
+      <div class="visor__texto">
+        <h3 id="visor-titulo" data-visor-titulo></h3>
+        <p data-visor-texto></p>
+        <div class="visor__nav">
+          <button type="button" data-visor-anterior aria-label={tx.anterior}><Icono nombre="flecha-izq" /></button>
+          <button type="button" data-visor-siguiente aria-label={tx.siguiente}><Icono nombre="flecha-der" /></button>
+        </div>
+      </div>
+      <button type="button" class="visor__cerrar" data-visor-cerrar><Icono nombre="cerrar" /><span>{tx.cerrar}</span></button>
+    </div>
+  </dialog>
+
+  <div class="cursor" data-cursor-el aria-hidden="true"></div>
+</section>
+
+<style>
+  .galeria { background: var(--color-hueso-2); }
+  .galeria__titulo { margin: 1.5rem 0 clamp(2.5rem, 5vw, 4rem); max-width: 14ch; }
+
+  .mosaico {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: clamp(0.75rem, 1.5vw, 1.25rem);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: clamp(9rem, 22vw, 17rem);
+    grid-auto-flow: dense;
+  }
+  .mosaico__item--ancha { grid-column: span 2; }
+  .mosaico__item--alta { grid-row: span 2; }
+  @media (min-width: 56rem) {
+    .mosaico { grid-template-columns: repeat(4, 1fr); }
+  }
+  .mosaico__boton {
+    position: relative; display: block; width: 100%; height: 100%; overflow: hidden; cursor: pointer;
+    background: var(--color-ceniza);
+  }
+  .mosaico__boton :global(img), .mosaico__boton .foto-pendiente {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1.1s var(--ease-lento), filter 0.8s var(--ease-lento);
+    filter: saturate(0.8);
+  }
+  /* En el mosaico, el marcador solo dice «Foto pendiente» arriba: el título ya va en el pie */
+  .mosaico__boton .foto-pendiente { place-items: start; padding: 1rem; }
+  .mosaico__boton .foto-pendiente span { padding: 0; font-size: 0.95rem; text-align: left; }
+  .mosaico__boton .foto-pendiente small { display: none; }
+  .mosaico__boton:hover :global(img), .mosaico__boton:focus-visible :global(img) {
+    transform: scale(1.05); filter: saturate(1);
+  }
+  .mosaico__pie {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 2.5rem 1rem 0.9rem; text-align: left;
+    font-family: var(--font-display); font-size: 1.2rem; color: var(--color-hueso);
+    background: linear-gradient(to top, rgb(23 18 15 / 0.75), transparent);
+    opacity: 0; transform: translateY(0.5rem);
+    transition: opacity 0.5s var(--ease-lento), transform 0.5s var(--ease-lento);
+  }
+  .mosaico__boton:hover .mosaico__pie, .mosaico__boton:focus-visible .mosaico__pie { opacity: 1; transform: none; }
+  @media (hover: none) { .mosaico__pie { opacity: 1; transform: none; } }
+
+  /* ---- Vista ampliada ---- */
+  .visor {
+    width: min(72rem, calc(100vw - 2rem)); max-height: calc(100svh - 2rem);
+    padding: 0; border: 0; margin: auto; background: var(--color-carbon); color: var(--color-hueso);
+  }
+  .visor::backdrop { background: rgb(23 18 15 / 0.85); backdrop-filter: blur(4px); }
+  .visor[open] { animation: visor-entra 0.5s var(--ease-lento); }
+  @keyframes visor-entra { from { opacity: 0; transform: translateY(1rem) scale(0.98); } }
+  .visor__marco { position: relative; display: grid; }
+  @media (min-width: 56rem) { .visor__marco { grid-template-columns: 1fr 20rem; } }
+  .visor__imagen { background: #000; min-height: 16rem; display: grid; }
+  .visor__imagen img { width: 100%; height: 100%; max-height: 80svh; object-fit: contain; }
+  .visor__imagen .foto-pendiente { min-height: 20rem; }
+  .visor__texto { padding: 2rem; display: flex; flex-direction: column; }
+  .visor__texto h3 { font-size: 2rem; font-weight: 400; margin: 0 0 1rem; }
+  .visor__texto p { margin: 0 0 2rem; opacity: 0.88; }
+  .visor__nav { margin-top: auto; display: flex; gap: 0.5rem; }
+  .visor__nav button, .visor__cerrar {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    min-width: 2.75rem; min-height: 2.75rem; cursor: pointer;
+    border: 1px solid rgb(242 233 218 / 0.3);
+  }
+  .visor__nav button:hover, .visor__cerrar:hover { border-color: var(--color-ambar); color: var(--color-ambar); }
+  .visor :global(svg) { width: 1.2rem; height: 1.2rem; }
+  .visor__cerrar {
+    position: absolute; top: 0.75rem; right: 0.75rem; padding-inline: 0.75rem;
+    background: rgb(23 18 15 / 0.7); font-size: 0.85rem;
+  }
+
+  /* ---- Cursor «Ver» ---- */
+  .cursor {
+    position: fixed; top: 0; left: 0; z-index: 60; pointer-events: none;
+    width: 5rem; height: 5rem; margin: -2.5rem 0 0 -2.5rem; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--color-brasa-oscura); color: #fff;
+    font-family: var(--font-display); font-size: 1.15rem; font-style: italic;
+    transform: scale(0); transition: transform 0.35s var(--ease-lento);
+  }
+  .cursor.visible { transform: scale(1); }
+  @media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+</style>
+
+<script>
+  const visor = document.querySelector<HTMLDialogElement>('[data-visor]')!;
+  const botones = [...document.querySelectorAll<HTMLButtonElement>('[data-abrir-foto]')];
+  const hueco = visor.querySelector<HTMLElement>('[data-visor-imagen]')!;
+  const titulo = visor.querySelector<HTMLElement>('[data-visor-titulo]')!;
+  const texto = visor.querySelector<HTMLElement>('[data-visor-texto]')!;
+  let actual = 0;
+  let origen: HTMLElement | null = null;
+
+  const mostrar = (i: number) => {
+    actual = (i + botones.length) % botones.length;
+    const b = botones[actual];
+    hueco.replaceChildren();
+    if (b.dataset.grande) {
+      const img = document.createElement('img');
+      img.src = b.dataset.grande;
+      img.alt = b.dataset.alt ?? '';
+      hueco.append(img);
+    } else {
+      hueco.append(b.querySelector('.foto-pendiente')!.cloneNode(true));
+    }
+    titulo.textContent = b.dataset.titulo ?? '';
+    texto.textContent = b.dataset.texto ?? '';
+  };
+  botones.forEach((b, i) =>
+    b.addEventListener('click', () => {
+      origen = b;
+      mostrar(i);
+      visor.showModal();
+    }),
+  );
+  visor.querySelector('[data-visor-cerrar]')!.addEventListener('click', () => visor.close());
+  visor.querySelector('[data-visor-anterior]')!.addEventListener('click', () => mostrar(actual - 1));
+  visor.querySelector('[data-visor-siguiente]')!.addEventListener('click', () => mostrar(actual + 1));
+  visor.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') mostrar(actual - 1);
+    if (e.key === 'ArrowRight') mostrar(actual + 1);
+  });
+  visor.addEventListener('click', (e) => { if (e.target === visor) visor.close(); });
+  visor.addEventListener('close', () => origen?.focus());
+
+  // Cursor personalizado sobre las imágenes (solo con ratón)
+  const cursor = document.querySelector<HTMLElement>('[data-cursor-el]')!;
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    window.addEventListener('pointermove', (e) => {
+      cursor.style.translate = `${e.clientX}px ${e.clientY}px`;
+    }, { passive: true });
+    botones.forEach((b) => {
+      b.addEventListener('pointerenter', () => { cursor.textContent = b.dataset.cursor ?? ''; cursor.classList.add('visible'); });
+      b.addEventListener('pointerleave', () => cursor.classList.remove('visible'));
+      b.addEventListener('click', () => cursor.classList.remove('visible'));
+    });
+  }
+</script>

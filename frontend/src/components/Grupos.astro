@@ -1,0 +1,46 @@
+---
+/**
+ * Comidas de grupo y celebraciones. Las reseñas hablan de grupos de 12 personas y de cumpleaños;
+ * los salones para 20, 30 y 50 salen de la web antigua (2005) y están [VERIFICAR].
+ */
+import { Picture } from 'astro:assets';
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { fotos } from '../data/imagenes';
+import { t } from '../i18n/textos';
+import Pendiente from './Pendiente.astro';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang).grupos;
+---
+<section id="grupos" class="grupos oscuro" aria-labelledby="grupos-titulo">
+  <figure class="grupos__foto" data-revelar-mascara>
+    <Picture src={fotos.pinzasParrilla.src} formats={['avif', 'webp']} widths={[640, 1024, 1400]} sizes="(min-width: 56rem) 50vw, 100vw" alt="" />
+  </figure>
+  <div class="grupos__texto">
+    <span class="marcas" aria-hidden="true"></span>
+    <h2 id="grupos-titulo" class="titulo-seccion" data-revelar>{tx.titulo}</h2>
+    <p data-revelar>{tx.texto}</p>
+    <p class="grupos__salones" data-revelar>{tx.salones}<Pendiente lang={lang} /></p>
+    <a class="boton boton--ambar" href={restaurante.telefono.enlace}><Icono nombre="telefono" />{tx.llamar}</a>
+  </div>
+</section>
+
+<style>
+  .grupos { display: grid; background: var(--color-castano); }
+  @media (min-width: 56rem) { .grupos { grid-template-columns: 1fr 1fr; min-height: 80svh; } }
+  .grupos__foto { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; }
+  @media (min-width: 56rem) { .grupos__foto { aspect-ratio: auto; min-height: 100%; } }
+  .grupos__foto :global(picture), .grupos__foto :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .grupos__texto {
+    align-self: center;
+    padding: clamp(3rem, 8vw, 7rem) var(--gutter);
+    max-width: 40rem;
+  }
+  .grupos h2 { margin: 1.25rem 0 1.75rem; }
+  .grupos p { margin: 0 0 1.25rem; max-width: 42ch; }
+  .grupos__salones { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; color: var(--color-ambar); }
+  .grupos .boton { margin-top: 1rem; }
+</style>

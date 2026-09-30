@@ -1,0 +1,13 @@
+---
+/**
+ * Etiqueta «Por confirmar» para datos que faltan por validar con el restaurante.
+ * Se oculta en producción con PUBLIC_MOSTRAR_PENDIENTES=false.
+ */
+import type { Lang } from '../data/restaurante';
+import { t } from '../i18n/textos';
+
+interface Props { lang: Lang; si?: boolean }
+const { lang, si = true } = Astro.props;
+const visible = si && import.meta.env.PUBLIC_MOSTRAR_PENDIENTES !== 'false';
+---
+{visible && <span class="pendiente">{t(lang).pendiente}</span>}

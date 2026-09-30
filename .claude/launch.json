@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "parrilla-dev",
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+      "runtimeArgs": ["frontend/scripts/dev.mjs", "--port", "4331"],
+      "port": 4331
+    },
+    {
       "name": "parrilla-maquetas",
       "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
       "runtimeArgs": ["scripts/servir-docs.mjs", "4330"],

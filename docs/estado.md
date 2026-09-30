@@ -3,29 +3,34 @@
 Se sigue el prompt maestro `C:\Users\Vinchy\PROYECTOS CLAUDE\Prompt creación web restaurante\prompt-webs-restaurantes_2.md`, fase por fase y con validación en cada ⏸️.
 
 ## Fase actual
-**Fase 1 (investigación) entregada el 30/09/2026. Pendiente de validación**: elegir una dirección de arte (A, B o C).
+**Fase 3 (frontend) entregada el 30/09/2026. Pendiente de validación.** Después viene la Fase 4 (elegir los módulos de backend).
 
-## Datos de partida (Fase 0)
-- Restaurante: **Parrilla Príncipe**, C/ Floridablanca 6, 28200 San Lorenzo de El Escorial (Madrid).
-- El usuario solo dio el nombre y la dirección y pidió que se investigara todo lo demás.
-- Entorno: Node v24.19.0, npm 11.17 y Git 2.55. Proyecto en `C:\Users\Vinchy\PROYECTOS CLAUDE\WEB PARRILLA PRINCIPE`.
-- Hay que confirmar con el usuario: objetivo principal (se supone que son reservas y menú del día), fotos y logo, idiomas (se propone ES + EN), dominio y hosting (¿Netlify gratis, como la Taberna?).
+## Historial
+- **Fase 0:** restaurante Parrilla Príncipe, C/ Floridablanca 6, 28200 San Lorenzo de El Escorial. El usuario pidió investigarlo todo.
+- **Fase 1 (30/09):** investigación, cuestionario y tres direcciones de arte. **Elegida la A «Brasa y castaño».**
+- **Fases 2 y 3 (30/09):** stack y frontend.
+  - **Supuestos no confirmados por el usuario** (se pidió confirmarlos y no hubo respuesta): objetivo = reservas por teléfono y menú del día; idiomas ES + EN; hosting Netlify gratis.
+  - **Skills usadas:** frontend-design, efectos-premium-hosteleria, webapp-testing (con playwright-core y el Edge instalado). theme-factory no hizo falta porque los tokens ya estaban definidos en la Fase 1.
+  - **Plantilla:** se reutilizó el frontend de la Taberna del Viajero, sin el panel Keystatic (eso es de la Fase 4). Cambian la paleta, las tipografías (Fraunces + Manrope), el motivo (marcas de la parrilla), el hero (brasa, ascuas y titular letra a letra) y todos los textos. Se añaden la sección Grupos, las reseñas reales, la página 404 y el apartado de cookies.
 
-## Documentos
-- `docs/fase1-investigacion.md`: ficha con fuentes, reseñas, zona y competencia.
-- `docs/cuestionario-dueno.md`: preguntas para WhatsApp.
-- `docs/direcciones-arte.md`: concepto y tres direcciones.
-- `docs/maquetas/heroes.html` y `docs/maquetas/capturas/`: maquetas del hero.
+## Decisiones de la Fase 3
+- **Secciones:** hero, la casa, plato de la casa (huevos al ajillo `[VERIFICAR]`), carta interactiva (18 platos de las reseñas, sin precios y con los alérgenos «sin revisar»), menú del día a 20 € (primero en móvil), galería, grupos y celebraciones, cómo llegar con mapa, opiniones (notas y 3 reseñas literales de Tripadvisor), preguntas frecuentes, reserva por teléfono, pie, legal (aviso, privacidad y cookies) y 404.
+- **Sin preloader:** no aportaba nada y retrasaba el LCP.
+- **Barra móvil:** Llamar, Carta y Cómo llegar.
+- **Fotos:** de Unsplash solo para ambiente (brasas, Monasterio), con crédito en el pie. Todo lo propio del restaurante va con el marcador «Foto pendiente».
+- **JSON-LD:** no publica ni el horario ni el teléfono mientras sigan pendientes.
 
-## Decisiones tomadas
-- Concepto propuesto: «De la huerta a la brasa, frente al Monasterio» (alternativa sin huerta: «La brasa de siempre, a la sombra de los castaños»).
-- Dirección recomendada: **B · Sobremesa**, pendiente de que el usuario elija.
-- El diseño no debe parecerse a La Taberna del Viajero (Floridablanca 4, puerta con puerta, misma autoría).
+## Calidad comprobada (30/09/2026)
+- Pruebas e2e: **98 de 98** (ES/EN × escritorio/móvil, carta, teclado, galería, idioma, mapa, barra móvil, 404, sin JS). Capturas en `docs/capturas/`.
+- Lighthouse local:
+  - **escritorio:** 100 / 100 / 100 / SEO 69;
+  - **móvil:** rendimiento 97–98, LCP 2,4–2,5 s, TBT 0, CLS 0.
+  - El SEO sale bajo solo por el `noindex` de la vista previa. Hay que validar con PageSpeed una vez publicada.
 
-## Datos pendientes del dueño (resumen; lista completa en el cuestionario)
-Nombre oficial · teléfono que se publica (hay tres) · horario (¿cenas?) · precio e inclusiones del menú del día · carta con precios · plato de la casa (¿huevos al ajillo?) · alérgenos · **huerta propia** · historia y año · si el hotel sigue abierto · salones y grupos · terraza (temporada, vistas) · perros · formas de pago · fotos y logo · sistema de reservas · datos fiscales para el aviso legal.
+## Datos pendientes del dueño (lista completa en `docs/cuestionario-dueno.md`)
+Nombre oficial · teléfono que se publica (hay tres) · horario (¿cenas?) · precio e inclusiones del menú del día · carta con precios · plato de la casa · alérgenos · **huerta propia** · historia · si el hotel sigue abierto · salones y grupos · terraza · niños · formas de pago · aparcamiento recomendado · fotos y logo · datos fiscales para el aviso legal.
 
 ## Próximos pasos
-1. El usuario elige la dirección de arte (y confirma el objetivo, los idiomas y el hosting).
-2. Fase 2: skills y stack (Astro + Tailwind + GSAP/Lenis + Leaflet, como en la Taberna).
-3. Recomendado: abrir una sesión nueva de Claude Code en esta carpeta.
+1. El usuario valida la Fase 3 (y confirma los supuestos de arriba).
+2. Fase 4: presentar los módulos de backend con su coste y elegir. Recomendación previa: solo el panel del dueño con Keystatic, como en la Taberna.
+3. Recomendado: abrir una sesión nueva de Claude Code en esta carpeta, porque `preview_start` lee el `.claude/launch.json` de la carpeta de la sesión.

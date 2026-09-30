@@ -1,0 +1,94 @@
+---
+/**
+ * Opiniones: valoraciones públicas con su fuente y fecha de consulta,
+ * y fragmentos breves y literales de reseñas reales con autor, fecha y enlace.
+ */
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { t } from '../i18n/textos';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const tx = t(lang).opiniones;
+const fmt = new Intl.NumberFormat(lang === 'es' ? 'es-ES' : 'en-GB');
+const fecha = (f: string) => {
+  const [a, m] = f.split('-').map(Number);
+  return lang === 'es' ? `${tx.meses[m - 1]} de ${a}` : `${tx.meses[m - 1]} ${a}`;
+};
+const nota = (n: string) => (lang === 'es' ? n : n.replace(',', '.'));
+---
+<section class="opiniones seccion oscuro" aria-labelledby="opiniones-titulo">
+  <div class="contenedor">
+    <div class="opiniones__cabecera">
+      <div>
+        <span class="marcas" aria-hidden="true"></span>
+        <h2 id="opiniones-titulo" class="titulo-seccion" data-revelar>{tx.titulo}</h2>
+      </div>
+      <p class="opiniones__intro" data-revelar>{tx.intro}</p>
+    </div>
+
+    <ul class="notas">
+      {restaurante.valoraciones.plataformas.map((p) => (
+        <li>
+          <span class="notas__cifra">{nota(p.nota)}</span>
+          <span class="notas__detalle">
+            <strong>{p.nombre}</strong>
+            <span>{tx.sobre} {p.escala}</span>
+            <span>{fmt.format(p.opiniones)} {tx.opinionesLabel}</span>
+            {p.url && <a href={p.url} target="_blank" rel="noopener">{tx.leerMas}</a>}
+          </span>
+        </li>
+      ))}
+    </ul>
+    <p class="opiniones__fuente">{tx.consultadas}</p>
+
+    <ul class="resenas">
+      {restaurante.resenas.map((r) => (
+        <li data-revelar>
+          <figure>
+            <blockquote lang="es"><p>«{r.cita.es}»</p></blockquote>
+            <figcaption>
+              {r.autor}, {fecha(r.fecha)}, {lang === 'es' ? 'en' : 'on'}{' '}
+              {r.url ? <a href={r.url} target="_blank" rel="noopener">{r.plataforma}</a> : r.plataforma}
+              {tx.idiomaOriginal && <span class="resenas__idioma">{tx.idiomaOriginal}</span>}
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .opiniones__cabecera { display: grid; gap: 2rem; align-items: end; margin-bottom: 3rem; }
+  @media (min-width: 56rem) { .opiniones__cabecera { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .opiniones h2 { margin: 1.25rem 0 0; }
+  .opiniones__intro { max-width: 42ch; color: var(--color-humo); margin: 0; }
+
+  .notas { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 3rem; }
+  @media (min-width: 48rem) { .notas { grid-template-columns: 1fr 1fr; } }
+  .notas li {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding-block: 1.5rem; border-bottom: 1px solid rgb(232 162 92 / 0.3);
+  }
+  .notas__cifra {
+    font-family: var(--font-display); font-weight: 300; font-size: clamp(4rem, 9vw, 6.5rem); line-height: 1;
+    color: var(--color-ambar); font-variant-numeric: lining-nums;
+  }
+  .notas__detalle { display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.95rem; color: var(--color-humo); }
+  .notas__detalle strong { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--color-hueso); }
+  .notas__detalle a { color: var(--color-ambar); margin-top: 0.3rem; }
+  .opiniones__fuente { font-size: 0.82rem; color: var(--color-humo); margin: 1rem 0 0; }
+
+  .resenas { list-style: none; margin: clamp(3rem, 6vw, 5rem) 0 0; padding: 0; display: grid; gap: 2.5rem; }
+  @media (min-width: 56rem) { .resenas { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
+  .resenas figure { margin: 0; }
+  .resenas blockquote { margin: 0 0 1rem; }
+  .resenas blockquote p {
+    margin: 0; font-family: var(--font-display); font-style: italic; font-weight: 300;
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem); line-height: 1.2;
+  }
+  .resenas figcaption { font-size: 0.88rem; color: var(--color-humo); }
+  .resenas figcaption a { color: var(--color-ambar); }
+  .resenas__idioma { display: block; margin-top: 0.2rem; font-size: 0.8rem; }
+</style>

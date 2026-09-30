@@ -1,0 +1,41 @@
+---
+/** Barra fija inferior en móvil: llamar (la acción principal), la carta y cómo llegar, al alcance del pulgar. */
+import type { Lang } from '../data/restaurante';
+import { restaurante } from '../data/restaurante';
+import { t } from '../i18n/textos';
+import Icono from './Icono.astro';
+
+interface Props { lang: Lang }
+const tx = t(Astro.props.lang);
+---
+<nav class="barra-movil" aria-label={tx.acciones.llamar}>
+  <a href={restaurante.telefono.enlace} class="barra-movil__llamar">
+    <Icono nombre="telefono" />{tx.acciones.llamarCorto}
+  </a>
+  <a href="#carta"><Icono nombre="carta" />{tx.acciones.carta}</a>
+  <a href={restaurante.enlaces.comoLlegar} target="_blank" rel="noopener">
+    <Icono nombre="mapa" />{tx.acciones.comoLlegar}
+  </a>
+</nav>
+
+<style>
+  .barra-movil {
+    position: fixed; inset: auto 0 0; z-index: 40;
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+    background: var(--color-carbon);
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top: 1px solid rgb(232 162 92 / 0.35);
+  }
+  .barra-movil a {
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+    min-height: 3.5rem; padding-inline: 0.25rem; color: var(--color-hueso); text-decoration: none;
+    font-weight: 600; font-size: 0.9rem; white-space: nowrap;
+  }
+  .barra-movil a :global(svg) { width: 1.15rem; height: 1.15rem; }
+  .barra-movil__llamar { background: var(--color-ambar); color: var(--color-carbon) !important; }
+  .barra-movil a:focus-visible { outline: 2px solid var(--color-ambar); outline-offset: -4px; }
+  .barra-movil__llamar:focus-visible { outline-color: var(--color-carbon) !important; }
+  @media (min-width: 64rem) { .barra-movil { display: none; } }
+  :global(body) { padding-bottom: 3.5rem; }
+  @media (min-width: 64rem) { :global(body) { padding-bottom: 0; } }
+</style>
