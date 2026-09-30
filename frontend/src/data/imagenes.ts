@@ -11,7 +11,8 @@ import { texto, type Texto } from './restaurante';
 import galeriaJson from '../contenido/galeria.json';
 import pinzasParrilla from '../assets/img/pinzas-parrilla.jpg';
 import monasterioCupula from '../assets/img/monasterio-cupula.jpg';
-// Aportada por el usuario el 30/09/2026 (604×453). [VERIFICAR] autoría y permiso; pedir el original en más resolución.
+// Foto del propio restaurante, publicada en su Facebook (604×453). No está hecha desde el local:
+// no presentarla como «vista desde la terraza». Pedir al dueño el archivo original en más resolución.
 import monasterioVista from '../assets/img/monasterio-vista.jpg';
 import monasterioTorre from '../assets/img/galeria/monasterio-torre.jpg';
 import monasterioFachada from '../assets/img/galeria/monasterio-fachada.jpg';
@@ -34,10 +35,10 @@ export const fotos = {
   monasterioVista: {
     src: monasterioVista,
     credito: {
-      autor: 'Vista del Monasterio: foto aportada, autoría por confirmar',
-      licencia: 'Uso con permiso',
+      autor: 'Parrilla Príncipe (foto del Monasterio publicada en su Facebook)',
+      licencia: 'Foto propia del restaurante',
       licenciaUrl: '',
-      origen: '',
+      origen: 'https://www.facebook.com/p/Restaurante-PARRILLA-PRINCIPE-100070293513731/',
     },
   },
   pinzasParrilla: { src: pinzasParrilla, credito: unsplash('Paul Hermann', 'jeiqzOgwwKU') },

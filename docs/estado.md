@@ -49,7 +49,7 @@ Nombre oficial · teléfono que se publica (hay tres) · horario (¿cenas?) · p
 3. Recomendado: abrir una sesión nueva de Claude Code en esta carpeta, porque `preview_start` lee el `.claude/launch.json` de la carpeta de la sesión.
 
 ## Cambios tras el lanzamiento de la vista previa (30/09/2026)
-- Petición del usuario: el hero pasa a la **foto del Monasterio que aportó el usuario** (`frontend/src/assets/img/monasterio-vista.jpg`, 604×453, **[VERIFICAR] autoría y permiso; pedir el original en más resolución**) y se quitan las ascuas.
+- Petición del usuario: se quitan las ascuas y el hero pasa a la **foto del Monasterio que aportó el usuario** (`frontend/src/assets/img/monasterio-vista.jpg`, 604×453). Es **foto propia del restaurante**, sacada de su Facebook; no está hecha desde el local. En los créditos figura así. **Pendiente: pedir el original en más resolución** (pregunta 23 del cuestionario).
 - Menos peso a la parrilla: «el nombre dice parrilla, pero no es solo parrilla».
   - Nuevo titular: «La cocina de siempre, a la sombra de los castaños».
   - Cocina casera y menú del día por delante en los textos, en los metadatos, en el JSON-LD y en llms.txt.

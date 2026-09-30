@@ -39,11 +39,12 @@
 
 **Fotos y marca**
 22. ¿Tenéis logo? ¿Y fotos de los platos, la terraza, el comedor o la huerta? Si no, podemos quedar un día para hacerlas.
+23. La foto del Monasterio con el árbol en flor que tenéis en Facebook sale en la portada de la web. ¿Tenéis el archivo original? En Facebook se guarda muy pequeña.
 
 **Reservas**
-23. ¿Cómo preferís las reservas: solo por teléfono, por WhatsApp, o con algún sistema como TheFork?
+24. ¿Cómo preferís las reservas: solo por teléfono, por WhatsApp, o con algún sistema como TheFork?
 
 **Para el aviso legal** (es obligatorio)
-24. Razón social o nombre del titular, CIF/NIF y domicilio fiscal.
+25. Razón social o nombre del titular, CIF/NIF y domicilio fiscal.
 
 ¡Gracias! Con esto la web queda perfecta.
