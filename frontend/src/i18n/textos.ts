@@ -139,7 +139,7 @@ const es = {
     lista: [
       {
         p: '¿Dónde está la Parrilla Príncipe?',
-        r: 'En la calle Floridablanca, 6, en el centro histórico de San Lorenzo de El Escorial (Madrid), a unos pasos del Real Monasterio.',
+        r: 'La Parrilla Príncipe es un restaurante de carnes a la parrilla y cocina casera en la calle Floridablanca, 6, en el centro histórico de San Lorenzo de El Escorial (Madrid), a unos pasos del Real Monasterio.',
       },
       {
         p: '¿Hace falta reservar?',
@@ -342,7 +342,7 @@ const en: Textos = {
     lista: [
       {
         p: 'Where is Parrilla Príncipe?',
-        r: 'At Calle Floridablanca 6, in the historic centre of San Lorenzo de El Escorial (Madrid), a few steps from the Royal Monastery.',
+        r: 'Parrilla Príncipe is a grill restaurant serving home cooking at Calle Floridablanca 6, in the historic centre of San Lorenzo de El Escorial (Madrid), a few steps from the Royal Monastery.',
       },
       {
         p: 'Do I need to book?',
