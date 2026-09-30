@@ -3,8 +3,9 @@
  * Usa el Edge/Chrome instalado en el equipo (playwright-core, sin descargas).
  *
  *   npm run build && npm run test:e2e
+ *   E2E_BASE=https://parrilla-principe.netlify.app npm run test:e2e   ← contra producción
  *
- * Las capturas se guardan en ../docs/capturas/.
+ * Las capturas se guardan en ../docs/capturas/ (solo en local).
  */
 import { chromium } from 'playwright-core';
 import { spawn } from 'node:child_process';
@@ -15,7 +16,8 @@ import { dirname, resolve } from 'node:path';
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const capturas = resolve(raiz, '../docs/capturas');
 const PUERTO = 4332;
-const BASE = `http://localhost:${PUERTO}`;
+const REMOTO = process.env.E2E_BASE?.replace(/\/$/, '');
+const BASE = REMOTO ?? `http://localhost:${PUERTO}`;
 const TEL = 'tel:+34696636765';
 
 let fallos = 0;
@@ -24,17 +26,19 @@ const ok = (cond, msg) => {
   if (!cond) fallos++;
 };
 
-// 1. Servidor de la versión compilada
-const servidor = spawn(process.execPath, ['node_modules/astro/bin/astro.mjs', 'preview', '--port', String(PUERTO)], {
-  cwd: raiz,
-  stdio: 'pipe',
-});
-await new Promise((res, rej) => {
-  const t = setTimeout(() => rej(new Error('El servidor no arrancó')), 30000);
-  servidor.stdout.on('data', (d) => {
-    if (String(d).includes(String(PUERTO))) { clearTimeout(t); res(); }
+// 1. Servidor de la versión compilada (salvo si se prueba una URL publicada)
+const servidor = REMOTO
+  ? null
+  : spawn(process.execPath, ['node_modules/astro/bin/astro.mjs', 'preview', '--port', String(PUERTO)], { cwd: raiz, stdio: 'pipe' });
+if (servidor) {
+  await new Promise((res, rej) => {
+    const t = setTimeout(() => rej(new Error('El servidor no arrancó')), 30000);
+    servidor.stdout.on('data', (d) => {
+      if (String(d).includes(String(PUERTO))) { clearTimeout(t); res(); }
+    });
   });
-});
+}
+console.log(`Probando ${BASE}\n`);
 
 const navegador = await chromium.launch({ channel: process.env.PW_CHANNEL ?? 'msedge', headless: true });
 await mkdir(capturas, { recursive: true });
@@ -157,18 +161,18 @@ try {
       await page.waitForLoadState('networkidle');
       await page.evaluate(() => window.scrollTo(0, 0));
       if (nombre === 'escritorio') {
-        await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}.png`), fullPage: true });
+        if (!REMOTO) await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}.png`), fullPage: true });
       } else {
         // En móvil la captura de página completa sale corrupta (elementos fijos + 100svh):
         // se captura pantalla a pantalla cada sección clave.
         for (const sel of ['#historia', '#carta', '#galeria', '#zona', '#preguntas']) {
           await page.evaluate((s) => document.querySelector(s).scrollIntoView(), sel);
           await page.waitForTimeout(300);
-          await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}-${sel.slice(1)}.png`) });
+          if (!REMOTO) await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}-${sel.slice(1)}.png`) });
         }
       }
       // Captura del primer pantallazo
-      await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}-hero.png`) });
+      if (!REMOTO) await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}-hero.png`) });
       await ctx.close();
     }
   }
@@ -194,7 +198,7 @@ try {
   await ctx.close();
 } finally {
   await navegador.close();
-  servidor.kill();
+  servidor?.kill();
 }
 
 console.log(fallos ? `\n${fallos} prueba(s) fallida(s)` : '\nTodas las pruebas superadas');

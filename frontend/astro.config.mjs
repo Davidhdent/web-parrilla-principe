@@ -35,6 +35,8 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    // Las fuentes nunca se incrustan como data: (la CSP de producción solo admite font-src 'self').
+    build: { assetsInlineLimit: (archivo) => (/\.(woff2?|ttf|otf)$/.test(archivo) ? false : undefined) },
   },
 
   integrations: [

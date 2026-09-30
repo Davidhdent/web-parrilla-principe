@@ -196,6 +196,13 @@ a { color: inherit; }
   opacity: 0.9;
 }
 
+/* ---------- Insignia «Powered by Netlify» (plan gratuito) ----------
+   Netlify la inserta fija abajo a la derecha y en móvil tapaba «Carta» y «Cómo llegar»
+   de la barra inferior. No se oculta: se sube justo por encima de la barra. */
+@media (max-width: 63.99rem) {
+  #nl-badge-frame { bottom: calc(3.5rem + env(safe-area-inset-bottom)) !important; }
+}
+
 /* ---------- Rendimiento: no maquetar lo que aún no se ve ---------- */
 main > section:not(.hero),
 body > footer,
