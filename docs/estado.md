@@ -3,7 +3,7 @@
 Se sigue el prompt maestro `C:\Users\Vinchy\PROYECTOS CLAUDE\Prompt creación web restaurante\prompt-webs-restaurantes_2.md`, fase por fase y con validación en cada ⏸️.
 
 ## Fase actual
-**Fase 3 (frontend) entregada el 30/09/2026. Pendiente de validación.** Después viene la Fase 4 (elegir los módulos de backend).
+**Fase 3 validada por el usuario el 30/09/2026.** Supuestos confirmados: reservas solo por teléfono, español e inglés, y hosting en Netlify por ahora. **Fase 4: presentados los módulos, a la espera de que el usuario elija.**
 
 ## Historial
 - **Fase 0:** restaurante Parrilla Príncipe, C/ Floridablanca 6, 28200 San Lorenzo de El Escorial. El usuario pidió investigarlo todo.
