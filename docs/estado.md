@@ -47,3 +47,10 @@ Nombre oficial · teléfono que se publica (hay tres) · horario (¿cenas?) · p
 1. Enviar al dueño `docs/cuestionario-dueno.md` y la URL de la vista previa.
 2. Con sus respuestas: meter los datos (o que los meta él en el panel), activar el panel en producción y seguir la checklist de lanzamiento de `docs/seo-geo.md` §7 (dominio, `PUBLIC_INDEXAR`, Search Console, Bing, IndexNow y unificar el NAP).
 3. Recomendado: abrir una sesión nueva de Claude Code en esta carpeta, porque `preview_start` lee el `.claude/launch.json` de la carpeta de la sesión.
+
+## Cambios tras el lanzamiento de la vista previa (30/09/2026)
+- Petición del usuario: el hero pasa a la **foto del Monasterio que aportó el usuario** (`frontend/src/assets/img/monasterio-vista.jpg`, 604×453, **[VERIFICAR] autoría y permiso; pedir el original en más resolución**) y se quitan las ascuas.
+- Menos peso a la parrilla: «el nombre dice parrilla, pero no es solo parrilla».
+  - Nuevo titular: «La cocina de siempre, a la sombra de los castaños».
+  - Cocina casera y menú del día por delante en los textos, en los metadatos, en el JSON-LD y en llms.txt.
+  - Fuera las fotos de brasas: el plato de la casa usa de fondo la piedra del Monasterio, y la parrilla solo aparece en Grupos y en la carta.

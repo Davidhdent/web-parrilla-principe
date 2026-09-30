@@ -12,16 +12,16 @@ const tx = t(lang);
 const otroIdioma: Lang = lang === 'es' ? 'en' : 'es';
 
 // Cada enlace del menú a pantalla completa tiene su propia imagen de fondo.
-const [imgFuego, imgPinzas, imgMonasterio] = await Promise.all(
-  [fotos.fuegoParrilla.src, fotos.pinzasParrilla.src, fotos.monasterioCupula.src].map((src) =>
+const [imgVista, imgPinzas, imgMonasterio] = await Promise.all(
+  [fotos.monasterioVista.src, fotos.pinzasParrilla.src, fotos.monasterioCupula.src].map((src) =>
     getImage({ src, width: 1400, format: 'webp' }),
   ),
 );
 const enlaces = [
-  { href: '#historia', texto: tx.nav.historia, fondo: imgFuego.src },
+  { href: '#historia', texto: tx.nav.historia, fondo: imgVista.src },
   { href: '#carta', texto: tx.nav.carta, fondo: imgPinzas.src },
   { href: '#galeria', texto: tx.nav.galeria, fondo: imgMonasterio.src },
-  { href: '#grupos', texto: tx.nav.grupos, fondo: imgFuego.src },
+  { href: '#grupos', texto: tx.nav.grupos, fondo: imgVista.src },
   { href: '#zona', texto: tx.nav.zona, fondo: imgMonasterio.src },
   { href: '#preguntas', texto: tx.nav.preguntas, fondo: imgPinzas.src },
 ];

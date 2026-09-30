@@ -171,7 +171,9 @@ try {
           if (!REMOTO) await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}-${sel.slice(1)}.png`) });
         }
       }
-      // Captura del primer pantallazo
+      // Captura del primer pantallazo (volviendo arriba: en móvil el bucle anterior deja la página abajo)
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(400);
       if (!REMOTO) await page.screenshot({ path: resolve(capturas, `${nombre}-${lang}-hero.png`) });
       await ctx.close();
     }
@@ -194,7 +196,7 @@ try {
   const platos = await page.locator('.plato-fila').count();
   ok(platos >= 10, `sin JavaScript se ven los ${platos} platos de la carta`);
   const titular = await page.locator('h1').innerText();
-  ok(titular.includes('La brasa de siempre'), 'sin JavaScript el titular está en el HTML');
+  ok(titular.includes('La cocina de siempre'), 'sin JavaScript el titular está en el HTML');
   await ctx.close();
 } finally {
   await navegador.close();

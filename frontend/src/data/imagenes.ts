@@ -2,17 +2,17 @@
  * Imágenes de la web y sus créditos.
  * Mientras no lleguen las fotos del restaurante se usan fotos de Unsplash
  * (licencia Unsplash: uso libre; se cita al autor en el pie) solo para
- * ambiente —brasas, Monasterio—, nunca para hacer pasar un plato por suyo.
+ * ambiente (Monasterio, la parrilla en Grupos), nunca para hacer pasar un plato por suyo.
  * Lo propio del restaurante (platos, terraza, comedor) va como marcador «Foto pendiente».
  * La galería se lee de src/contenido/galeria.json; sus fotos van en src/assets/img/galeria/.
  */
 import type { ImageMetadata } from 'astro';
 import { texto, type Texto } from './restaurante';
 import galeriaJson from '../contenido/galeria.json';
-import parrillaBrasas from '../assets/img/parrilla-brasas.jpg';
-import fuegoParrilla from '../assets/img/fuego-parrilla.jpg';
 import pinzasParrilla from '../assets/img/pinzas-parrilla.jpg';
 import monasterioCupula from '../assets/img/monasterio-cupula.jpg';
+// Aportada por el usuario el 30/09/2026 (604×453). [VERIFICAR] autoría y permiso; pedir el original en más resolución.
+import monasterioVista from '../assets/img/monasterio-vista.jpg';
 import monasterioTorre from '../assets/img/galeria/monasterio-torre.jpg';
 import monasterioFachada from '../assets/img/galeria/monasterio-fachada.jpg';
 
@@ -31,8 +31,15 @@ const unsplash = (autor: string, id: string): Credito => ({
 });
 
 export const fotos = {
-  parrillaBrasas: { src: parrillaBrasas, credito: unsplash('Emerson Vieira', 'RO6Ke69Szhg') },
-  fuegoParrilla: { src: fuegoParrilla, credito: unsplash('iulian aghei', 'q_xW-2ICvfA') },
+  monasterioVista: {
+    src: monasterioVista,
+    credito: {
+      autor: 'Vista del Monasterio: foto aportada, autoría por confirmar',
+      licencia: 'Uso con permiso',
+      licenciaUrl: '',
+      origen: '',
+    },
+  },
   pinzasParrilla: { src: pinzasParrilla, credito: unsplash('Paul Hermann', 'jeiqzOgwwKU') },
   monasterioCupula: { src: monasterioCupula, credito: unsplash('Hernan Gonzalez', '2jBlzNmelIw') },
   monasterioTorre: { src: monasterioTorre, credito: unsplash('Fernando Mola-Davis', 'Z939vzXyUvU') },

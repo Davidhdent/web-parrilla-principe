@@ -32,7 +32,7 @@ export const GET: APIRoute = ({ site }) => {
 
   const cuerpo = `# ${r.nombre}
 
-> ${r.nombre} es un restaurante de carnes a la parrilla y cocina casera en ${d.localidad} (${d.provincia}, España), en ${d.calle}, a unos pasos del Real Monasterio de El Escorial. Tiene menú del día entre semana y una terraza a la sombra de grandes castaños. Las reservas se hacen por teléfono (${r.telefono.visible}). ${platoCasa} ${menuDia} ${horario} Carta: ${platos}. Alérgenos: consultar al personal o por teléfono antes de la visita.
+> ${r.nombre} es un restaurante de cocina casera, con carnes a la parrilla, en ${d.localidad} (${d.provincia}, España), en ${d.calle}, a unos pasos del Real Monasterio de El Escorial. Tiene menú del día entre semana y una terraza a la sombra de grandes castaños. Las reservas se hacen por teléfono (${r.telefono.visible}). ${platoCasa} ${menuDia} ${horario} Carta: ${platos}. Alérgenos: consultar al personal o por teléfono antes de la visita.
 
 ## Web
 

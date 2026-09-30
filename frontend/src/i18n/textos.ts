@@ -7,9 +7,9 @@ import type { Lang } from '../data/restaurante';
 
 const es = {
   meta: {
-    titulo: 'Parrilla Príncipe · Parrilla y cocina casera en San Lorenzo de El Escorial',
+    titulo: 'Parrilla Príncipe · Cocina casera junto al Monasterio de El Escorial',
     descripcion:
-      'Restaurante de carnes a la parrilla y cocina casera en la calle Floridablanca, a unos pasos del Monasterio de San Lorenzo de El Escorial. Menú del día y terraza a la sombra de los castaños.',
+      'Restaurante de cocina casera en la calle Floridablanca, a unos pasos del Monasterio de San Lorenzo de El Escorial. Menú del día, carnes a la parrilla y terraza a la sombra de los castaños.',
   },
   nav: {
     historia: 'La casa',
@@ -34,17 +34,17 @@ const es = {
   pendiente: 'Por confirmar',
   hero: {
     antetitulo: 'Frente al Monasterio de El Escorial',
-    titular: 'La brasa de siempre, a la sombra de los castaños.',
+    titular: 'La cocina de siempre, a la sombra de los castaños.',
     enfasisDesde: 4, // a partir de esta palabra, el titular va en cursiva ámbar
     entradilla:
-      'Carnes a la parrilla, cocina casera y menú del día en la calle Floridablanca, a unos pasos del Monasterio.',
-    imagenAlt: 'Carne asándose sobre la parrilla, con las brasas encendidas',
+      'Cocina casera, menú del día y carnes a la parrilla en la calle Floridablanca, a unos pasos del Monasterio.',
+    imagenAlt: 'El Monasterio de El Escorial visto desde lo alto, con árboles en flor en primer plano',
   },
   historia: {
     titulo: 'Una casa de las de siempre',
     p1: 'La Parrilla Príncipe está en la calle Floridablanca, en pleno centro histórico de San Lorenzo, a unos pasos del Real Monasterio. El edificio fue durante años también hotel, con salones para comidas de grupo.',
     p1Pendiente: true,
-    p2: 'Quien viene suele volver por lo mismo: la carne a la parrilla, la cocina casera, un menú del día con mucho donde elegir y un trato cercano, pendiente de cada mesa.',
+    p2: 'Quien viene suele volver por lo mismo: la cocina casera, un menú del día con mucho donde elegir, la carne a la parrilla y un trato cercano, pendiente de cada mesa.',
     cita: 'Un trato y un ambiente de otros tiempos.',
     citaAutor: 'paquito, en Tripadvisor (septiembre de 2026)',
     huerta:
@@ -60,7 +60,7 @@ const es = {
   carta: {
     titulo: 'La carta',
     intro:
-      'Parrilla, guisos y cocina casera, con postres hechos en casa. Pulsa un plato para ver sus detalles y alérgenos.',
+      'Cocina casera: guisos, pescados, carnes a la parrilla y postres hechos en casa. Pulsa un plato para ver sus detalles y alérgenos.',
     provisional:
       'Carta provisional con los platos que más citan los clientes. Precios y alérgenos, pendientes de la carta oficial.',
     filtros: 'Filtrar',
@@ -139,7 +139,7 @@ const es = {
     lista: [
       {
         p: '¿Dónde está la Parrilla Príncipe?',
-        r: 'La Parrilla Príncipe es un restaurante de carnes a la parrilla y cocina casera en la calle Floridablanca, 6, en el centro histórico de San Lorenzo de El Escorial (Madrid), a unos pasos del Real Monasterio.',
+        r: 'La Parrilla Príncipe es un restaurante de cocina casera y carnes a la parrilla en la calle Floridablanca, 6, en el centro histórico de San Lorenzo de El Escorial (Madrid), a unos pasos del Real Monasterio.',
       },
       {
         p: '¿Hace falta reservar?',
@@ -200,7 +200,7 @@ const es = {
     redes: 'Síguenos',
   },
   error404: {
-    titulo: 'Esta página se ha quedado en la brasa',
+    titulo: 'Esta página no está en la carta',
     texto: 'La dirección que buscas no existe o ha cambiado. Desde el inicio puedes ver la carta, el horario y cómo llegar.',
     volver: 'Volver al inicio',
   },
@@ -210,9 +210,9 @@ type Textos = typeof es;
 
 const en: Textos = {
   meta: {
-    titulo: 'Parrilla Príncipe · Grill and home cooking in San Lorenzo de El Escorial',
+    titulo: 'Parrilla Príncipe · Home cooking by the Monastery of El Escorial',
     descripcion:
-      'Grill restaurant with home cooking on Calle Floridablanca, a few steps from the Monastery of San Lorenzo de El Escorial, near Madrid. Set lunch menu and a terrace shaded by chestnut trees.',
+      'Home-cooking restaurant on Calle Floridablanca, a few steps from the Monastery of San Lorenzo de El Escorial, near Madrid. Set lunch menu, grilled meat and a terrace shaded by chestnut trees.',
   },
   nav: {
     historia: 'The house',
@@ -237,17 +237,17 @@ const en: Textos = {
   pendiente: 'To be confirmed',
   hero: {
     antetitulo: 'Facing the Monastery of El Escorial',
-    titular: 'Grilled the old way, in the shade of the chestnut trees.',
-    enfasisDesde: 4,
+    titular: 'Cooking of the old school, in the shade of the chestnut trees.',
+    enfasisDesde: 5,
     entradilla:
-      'Meat from the grill, home cooking and a set lunch menu on Calle Floridablanca, a few steps from the Monastery.',
-    imagenAlt: 'Meat cooking on the grill over glowing embers',
+      'Home cooking, a set lunch menu and grilled meat on Calle Floridablanca, a few steps from the Monastery.',
+    imagenAlt: 'The Monastery of El Escorial seen from above, with trees in bloom in the foreground',
   },
   historia: {
     titulo: 'A house of the old school',
     p1: 'Parrilla Príncipe is on Calle Floridablanca, in the historic centre of San Lorenzo, a few steps from the Royal Monastery. For years the building was also a hotel, with rooms for group meals.',
     p1Pendiente: true,
-    p2: 'Guests tend to come back for the same things: meat from the grill, home cooking, a set menu with plenty of choice and friendly service that looks after every table.',
+    p2: 'Guests tend to come back for the same things: home cooking, a set menu with plenty of choice, meat from the grill and friendly service that looks after every table.',
     cita: 'Service and an atmosphere from another time.',
     citaAutor: 'paquito, on Tripadvisor (September 2026; translated from Spanish)',
     huerta:
@@ -263,7 +263,7 @@ const en: Textos = {
   carta: {
     titulo: 'The menu',
     intro:
-      'Grilled meat, stews and home cooking, with desserts made in-house. Tap a dish to see its details and allergens.',
+      'Home cooking: stews, fish, grilled meat and desserts made in-house. Tap a dish to see its details and allergens.',
     provisional:
       'Provisional menu with the dishes guests mention most. Prices and allergens will follow with the official menu.',
     filtros: 'Filter',
@@ -342,7 +342,7 @@ const en: Textos = {
     lista: [
       {
         p: 'Where is Parrilla Príncipe?',
-        r: 'Parrilla Príncipe is a grill restaurant serving home cooking at Calle Floridablanca 6, in the historic centre of San Lorenzo de El Escorial (Madrid), a few steps from the Royal Monastery.',
+        r: 'Parrilla Príncipe is a home-cooking restaurant, also known for its grilled meat, at Calle Floridablanca 6, in the historic centre of San Lorenzo de El Escorial (Madrid), a few steps from the Royal Monastery.',
       },
       {
         p: 'Do I need to book?',
@@ -403,7 +403,7 @@ const en: Textos = {
     redes: 'Follow us',
   },
   error404: {
-    titulo: 'This page has been left on the grill',
+    titulo: 'This page is not on the menu',
     texto: 'The address you are looking for does not exist or has changed. From the home page you can see the menu, opening hours and directions.',
     volver: 'Back to home',
   },

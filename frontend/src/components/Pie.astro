@@ -68,7 +68,7 @@ const legal = lang === 'es' ? '/legal/' : '/en/legal/';
         <p>{tx.pie.creditosTexto}</p>
         <ul>
           {creditos.map((c) => (
-            <li><a href={c.origen} target="_blank" rel="noopener">{c.autor}</a>, <a href={c.licenciaUrl} target="_blank" rel="noopener">{c.licencia}</a></li>
+            <li>{c.origen ? <a href={c.origen} target="_blank" rel="noopener">{c.autor}</a> : c.autor}, {c.licenciaUrl ? <a href={c.licenciaUrl} target="_blank" rel="noopener">{c.licencia}</a> : c.licencia}</li>
           ))}
           {creditosGaleria.map((c) => <li>{c}</li>)}
           <li>Mapa: © OpenStreetMap</li>
