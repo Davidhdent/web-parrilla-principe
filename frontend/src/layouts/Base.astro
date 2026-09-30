@@ -11,6 +11,10 @@ import fuenteTexto from '@fontsource-variable/manrope/files/manrope-latin-wght-n
 import type { Lang } from '../data/restaurante';
 import { t, rutaIdioma } from '../i18n/textos';
 
+// Rango latino de Fontsource (el subconjunto precargado)
+const LATIN =
+  'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
+
 interface Props {
   lang: Lang;
   /** Título propio (páginas legales, 404). Si no se da, el de la portada. */
@@ -36,6 +40,13 @@ const indexar = import.meta.env.PUBLIC_INDEXAR === 'true' && !noindex;
     <link rel="preload" href={fuenteTitular} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={fuenteTitularCursiva} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={fuenteTexto} as="font" type="font/woff2" crossorigin />
+    {/* El titular del hero usa los mismos archivos de Fraunces pero con font-display: optional:
+        si la fuente (precargada) no llega a tiempo, el titular se queda en la fuente de reserva
+        en esa visita y no salta (CLS 0). En visitas siguientes ya está en caché. */}
+    <style is:inline set:html={`
+      @font-face { font-family: "Fraunces Titular"; font-style: normal; font-weight: 100 900; font-display: optional; src: url(${fuenteTitular}) format("woff2-variations"); unicode-range: ${LATIN}; }
+      @font-face { font-family: "Fraunces Titular"; font-style: italic; font-weight: 100 900; font-display: optional; src: url(${fuenteTitularCursiva}) format("woff2-variations"); unicode-range: ${LATIN}; }
+    `} />
     <title>{titulo ?? tx.meta.titulo}</title>
     <meta name="description" content={tx.meta.descripcion} />
     <link rel="canonical" href={canonical} />

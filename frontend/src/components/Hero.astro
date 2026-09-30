@@ -129,11 +129,15 @@ const ascuas = Array.from({ length: 18 }, (_, k) => {
     color: var(--color-ambar);
   }
   .hero__titular {
+    /* «Fraunces Titular» = Fraunces con font-display: optional (Base.astro) + reserva calibrada:
+       el titular nunca salta al llegar la fuente (CLS) */
+    font-family: "Fraunces Titular", "Fraunces titular fallback", Georgia, serif;
     font-size: clamp(2.9rem, 7.6vw, 7.4rem);
     font-weight: 300;
     line-height: 0.98;
     letter-spacing: -0.025em;
-    max-width: 15ch;
+    /* En em, no en ch: «ch» depende de la fuente cargada y el ancho cambiaba al llegar Fraunces (CLS) */
+    max-width: 8.5em;
     margin: 0 0 clamp(1.5rem, 3.5vh, 2.25rem);
   }
   .palabra { display: inline-block; white-space: nowrap; }

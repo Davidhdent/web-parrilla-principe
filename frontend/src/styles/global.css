@@ -18,8 +18,38 @@
   --color-ceniza: #6e5b4c;         /* texto secundario sobre hueso (5,3:1) */
   --color-humo: #b8a792;           /* texto secundario sobre carbón (7,9:1) */
 
-  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
-  --font-sans: "Manrope Variable", "Manrope", system-ui, sans-serif;
+  --font-display: "Fraunces Variable", "Fraunces fallback", Georgia, serif;
+  --font-sans: "Manrope Variable", "Manrope fallback", Arial, sans-serif;
+}
+
+/* Fuentes de reserva con las métricas ajustadas a Fraunces y Manrope, para que el cambio
+   a la fuente web no mueva la página (PageSpeed escritorio daba CLS 0,41 sin esto).
+   Base: @capsizecss/metrics (Fraunces 105,2 % de Georgia). Pero Fraunces Light en tamaño
+   óptico grande es mucho más estrecha que la media, así que el ancho se calibró midiendo
+   el texto real con tests/cls-fuentes.mjs: títulos ×0,824 y titular del hero ×0,758. */
+@font-face {
+  font-family: "Fraunces fallback";
+  src: local("Georgia");
+  size-adjust: 86.7%;
+  ascent-override: 92.96%;
+  descent-override: 24.24%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Fraunces titular fallback";
+  src: local("Georgia");
+  size-adjust: 79.7%;
+  ascent-override: 92.96%;
+  descent-override: 24.24%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Manrope fallback";
+  src: local("Arial");
+  size-adjust: 103.19%;
+  ascent-override: 103.31%;
+  descent-override: 29.07%;
+  line-gap-override: 0%;
 }
 
 :root {
