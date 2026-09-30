@@ -6,6 +6,9 @@
 
 [build.environment]
   NODE_VERSION = "24"
+  # El panel /keystatic se activa añadiendo en Netlify > Site settings > Environment variables:
+  #   KEYSTATIC_PRODUCCION=true, PUBLIC_KEYSTATIC_GITHUB_REPO y las claves de la GitHub App
+  # (ver docs/panel.md). Sin ellas se publica solo la web estática, sin panel.
   # LANZAMIENTO (cuando el restaurante haya confirmado sus datos):
   #   PUBLIC_MOSTRAR_PENDIENTES = "false"  → oculta las etiquetas «Por confirmar»
   #   PUBLIC_INDEXAR = "true"              → quita el noindex y deja que Google indexe
@@ -27,7 +30,20 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     X-Frame-Options = "DENY"
+
+# CSP estricta solo en las páginas públicas: el panel /keystatic necesita conectar con GitHub.
+[[headers]]
+  for = "/"
+  [headers.values]
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.tile.openstreetmap.org; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+[[headers]]
+  for = "/en/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.tile.openstreetmap.org; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+[[headers]]
+  for = "/legal/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
 
 # Caché larga para recursos con hash
 [[headers]]

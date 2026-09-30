@@ -1,5 +1,6 @@
 {
   "telefono": "696 63 67 65",
+  "telefonoConfirmado": false,
   "platoCasa": {
     "nombre": { "es": "Huevos al ajillo", "en": "Garlic eggs" },
     "texto": {

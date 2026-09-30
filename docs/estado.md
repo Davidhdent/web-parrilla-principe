@@ -3,7 +3,13 @@
 Se sigue el prompt maestro `C:\Users\Vinchy\PROYECTOS CLAUDE\Prompt creación web restaurante\prompt-webs-restaurantes_2.md`, fase por fase y con validación en cada ⏸️.
 
 ## Fase actual
-**Fase 3 validada por el usuario el 30/09/2026.** Supuestos confirmados: reservas solo por teléfono, español e inglés, y hosting en Netlify por ahora. **Fase 4: presentados los módulos, a la espera de que el usuario elija.**
+**Fase 3 validada por el usuario el 30/09/2026.** Supuestos confirmados: reservas solo por teléfono, español e inglés, y hosting en Netlify por ahora. **Fase 4:** el usuario eligió **solo el panel del dueño** (Keystatic, gratis). Descartados: formulario de grupos, reservas online, chat con IA y newsletter. El panel se entregó el 30/09/2026 y **está pendiente de validación**:
+- funciona en local y se probó guardar → JSON → web;
+- tiene casilla de «teléfono revisado»;
+- la CSP de Netlify solo se aplica a las páginas públicas;
+- guía para el dueño en `docs/panel.md`.
+
+En producción irá en modo GitHub + Netlify (Fase 5).
 
 ## Historial
 - **Fase 0:** restaurante Parrilla Príncipe, C/ Floridablanca 6, 28200 San Lorenzo de El Escorial. El usuario pidió investigarlo todo.
@@ -31,6 +37,6 @@ Se sigue el prompt maestro `C:\Users\Vinchy\PROYECTOS CLAUDE\Prompt creación we
 Nombre oficial · teléfono que se publica (hay tres) · horario (¿cenas?) · precio e inclusiones del menú del día · carta con precios · plato de la casa · alérgenos · **huerta propia** · historia · si el hotel sigue abierto · salones y grupos · terraza · niños · formas de pago · aparcamiento recomendado · fotos y logo · datos fiscales para el aviso legal.
 
 ## Próximos pasos
-1. El usuario valida la Fase 3 (y confirma los supuestos de arriba).
-2. Fase 4: presentar los módulos de backend con su coste y elegir. Recomendación previa: solo el panel del dueño con Keystatic, como en la Taberna.
+1. El usuario valida la Fase 4 (el panel).
+2. Fase 5: SEO local y GEO, repositorio privado en GitHub, Netlify con el panel en modo GitHub, PageSpeed sobre la URL publicada y checklist de lanzamiento.
 3. Recomendado: abrir una sesión nueva de Claude Code en esta carpeta, porque `preview_start` lee el `.claude/launch.json` de la carpeta de la sesión.

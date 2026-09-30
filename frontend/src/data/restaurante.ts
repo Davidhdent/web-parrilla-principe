@@ -26,6 +26,7 @@ export const texto = (t?: Partial<Texto> | null): Texto => ({
 type Dia = { abierto?: boolean; apertura?: string; cierre?: string; apertura2?: string; cierre2?: string };
 const general = generalRaw as {
   telefono: string;
+  telefonoConfirmado?: boolean;
   platoCasa?: { nombre?: Partial<Texto>; texto?: Partial<Texto>; confirmado?: boolean };
   facebook?: string | null;
   instagram?: string | null;
@@ -76,7 +77,7 @@ export const restaurante = {
   telefono: {
     visible: general.telefono,
     enlace: `tel:${soloDigitos.startsWith('34') ? '+' : '+34'}${soloDigitos}`,
-    pendiente: true, // [VERIFICAR] hay tres teléfonos publicados en distintas plataformas
+    pendiente: !general.telefonoConfirmado, // [VERIFICAR] hay tres teléfonos publicados en distintas plataformas
   },
 
   enlaces: {
