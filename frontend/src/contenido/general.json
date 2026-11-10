@@ -2,11 +2,15 @@
   "telefono": "696 63 67 65",
   "telefonoConfirmado": false,
   "platoCasa": {
-    "nombre": { "es": "Huevos al ajillo", "en": "Garlic eggs" },
+    "nombre": {
+      "es": "Huevos al ajillo",
+      "en": "Garlic eggs"
+    },
     "texto": {
       "es": "Es el plato que más repiten quienes han comido aquí, en Google y en Tripadvisor. Detrás van el entrecot y el tomate de la huerta con ventresca.",
       "en": "It is the dish guests mention most, on Google and on Tripadvisor. Close behind come the entrecôte and the garden tomato with tuna belly."
     },
+    "foto": null,
     "confirmado": false
   },
   "facebook": "https://www.facebook.com/p/Restaurante-PARRILLA-PRINCIPE-100070293513731/",

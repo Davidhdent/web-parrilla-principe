@@ -49,6 +49,15 @@ const dia = (nombre: string) =>
 const revisado = (label = 'Datos revisados por el restaurante') =>
   fields.checkbox({ label, description: 'Mientras no esté marcado, la web muestra «Por confirmar» y no se envía a Google.' });
 
+/** Foto subida desde el panel (portada, la casa, plato de la casa, Grupos). */
+const foto = (label: string, ayuda: string) =>
+  fields.image({
+    label,
+    description: `${ayuda} Déjala vacía para usar la foto actual.`,
+    directory: 'src/assets/img/panel',
+    publicPath: '../assets/img/panel/',
+  });
+
 export default config({
   storage: repo ? { kind: 'github', repo } : { kind: 'local' },
   ui: {
@@ -56,7 +65,7 @@ export default config({
     navigation: {
       'Cada día': ['menuDelDia', 'horario'],
       'La carta': ['carta'],
-      'La web': ['general', 'galeria'],
+      'La web': ['textos', 'general', 'galeria'],
     },
   },
   singletons: {
@@ -130,6 +139,79 @@ export default config({
       },
     }),
 
+    textos: singleton({
+      label: 'Textos de la web',
+      path: 'src/contenido/textos',
+      format: { data: 'json' },
+      schema: {
+        portada: fields.object(
+          {
+            antetitulo: bilingue('Frase pequeña sobre el titular'),
+            titular: bilingue('Titular (parte en letra normal)', { obligatorio: true }),
+            titularCursiva: bilingue('Titular (parte final, en cursiva dorada)'),
+            entradilla: bilingue('Texto bajo el titular', { multilinea: true }),
+            imagen: foto('Foto de fondo de la portada', 'Horizontal y de buena calidad (más de 2000 px de ancho).'),
+            imagenAlt: bilingue('Descripción de la foto para personas ciegas'),
+          },
+          { label: 'Portada (lo primero que se ve)' },
+        ),
+        casa: fields.object(
+          {
+            titulo: bilingue('Título', { obligatorio: true }),
+            parrafo1: bilingue('Primer párrafo', { multilinea: true }),
+            parrafo2: bilingue('Segundo párrafo', { multilinea: true }),
+            parrafoHuerta: bilingue('Párrafo de la huerta', { multilinea: true }),
+            confirmado: revisado('Textos revisados por el restaurante'),
+            foto: foto('Foto de la casa', 'Vertical: el equipo, la fachada o el comedor.'),
+            fotoAlt: bilingue('Descripción de la foto para personas ciegas'),
+          },
+          { label: 'La casa' },
+        ),
+        carta: fields.object(
+          { intro: bilingue('Texto de presentación de la carta', { multilinea: true }) },
+          { label: 'La carta' },
+        ),
+        grupos: fields.object(
+          {
+            titulo: bilingue('Título', { obligatorio: true }),
+            texto: bilingue('Texto', { multilinea: true }),
+            salones: bilingue('Frase de los salones'),
+            salonesConfirmado: revisado('Salones revisados por el restaurante'),
+            foto: foto('Foto de la sección', 'Horizontal: una celebración, el salón o una mesa preparada.'),
+          },
+          { label: 'Comidas de grupo y celebraciones' },
+        ),
+        zona: fields.object(
+          {
+            titulo: bilingue('Título', { obligatorio: true }),
+            intro: bilingue('Texto de presentación', { multilinea: true }),
+            transporte: bilingue('Cómo llegar en transporte público', { multilinea: true }),
+            parking: bilingue('Dónde aparcar', { multilinea: true }),
+            confirmado: revisado('Transporte y aparcamiento revisados'),
+          },
+          { label: 'Cómo llegar' },
+        ),
+        reserva: fields.object(
+          {
+            titulo: bilingue('Título', { obligatorio: true }),
+            texto: bilingue('Texto', { multilinea: true }),
+          },
+          { label: 'Bloque «Reserva tu mesa»' },
+        ),
+        preguntas: fields.array(
+          fields.object({
+            pregunta: bilingue('Pregunta', { obligatorio: true }),
+            respuesta: bilingue('Respuesta', { multilinea: true }),
+            confirmada: fields.checkbox({
+              label: 'Respuesta revisada por el restaurante',
+              description: 'Mientras no esté marcada, la web muestra «Por confirmar» y la pregunta no se envía a Google.',
+            }),
+          }),
+          { label: 'Preguntas frecuentes', itemLabel: (q) => q.fields.pregunta.fields.es.value || 'Pregunta nueva' },
+        ),
+      },
+    }),
+
     general: singleton({
       label: 'Datos generales',
       path: 'src/contenido/general',
@@ -141,6 +223,7 @@ export default config({
           {
             nombre: bilingue('Nombre del plato de la casa', { obligatorio: true }),
             texto: bilingue('Texto de la sección', { multilinea: true }),
+            foto: foto('Foto del plato', 'Vertical, del plato servido.'),
             confirmado: fields.checkbox({ label: 'Confirmado por el restaurante' }),
           },
           { label: 'Plato de la casa' },

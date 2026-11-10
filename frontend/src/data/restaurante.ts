@@ -27,7 +27,7 @@ type Dia = { abierto?: boolean; apertura?: string; cierre?: string; apertura2?: 
 const general = generalRaw as {
   telefono: string;
   telefonoConfirmado?: boolean;
-  platoCasa?: { nombre?: Partial<Texto>; texto?: Partial<Texto>; confirmado?: boolean };
+  platoCasa?: { nombre?: Partial<Texto>; texto?: Partial<Texto>; confirmado?: boolean; foto?: string | null };
   facebook?: string | null;
   instagram?: string | null;
   tripadvisor?: string | null;
@@ -100,6 +100,7 @@ export const restaurante = {
     nombre: texto(general.platoCasa?.nombre),
     texto: vacioANull(texto(general.platoCasa?.texto)),
     pendiente: !general.platoCasa?.confirmado,
+    foto: general.platoCasa?.foto ?? null, // ruta de la foto subida desde el panel
   },
 
   /**

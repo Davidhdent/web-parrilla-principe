@@ -1,9 +1,73 @@
 /**
  * Todos los textos de la web en español e inglés.
- * Los datos (horario, teléfono, carta…) viven en src/data y src/contenido; aquí solo va el relato.
- * Todo sale de la investigación (docs/fase1-investigacion.md); lo dudoso lleva `pendiente: true`.
+ * - Los textos que edita la dueña desde el panel (portada, la casa, Grupos, Cómo llegar,
+ *   reserva, preguntas frecuentes) viven en src/contenido/textos.json.
+ * - Aquí quedan los textos de la interfaz (menús, botones, etiquetas) y lo que no conviene
+ *   que se toque sin revisión (reseñas, lugares de la zona, avisos legales).
+ * Los datos (horario, teléfono, carta…) viven en src/data y src/contenido.
  */
-import type { Lang } from '../data/restaurante';
+import { texto, type Lang, type Texto } from '../data/restaurante';
+import panelJson from '../contenido/textos.json';
+
+// Los campos vacíos pueden faltar en el JSON (el panel los omite al guardar): todo opcional.
+type Bi = Partial<Texto> | null | undefined;
+const panel = panelJson as {
+  portada?: { antetitulo?: Bi; titular?: Bi; titularCursiva?: Bi; entradilla?: Bi; imagen?: string | null; imagenAlt?: Bi };
+  casa?: { titulo?: Bi; parrafo1?: Bi; parrafo2?: Bi; parrafoHuerta?: Bi; confirmado?: boolean; foto?: string | null; fotoAlt?: Bi };
+  carta?: { intro?: Bi };
+  grupos?: { titulo?: Bi; texto?: Bi; salones?: Bi; salonesConfirmado?: boolean; foto?: string | null };
+  zona?: { titulo?: Bi; intro?: Bi; transporte?: Bi; parking?: Bi; confirmado?: boolean };
+  reserva?: { titulo?: Bi; texto?: Bi };
+  preguntas?: { pregunta?: Bi; respuesta?: Bi; confirmada?: boolean }[];
+};
+
+/** Rutas de las fotos subidas desde el panel (se resuelven en src/data/imagenes.ts). */
+export const fotosPanel = {
+  portada: panel.portada?.imagen ?? null,
+  casa: panel.casa?.foto ?? null,
+  grupos: panel.grupos?.foto ?? null,
+};
+
+/** Textos editables desde el panel, en un idioma. */
+const editable = (lang: Lang) => {
+  const v = (t: Bi) => texto(t)[lang];
+  return {
+    hero: {
+      antetitulo: v(panel.portada?.antetitulo),
+      titular: v(panel.portada?.titular),
+      titularCursiva: v(panel.portada?.titularCursiva),
+      entradilla: v(panel.portada?.entradilla),
+      imagenAlt: v(panel.portada?.imagenAlt),
+    },
+    historia: {
+      titulo: v(panel.casa?.titulo),
+      p1: v(panel.casa?.parrafo1),
+      p2: v(panel.casa?.parrafo2),
+      huerta: v(panel.casa?.parrafoHuerta),
+      pendiente: !panel.casa?.confirmado,
+      fotoAlt: v(panel.casa?.fotoAlt),
+    },
+    cartaIntro: v(panel.carta?.intro),
+    grupos: {
+      titulo: v(panel.grupos?.titulo),
+      texto: v(panel.grupos?.texto),
+      salones: v(panel.grupos?.salones),
+      salonesPendiente: !panel.grupos?.salonesConfirmado,
+    },
+    zona: {
+      titulo: v(panel.zona?.titulo),
+      intro: v(panel.zona?.intro),
+      transporte: v(panel.zona?.transporte),
+      parking: v(panel.zona?.parking),
+      pendiente: !panel.zona?.confirmado,
+    },
+    reserva: { titulo: v(panel.reserva?.titulo), texto: v(panel.reserva?.texto) },
+    preguntas: (panel.preguntas ?? [])
+      .map((q) => ({ p: v(q.pregunta), r: v(q.respuesta), pendiente: !q.confirmada }))
+      .filter((q) => q.p && q.r),
+  };
+};
+const E = { es: editable('es'), en: editable('en') };
 
 const es = {
   meta: {
@@ -32,26 +96,13 @@ const es = {
     carta: 'Carta',
   },
   pendiente: 'Por confirmar',
-  hero: {
-    antetitulo: 'Frente al Monasterio de El Escorial',
-    titular: 'La cocina de siempre, a la sombra de los castaños.',
-    enfasisDesde: 4, // a partir de esta palabra, el titular va en cursiva ámbar
-    entradilla:
-      'Cocina casera y menú del día en la calle Floridablanca, a unos pasos del Monasterio.',
-    imagenAlt: 'El Monasterio de El Escorial visto desde su estanque, bajo un cielo de nubes',
-  },
+  hero: E.es.hero,
   historia: {
-    titulo: 'Una casa de las de siempre',
-    p1: 'La Parrilla Príncipe está en la calle Floridablanca, en pleno centro histórico de San Lorenzo, a unos pasos del Real Monasterio. El edificio fue durante años también hotel, con salones para comidas de grupo.',
-    p1Pendiente: true,
-    p2: 'Quien viene suele volver por lo mismo: la cocina casera, un menú del día con mucho donde elegir, las raciones generosas y un trato cercano, pendiente de cada mesa.',
+    ...E.es.historia,
     cita: 'Un trato y un ambiente de otros tiempos.',
     citaAutor: 'paquito, en Tripadvisor (septiembre de 2026)',
-    huerta:
-      'Parte de lo que llega a la mesa sale de la huerta de la casa: los clientes hablan del tomate de la huerta y de la cosecha propia.',
     contadorOpiniones: 'opiniones en Google',
     contadorNota: 'de nota media en Google',
-    fotoAlt: 'El equipo de la Parrilla Príncipe',
   },
   platoCasa: {
     etiqueta: 'El plato de la casa',
@@ -59,8 +110,7 @@ const es = {
   },
   carta: {
     titulo: 'La carta',
-    intro:
-      'Cocina casera: guisos, carnes, pescados y postres hechos en casa. Pulsa un plato para ver sus detalles y alérgenos.',
+    intro: E.es.cartaIntro,
     provisional:
       'Carta provisional con los platos que más citan los clientes. Precios y alérgenos, pendientes de la carta oficial.',
     filtros: 'Filtrar',
@@ -89,16 +139,11 @@ const es = {
     fotoPendiente: 'Foto pendiente',
   },
   grupos: {
-    titulo: 'Comidas de grupo y celebraciones',
-    texto:
-      'Cumpleaños, reuniones de familia, comidas de empresa. Llámanos, cuéntanos cuántos sois y organizamos la comida contigo.',
-    salones: 'Salones para grupos de 20, 30 y 50 personas.',
+    ...E.es.grupos,
     llamar: 'Llamar para organizarlo',
   },
   zona: {
-    titulo: 'A unos pasos del Monasterio',
-    intro:
-      'Estamos en la calle Floridablanca, en el centro histórico. Un buen sitio para comer antes o después de la visita al Monasterio.',
+    ...E.es.zona,
     lugares: [
       {
         nombre: 'Real Monasterio de El Escorial',
@@ -118,9 +163,6 @@ const es = {
     horario: 'Horario',
     cerrado: 'Cerrado',
     llegar: 'Cómo llegar',
-    transporte:
-      'Desde Madrid: autobuses 661 y 664 desde el intercambiador de Moncloa, o tren de Cercanías hasta la estación de El Escorial.',
-    parking: 'Aparcamiento: el público más cercano al Monasterio es Iberpark Monasterio, en la calle del Rey, 45.',
     mapaAlt: 'Mapa con la ubicación de la Parrilla Príncipe',
   },
   opiniones: {
@@ -136,60 +178,9 @@ const es = {
   },
   preguntas: {
     titulo: 'Preguntas frecuentes',
-    lista: [
-      {
-        p: '¿Dónde está la Parrilla Príncipe?',
-        r: 'La Parrilla Príncipe es un restaurante de cocina casera en la calle Floridablanca, 6, en el centro histórico de San Lorenzo de El Escorial (Madrid), a unos pasos del Real Monasterio.',
-      },
-      {
-        p: '¿Hace falta reservar?',
-        r: 'Es muy recomendable: el local se llena enseguida, sobre todo los fines de semana. Las reservas se hacen por teléfono, en el 696 63 67 65.',
-      },
-      {
-        p: '¿Tienen menú del día?',
-        r: 'Sí, entre semana: cinco primeros y cinco segundos a elegir, con pan, bebida, postre y café, por 20 €.',
-        pendiente: true,
-      },
-      {
-        p: '¿Tienen terraza?',
-        r: 'Sí. Está a la sombra de unos grandes castaños, frente al Monasterio. Dentro, el comedor está climatizado.',
-      },
-      {
-        p: '¿Qué es lo más recomendado?',
-        r: 'Los clientes destacan sobre todo los huevos al ajillo, el entrecot, el tomate con ventresca y los postres caseros.',
-      },
-      {
-        p: '¿Se puede ir con niños?',
-        r: 'Sí, vienen muchas familias. Si necesitas trona o un plato especial para los pequeños, avísanos al reservar.',
-        pendiente: true,
-      },
-      {
-        p: '¿Hay opciones sin gluten o vegetarianas?',
-        r: 'Consulta con el personal o llama antes de venir: te indicarán qué platos puedes tomar.',
-        pendiente: true,
-      },
-      {
-        p: '¿Organizan comidas de grupo?',
-        r: 'Sí. Cumpleaños, reuniones familiares y comidas de empresa: llama y lo organizamos contigo.',
-        pendiente: true,
-      },
-      {
-        p: '¿Dónde se puede aparcar?',
-        r: 'El aparcamiento público más cercano al Monasterio es Iberpark Monasterio (calle del Rey, 45). El centro histórico tiene poco aparcamiento en la calle.',
-        pendiente: true,
-      },
-      {
-        p: '¿Qué formas de pago aceptan?',
-        r: 'Tarjeta (Visa y Mastercard) y efectivo.',
-        pendiente: true,
-      },
-    ],
+    lista: E.es.preguntas,
   },
-  reserva: {
-    titulo: 'Reserva tu mesa',
-    texto:
-      'Las reservas se hacen por teléfono. Llama con antelación: el local se llena enseguida, sobre todo los fines de semana.',
-  },
+  reserva: E.es.reserva,
   pie: {
     avisoLegal: 'Aviso legal',
     privacidad: 'Privacidad',
@@ -235,26 +226,13 @@ const en: Textos = {
     carta: 'Menu',
   },
   pendiente: 'To be confirmed',
-  hero: {
-    antetitulo: 'Facing the Monastery of El Escorial',
-    titular: 'Cooking of the old school, in the shade of the chestnut trees.',
-    enfasisDesde: 5,
-    entradilla:
-      'Home cooking and a set lunch menu on Calle Floridablanca, a few steps from the Monastery.',
-    imagenAlt: 'The Monastery of El Escorial seen from its pond, under a cloudy sky',
-  },
+  hero: E.en.hero,
   historia: {
-    titulo: 'A house of the old school',
-    p1: 'Parrilla Príncipe is on Calle Floridablanca, in the historic centre of San Lorenzo, a few steps from the Royal Monastery. For years the building was also a hotel, with rooms for group meals.',
-    p1Pendiente: true,
-    p2: 'Guests tend to come back for the same things: home cooking, a set menu with plenty of choice, generous portions and friendly service that looks after every table.',
+    ...E.en.historia,
     cita: 'Service and an atmosphere from another time.',
     citaAutor: 'paquito, on Tripadvisor (September 2026; translated from Spanish)',
-    huerta:
-      'Some of what reaches the table comes from the house’s own vegetable garden: guests talk about the garden tomatoes and the home-grown produce.',
     contadorOpiniones: 'Google reviews',
     contadorNota: 'average rating on Google',
-    fotoAlt: 'The Parrilla Príncipe team',
   },
   platoCasa: {
     etiqueta: 'The house speciality',
@@ -262,8 +240,7 @@ const en: Textos = {
   },
   carta: {
     titulo: 'The menu',
-    intro:
-      'Home cooking: stews, meat, fish and desserts made in-house. Tap a dish to see its details and allergens.',
+    intro: E.en.cartaIntro,
     provisional:
       'Provisional menu with the dishes guests mention most. Prices and allergens will follow with the official menu.',
     filtros: 'Filter',
@@ -292,16 +269,11 @@ const en: Textos = {
     fotoPendiente: 'Photo coming soon',
   },
   grupos: {
-    titulo: 'Group meals and celebrations',
-    texto:
-      'Birthdays, family gatherings, work lunches. Call us, tell us how many you are and we will plan the meal with you.',
-    salones: 'Private rooms for groups of 20, 30 and 50.',
+    ...E.en.grupos,
     llamar: 'Call to plan it',
   },
   zona: {
-    titulo: 'A few steps from the Monastery',
-    intro:
-      'We are on Calle Floridablanca, in the historic centre. A good place to eat before or after visiting the Monastery.',
+    ...E.en.zona,
     lugares: [
       {
         nombre: 'Royal Monastery of El Escorial',
@@ -321,9 +293,6 @@ const en: Textos = {
     horario: 'Opening hours',
     cerrado: 'Closed',
     llegar: 'Getting here',
-    transporte:
-      'From Madrid: buses 661 and 664 from the Moncloa bus station, or the Cercanías commuter train to El Escorial station.',
-    parking: 'Parking: the nearest public car park to the Monastery is Iberpark Monasterio, Calle del Rey 45.',
     mapaAlt: 'Map showing the location of Parrilla Príncipe',
   },
   opiniones: {
@@ -339,60 +308,9 @@ const en: Textos = {
   },
   preguntas: {
     titulo: 'Frequently asked questions',
-    lista: [
-      {
-        p: 'Where is Parrilla Príncipe?',
-        r: 'Parrilla Príncipe is a home-cooking restaurant at Calle Floridablanca 6, in the historic centre of San Lorenzo de El Escorial (Madrid), a few steps from the Royal Monastery.',
-      },
-      {
-        p: 'Do I need to book?',
-        r: 'It is strongly recommended: the restaurant fills up quickly, especially at weekends. Bookings are taken by phone on +34 696 63 67 65.',
-      },
-      {
-        p: 'Is there a set lunch menu?',
-        r: 'Yes, on weekdays: a choice of five starters and five mains, with bread, a drink, dessert and coffee, for €20.',
-        pendiente: true,
-      },
-      {
-        p: 'Is there a terrace?',
-        r: 'Yes. It is shaded by large chestnut trees, facing the Monastery. Inside, the dining room is air-conditioned.',
-      },
-      {
-        p: 'What do guests recommend most?',
-        r: 'Guests especially praise the garlic eggs, the entrecôte, the tomato with tuna belly and the homemade desserts.',
-      },
-      {
-        p: 'Can I come with children?',
-        r: 'Yes, many families come. If you need a high chair or a special dish for the little ones, let us know when you book.',
-        pendiente: true,
-      },
-      {
-        p: 'Are there gluten-free or vegetarian options?',
-        r: 'Ask our staff or call before your visit and they will tell you which dishes suit you.',
-        pendiente: true,
-      },
-      {
-        p: 'Do you host group meals?',
-        r: 'Yes. Birthdays, family gatherings and work lunches: call us and we will plan it with you.',
-        pendiente: true,
-      },
-      {
-        p: 'Where can I park?',
-        r: 'The nearest public car park to the Monastery is Iberpark Monasterio (Calle del Rey 45). Street parking in the historic centre is scarce.',
-        pendiente: true,
-      },
-      {
-        p: 'Which payment methods do you accept?',
-        r: 'Card (Visa and Mastercard) and cash.',
-        pendiente: true,
-      },
-    ],
+    lista: E.en.preguntas,
   },
-  reserva: {
-    titulo: 'Book your table',
-    texto:
-      'Bookings are taken by phone. Call ahead: the restaurant fills up quickly, especially at weekends.',
-  },
+  reserva: E.en.reserva,
   pie: {
     avisoLegal: 'Legal notice',
     privacidad: 'Privacy',

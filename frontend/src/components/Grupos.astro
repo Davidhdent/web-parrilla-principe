@@ -6,8 +6,8 @@
 import { Picture } from 'astro:assets';
 import type { Lang } from '../data/restaurante';
 import { restaurante } from '../data/restaurante';
-import { fotos } from '../data/imagenes';
-import { t } from '../i18n/textos';
+import { fotos, fotoPanel } from '../data/imagenes';
+import { t, fotosPanel } from '../i18n/textos';
 import Pendiente from './Pendiente.astro';
 import Icono from './Icono.astro';
 
@@ -17,13 +17,13 @@ const tx = t(lang).grupos;
 ---
 <section id="grupos" class="grupos oscuro" aria-labelledby="grupos-titulo">
   <figure class="grupos__foto" data-revelar-mascara>
-    <Picture src={fotos.brindis.src} formats={['avif', 'webp']} widths={[640, 1024, 1400]} sizes="(min-width: 56rem) 50vw, 100vw" alt="" />
+    <Picture src={fotoPanel(fotosPanel.grupos) ?? fotos.brindis.src} formats={['avif', 'webp']} widths={[640, 1024, 1400]} sizes="(min-width: 56rem) 50vw, 100vw" alt="" />
   </figure>
   <div class="grupos__texto">
     <span class="marcas" aria-hidden="true"></span>
     <h2 id="grupos-titulo" class="titulo-seccion" data-revelar>{tx.titulo}</h2>
     <p data-revelar>{tx.texto}</p>
-    <p class="grupos__salones" data-revelar>{tx.salones}<Pendiente lang={lang} /></p>
+    <p class="grupos__salones" data-revelar>{tx.salones}<Pendiente lang={lang} si={tx.salonesPendiente} /></p>
     <a class="boton boton--ambar" href={restaurante.telefono.enlace}><Icono nombre="telefono" />{tx.llamar}</a>
   </div>
 </section>

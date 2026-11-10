@@ -8,8 +8,8 @@
 import { Picture } from 'astro:assets';
 import type { Lang } from '../data/restaurante';
 import { restaurante } from '../data/restaurante';
-import { fotos } from '../data/imagenes';
-import { t } from '../i18n/textos';
+import { fotos, fotoPanel } from '../data/imagenes';
+import { t, fotosPanel } from '../i18n/textos';
 import Icono from './Icono.astro';
 
 interface Props { lang: Lang }
@@ -18,13 +18,17 @@ const tx = t(lang);
 
 // Titular: cada palabra en un bloque que no se parte; cada letra con su retraso.
 let n = 0;
-const palabras = tx.hero.titular.split(' ').map((p, i) => ({
-  enfasis: i >= tx.hero.enfasisDesde,
+// Parte normal + parte en cursiva ámbar (las dos se editan en el panel)
+const titularCompleto = [tx.hero.titular, tx.hero.titularCursiva].filter(Boolean).join(' ');
+const nNormal = tx.hero.titular.split(' ').filter(Boolean).length;
+const palabras = titularCompleto.split(' ').map((p, i) => ({
+  enfasis: i >= nNormal,
   letras: [...p].map((l) => ({ l, i: n++ })),
 }));
 
 // Anchos generados: sin pasar del original (Astro no amplía; si llega una foto mayor, salen más tamaños).
-const foto = fotos.monasterioEstanque.src;
+// Foto de la portada: la que suba la dueña desde el panel o, si no hay, la del Monasterio
+const foto = fotoPanel(fotosPanel.portada) ?? fotos.monasterioEstanque.src;
 const anchos = [480, 800, 1280, 1600, 2000].filter((w) => w < foto.width).concat(foto.width);
 ---
 <section class="hero oscuro" aria-labelledby="hero-titulo">
@@ -44,7 +48,7 @@ const anchos = [480, 800, 1280, 1600, 2000].filter((w) => w < foto.width).concat
   <div class="hero__contenido contenedor">
     <p class="hero__antetitulo" data-hero-aparece><span class="marcas" aria-hidden="true"></span>{tx.hero.antetitulo}</p>
     <h1 id="hero-titulo" class="hero__titular">
-      <span class="sr-only">{tx.hero.titular}</span>
+      <span class="sr-only">{titularCompleto}</span>
       <span aria-hidden="true">
         {palabras.map((p, i) => (
           <><span class:list={['palabra', { enfasis: p.enfasis }]}>{p.letras.map(({ l, i: k }) => <span class="letra" style={`--i:${k}`}>{l}</span>)}</span>{i < palabras.length - 1 && ' '}</>

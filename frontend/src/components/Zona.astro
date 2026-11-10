@@ -70,8 +70,8 @@ const { direccion: d } = restaurante;
           </div>
         </dl>
 
-        <p class="visita__nota">{tx.transporte}<Pendiente lang={lang} /></p>
-        <p class="visita__nota">{tx.parking}<Pendiente lang={lang} /></p>
+        <p class="visita__nota">{tx.transporte}<Pendiente lang={lang} si={tx.pendiente} /></p>
+        <p class="visita__nota">{tx.parking}<Pendiente lang={lang} si={tx.pendiente} /></p>
 
         <div class="visita__acciones">
           <a class="boton boton--brasa" href={restaurante.enlaces.comoLlegar} target="_blank" rel="noopener">

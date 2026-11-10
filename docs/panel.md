@@ -1,6 +1,6 @@
 # Panel de la Parrilla Príncipe
 
-Con este panel, el restaurante cambia su web sin tocar nada técnico: la carta, el menú del día, el horario, el plato de la casa y las fotos.
+Con este panel, el restaurante cambia su web sin tocar nada técnico: los textos, las fotos, la carta, el menú del día, el horario y el plato de la casa.
 Está hecho con [Keystatic](https://keystatic.com) y se abre en **`/keystatic`**.
 
 ---
@@ -14,7 +14,8 @@ Está hecho con [Keystatic](https://keystatic.com) y se abre en **`/keystatic`**
 | **Menú del día** | El precio, qué incluye y qué días hay (en español y en inglés) |
 | **Horario** | Qué días abrís y a qué hora. Si dais cenas, se rellena el segundo turno («Abre de nuevo») |
 | **Carta** | Las secciones y los platos: nombre, descripción, precio, alérgenos y si es vegetariano, sin gluten o de temporada |
-| **Datos generales** | El teléfono de reservas, el plato de la casa y los enlaces a Facebook, Instagram y Tripadvisor |
+| **Textos de la web** | La portada (titular, texto y foto de fondo), «La casa» (textos y foto), la presentación de la carta, Comidas de grupo (texto y foto), Cómo llegar, el bloque «Reserva tu mesa» y las preguntas frecuentes (se pueden añadir, quitar y reordenar) |
+| **Datos generales** | El teléfono de reservas, el plato de la casa (con su foto) y los enlaces a Facebook, Instagram y Tripadvisor |
 | **Galería de fotos** | Subir fotos, con su título y el texto que sale al ampliarlas |
 
 ### Cómo se usa
@@ -31,6 +32,12 @@ Está hecho con [Keystatic](https://keystatic.com) y se abre en **`/keystatic`**
 - **Español e inglés:** rellena siempre los dos idiomas. Si el inglés se queda vacío, la web en inglés mostrará un hueco.
 
 ### Fotos
+
+- Dónde van:
+  - **Galería de fotos:** las del mosaico.
+  - **Textos de la web:** la foto de la portada, la de «La casa» y la de Comidas de grupo.
+  - **Datos generales → Plato de la casa:** la foto del plato.
+- Si una de esas fotos se deja vacía, la web usa la que tiene ahora.
 
 - Mejor horizontales y de buena calidad. Sirven las de un móvil actual.
 - No hace falta reducirlas: la web las optimiza sola.
@@ -51,6 +58,7 @@ Cada guardado queda registrado, así que cualquier cambio se puede deshacer. Si 
 - La web lee esos JSON **al compilar** (desde `src/data/*.ts`). Sigue siendo HTML estático, rápida y legible para buscadores e IA.
 - Keystatic **omite los campos vacíos** al guardar, así que los lectores de `src/data/` tratan todos los campos como opcionales.
 - Las fotos subidas van a `frontend/src/assets/img/galeria/` y se cargan con `import.meta.glob`.
+- Los textos editables (portada, la casa, Grupos, Cómo llegar, reserva, preguntas frecuentes) están en `src/contenido/textos.json` y los lee `src/i18n/textos.ts`. Las fotos que se suben desde «Textos de la web» y el plato de la casa van a `src/assets/img/panel/` y se resuelven con `fotoPanel()` en `src/data/imagenes.ts`. Si no hay foto subida, se usa la de siempre.
 - Específico de este proyecto: la casilla `telefonoConfirmado` controla la etiqueta «Por confirmar» del teléfono y si este aparece en el JSON-LD.
 
 ### En local (ya funciona)

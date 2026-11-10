@@ -2,7 +2,9 @@
 /** La casa: quiénes son y por qué vuelve la gente. Solo datos de la investigación (ver docs). */
 import type { Lang } from '../data/restaurante';
 import { restaurante } from '../data/restaurante';
-import { t } from '../i18n/textos';
+import { Picture } from 'astro:assets';
+import { t, fotosPanel } from '../i18n/textos';
+import { fotoPanel } from '../data/imagenes';
 import Pendiente from './Pendiente.astro';
 
 interface Props { lang: Lang }
@@ -11,19 +13,24 @@ const tx = t(lang).historia;
 const google = restaurante.valoraciones.plataformas.find((p) => p.nombre === 'Google')!;
 const fmt = new Intl.NumberFormat(lang === 'es' ? 'es-ES' : 'en-GB');
 const nota = lang === 'es' ? google.nota : google.nota.replace(',', '.');
+const fotoCasa = fotoPanel(fotosPanel.casa); // la que suba la dueña desde el panel
 ---
 <section id="historia" class="historia seccion" aria-labelledby="historia-titulo">
   <div class="contenedor historia__rejilla">
     <figure class="historia__foto" data-revelar-mascara>
-      <div class="foto-pendiente">
-        <span>{t(lang).galeria.fotoPendiente}<small>{tx.fotoAlt}</small></span>
-      </div>
+      {fotoCasa ? (
+        <Picture src={fotoCasa} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(min-width: 56rem) 40vw, 100vw" alt={tx.fotoAlt} />
+      ) : (
+        <div class="foto-pendiente">
+          <span>{t(lang).galeria.fotoPendiente}<small>{tx.fotoAlt}</small></span>
+        </div>
+      )}
     </figure>
 
     <div class="historia__texto">
       <span class="marcas" aria-hidden="true"></span>
       <h2 id="historia-titulo" class="titulo-seccion" data-revelar>{tx.titulo}</h2>
-      <p class="capitular" data-revelar>{tx.p1}<Pendiente lang={lang} si={tx.p1Pendiente} /></p>
+      <p class="capitular" data-revelar>{tx.p1}<Pendiente lang={lang} si={tx.pendiente} /></p>
       <p data-revelar>{tx.p2}</p>
 
       <blockquote class="historia__cita" data-revelar>
@@ -31,7 +38,7 @@ const nota = lang === 'es' ? google.nota : google.nota.replace(',', '.');
         <footer>{tx.citaAutor}</footer>
       </blockquote>
 
-      <p data-revelar>{tx.huerta}<Pendiente lang={lang} /></p>
+      <p data-revelar>{tx.huerta}<Pendiente lang={lang} si={tx.pendiente} /></p>
 
       <dl class="historia__cifras">
         <div>
@@ -55,6 +62,7 @@ const nota = lang === 'es' ? google.nota : google.nota.replace(',', '.');
   }
   .historia__foto { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 2px; }
   @media (min-width: 56rem) { .historia__foto { aspect-ratio: 4 / 5; } }
+  .historia__foto :global(picture), .historia__foto :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
   .historia__texto { max-width: 36rem; }
   .historia__texto h2 { margin: 1.25rem 0 2.25rem; }
   .historia__texto p { margin: 0 0 1.25rem; }

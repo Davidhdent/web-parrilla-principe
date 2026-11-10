@@ -7,7 +7,7 @@
 import { Picture } from 'astro:assets';
 import type { Lang } from '../data/restaurante';
 import { restaurante } from '../data/restaurante';
-import { fotos } from '../data/imagenes';
+import { fotos, fotoPanel } from '../data/imagenes';
 import { t } from '../i18n/textos';
 import Pendiente from './Pendiente.astro';
 
@@ -15,6 +15,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const tx = t(lang);
 const plato = restaurante.platoCasa;
+const fotoPlato = fotoPanel(plato.foto);
 ---
 <section class="plato oscuro" aria-labelledby="plato-titulo">
   <div class="plato__fondo" data-parallax>
@@ -27,7 +28,9 @@ const plato = restaurante.platoCasa;
       {plato.texto && <p class="plato__descripcion" data-capa style="--capa: 3">{plato.texto[lang]}</p>}
     </div>
     <figure class="plato__foto" data-capa style="--capa: 2">
-      <div class="foto-pendiente"><span>{tx.galeria.fotoPendiente}<small>{tx.platoCasa.fotoAlt}</small></span></div>
+      {fotoPlato
+        ? <Picture src={fotoPlato} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(min-width: 56rem) 40vw, 100vw" alt={plato.nombre[lang]} />
+        : <div class="foto-pendiente"><span>{tx.galeria.fotoPendiente}<small>{tx.platoCasa.fotoAlt}</small></span></div>}
     </figure>
   </div>
 </section>
@@ -58,4 +61,5 @@ const plato = restaurante.platoCasa;
     border: 1px solid rgb(232 162 92 / 0.45);
   }
   @media (min-width: 56rem) { .plato__foto { aspect-ratio: 4 / 5; } }
+  .plato__foto :global(picture), .plato__foto :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
 </style>

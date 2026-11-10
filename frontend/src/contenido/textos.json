@@ -1,0 +1,210 @@
+{
+  "portada": {
+    "antetitulo": {
+      "es": "Frente al Monasterio de El Escorial",
+      "en": "Facing the Monastery of El Escorial"
+    },
+    "titular": {
+      "es": "La cocina de siempre,",
+      "en": "Cooking of the old school,"
+    },
+    "titularCursiva": {
+      "es": "a la sombra de los castaños.",
+      "en": "in the shade of the chestnut trees."
+    },
+    "entradilla": {
+      "es": "Cocina casera y menú del día en la calle Floridablanca, a unos pasos del Monasterio.",
+      "en": "Home cooking and a set lunch menu on Calle Floridablanca, a few steps from the Monastery."
+    },
+    "imagenAlt": {
+      "es": "El Monasterio de El Escorial visto desde su estanque, bajo un cielo de nubes",
+      "en": "The Monastery of El Escorial seen from its pond, under a cloudy sky"
+    },
+    "imagen": null
+  },
+  "casa": {
+    "titulo": {
+      "es": "Una casa de las de siempre",
+      "en": "A house of the old school"
+    },
+    "parrafo1": {
+      "es": "La Parrilla Príncipe está en la calle Floridablanca, en pleno centro histórico de San Lorenzo, a unos pasos del Real Monasterio. El edificio fue durante años también hotel, con salones para comidas de grupo.",
+      "en": "Parrilla Príncipe is on Calle Floridablanca, in the historic centre of San Lorenzo, a few steps from the Royal Monastery. For years the building was also a hotel, with rooms for group meals."
+    },
+    "parrafo2": {
+      "es": "Quien viene suele volver por lo mismo: la cocina casera, un menú del día con mucho donde elegir, las raciones generosas y un trato cercano, pendiente de cada mesa.",
+      "en": "Guests tend to come back for the same things: home cooking, a set menu with plenty of choice, generous portions and friendly service that looks after every table."
+    },
+    "parrafoHuerta": {
+      "es": "Parte de lo que llega a la mesa sale de la huerta de la casa: los clientes hablan del tomate de la huerta y de la cosecha propia.",
+      "en": "Some of what reaches the table comes from the house’s own vegetable garden: guests talk about the garden tomatoes and the home-grown produce."
+    },
+    "confirmado": false,
+    "fotoAlt": {
+      "es": "El equipo de la Parrilla Príncipe",
+      "en": "The Parrilla Príncipe team"
+    }
+  },
+  "carta": {
+    "intro": {
+      "es": "Cocina casera: guisos, carnes, pescados y postres hechos en casa. Pulsa un plato para ver sus detalles y alérgenos.",
+      "en": "Home cooking: stews, meat, fish and desserts made in-house. Tap a dish to see its details and allergens."
+    }
+  },
+  "grupos": {
+    "titulo": {
+      "es": "Comidas de grupo y celebraciones",
+      "en": "Group meals and celebrations"
+    },
+    "texto": {
+      "es": "Cumpleaños, reuniones de familia, comidas de empresa. Llámanos, cuéntanos cuántos sois y organizamos la comida contigo.",
+      "en": "Birthdays, family gatherings, work lunches. Call us, tell us how many you are and we will plan the meal with you."
+    },
+    "salones": {
+      "es": "Salones para grupos de 20, 30 y 50 personas.",
+      "en": "Private rooms for groups of 20, 30 and 50."
+    },
+    "salonesConfirmado": false
+  },
+  "zona": {
+    "titulo": {
+      "es": "A unos pasos del Monasterio",
+      "en": "A few steps from the Monastery"
+    },
+    "intro": {
+      "es": "Estamos en la calle Floridablanca, en el centro histórico. Un buen sitio para comer antes o después de la visita al Monasterio.",
+      "en": "We are on Calle Floridablanca, in the historic centre. A good place to eat before or after visiting the Monastery."
+    },
+    "transporte": {
+      "es": "Desde Madrid: autobuses 661 y 664 desde el intercambiador de Moncloa, o tren de Cercanías hasta la estación de El Escorial.",
+      "en": "From Madrid: buses 661 and 664 from the Moncloa bus station, or the Cercanías commuter train to El Escorial station."
+    },
+    "parking": {
+      "es": "Aparcamiento: el público más cercano al Monasterio es Iberpark Monasterio, en la calle del Rey, 45.",
+      "en": "Parking: the nearest public car park to the Monastery is Iberpark Monasterio, Calle del Rey 45."
+    },
+    "confirmado": false
+  },
+  "reserva": {
+    "titulo": {
+      "es": "Reserva tu mesa",
+      "en": "Book your table"
+    },
+    "texto": {
+      "es": "Las reservas se hacen por teléfono. Llama con antelación: el local se llena enseguida, sobre todo los fines de semana.",
+      "en": "Bookings are taken by phone. Call ahead: the restaurant fills up quickly, especially at weekends."
+    }
+  },
+  "preguntas": [
+    {
+      "pregunta": {
+        "es": "¿Dónde está la Parrilla Príncipe?",
+        "en": "Where is Parrilla Príncipe?"
+      },
+      "respuesta": {
+        "es": "La Parrilla Príncipe es un restaurante de cocina casera en la calle Floridablanca, 6, en el centro histórico de San Lorenzo de El Escorial (Madrid), a unos pasos del Real Monasterio.",
+        "en": "Parrilla Príncipe is a home-cooking restaurant at Calle Floridablanca 6, in the historic centre of San Lorenzo de El Escorial (Madrid), a few steps from the Royal Monastery."
+      },
+      "confirmada": true
+    },
+    {
+      "pregunta": {
+        "es": "¿Hace falta reservar?",
+        "en": "Do I need to book?"
+      },
+      "respuesta": {
+        "es": "Es muy recomendable: el local se llena enseguida, sobre todo los fines de semana. Las reservas se hacen por teléfono, en el 696 63 67 65.",
+        "en": "It is strongly recommended: the restaurant fills up quickly, especially at weekends. Bookings are taken by phone on +34 696 63 67 65."
+      },
+      "confirmada": true
+    },
+    {
+      "pregunta": {
+        "es": "¿Tienen menú del día?",
+        "en": "Is there a set lunch menu?"
+      },
+      "respuesta": {
+        "es": "Sí, entre semana: cinco primeros y cinco segundos a elegir, con pan, bebida, postre y café, por 20 €.",
+        "en": "Yes, on weekdays: a choice of five starters and five mains, with bread, a drink, dessert and coffee, for €20."
+      },
+      "confirmada": false
+    },
+    {
+      "pregunta": {
+        "es": "¿Tienen terraza?",
+        "en": "Is there a terrace?"
+      },
+      "respuesta": {
+        "es": "Sí. Está a la sombra de unos grandes castaños, frente al Monasterio. Dentro, el comedor está climatizado.",
+        "en": "Yes. It is shaded by large chestnut trees, facing the Monastery. Inside, the dining room is air-conditioned."
+      },
+      "confirmada": true
+    },
+    {
+      "pregunta": {
+        "es": "¿Qué es lo más recomendado?",
+        "en": "What do guests recommend most?"
+      },
+      "respuesta": {
+        "es": "Los clientes destacan sobre todo los huevos al ajillo, el entrecot, el tomate con ventresca y los postres caseros.",
+        "en": "Guests especially praise the garlic eggs, the entrecôte, the tomato with tuna belly and the homemade desserts."
+      },
+      "confirmada": true
+    },
+    {
+      "pregunta": {
+        "es": "¿Se puede ir con niños?",
+        "en": "Can I come with children?"
+      },
+      "respuesta": {
+        "es": "Sí, vienen muchas familias. Si necesitas trona o un plato especial para los pequeños, avísanos al reservar.",
+        "en": "Yes, many families come. If you need a high chair or a special dish for the little ones, let us know when you book."
+      },
+      "confirmada": false
+    },
+    {
+      "pregunta": {
+        "es": "¿Hay opciones sin gluten o vegetarianas?",
+        "en": "Are there gluten-free or vegetarian options?"
+      },
+      "respuesta": {
+        "es": "Consulta con el personal o llama antes de venir: te indicarán qué platos puedes tomar.",
+        "en": "Ask our staff or call before your visit and they will tell you which dishes suit you."
+      },
+      "confirmada": false
+    },
+    {
+      "pregunta": {
+        "es": "¿Organizan comidas de grupo?",
+        "en": "Do you host group meals?"
+      },
+      "respuesta": {
+        "es": "Sí. Cumpleaños, reuniones familiares y comidas de empresa: llama y lo organizamos contigo.",
+        "en": "Yes. Birthdays, family gatherings and work lunches: call us and we will plan it with you."
+      },
+      "confirmada": false
+    },
+    {
+      "pregunta": {
+        "es": "¿Dónde se puede aparcar?",
+        "en": "Where can I park?"
+      },
+      "respuesta": {
+        "es": "El aparcamiento público más cercano al Monasterio es Iberpark Monasterio (calle del Rey, 45). El centro histórico tiene poco aparcamiento en la calle.",
+        "en": "The nearest public car park to the Monastery is Iberpark Monasterio (Calle del Rey 45). Street parking in the historic centre is scarce."
+      },
+      "confirmada": false
+    },
+    {
+      "pregunta": {
+        "es": "¿Qué formas de pago aceptan?",
+        "en": "Which payment methods do you accept?"
+      },
+      "respuesta": {
+        "es": "Tarjeta (Visa y Mastercard) y efectivo.",
+        "en": "Card (Visa and Mastercard) and cash."
+      },
+      "confirmada": false
+    }
+  ]
+}

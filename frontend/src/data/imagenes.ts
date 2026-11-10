@@ -50,6 +50,14 @@ export interface FotoGaleria {
   credito: string;
 }
 
+// Fotos subidas desde el panel para la portada, la casa, el plato de la casa y Grupos.
+const delPanel = import.meta.glob<ImageMetadata>('../assets/img/panel/*.{jpg,jpeg,png,webp,avif}', {
+  eager: true,
+  import: 'default',
+});
+/** Ruta guardada por el panel → imagen; null si no hay foto subida. */
+export const fotoPanel = (ruta: string | null | undefined): ImageMetadata | null => (ruta && delPanel[ruta]) || null;
+
 const subidas = import.meta.glob<ImageMetadata>('../assets/img/galeria/*.{jpg,jpeg,png,webp,avif}', {
   eager: true,
   import: 'default',
