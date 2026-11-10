@@ -3,7 +3,7 @@
  * Hero: el Monasterio a pantalla completa (Ken Burns) y el titular revelado letra a letra.
  * Todo con CSS generado en el servidor: no espera a ningún JavaScript (LCP rápido)
  * y el texto está en el HTML inicial.
- * La foto (aportada por el restaurante) mide 604 px: sustituir por el original en más resolución.
+ * Foto: el Monasterio desde su estanque (Unsplash, 2400 px).
  */
 import { Picture } from 'astro:assets';
 import type { Lang } from '../data/restaurante';
@@ -24,7 +24,7 @@ const palabras = tx.hero.titular.split(' ').map((p, i) => ({
 }));
 
 // Anchos generados: sin pasar del original (Astro no amplía; si llega una foto mayor, salen más tamaños).
-const foto = fotos.monasterioVista.src;
+const foto = fotos.monasterioEstanque.src;
 const anchos = [480, 800, 1280, 1600, 2000].filter((w) => w < foto.width).concat(foto.width);
 ---
 <section class="hero oscuro" aria-labelledby="hero-titulo">
@@ -76,13 +76,12 @@ const anchos = [480, 800, 1280, 1600, 2000].filter((w) => w < foto.width).concat
   }
   .hero__imagen { position: absolute; inset: 0; z-index: -3; }
   .hero__imagen :global(img) {
-    width: 100%; height: 100%; object-fit: cover; object-position: 55% 30%;
-    transform-origin: 55% 30%;
+    width: 100%; height: 100%; object-fit: cover; object-position: 55% 40%;
+    transform-origin: 55% 40%;
     animation: hero-kenburns 26s ease-out both;
   }
-  /* Zoom corto: la foto actual es pequeña y ampliarla más la emborronaría */
-  @keyframes hero-kenburns {
-    from { transform: scale(1.08) translate3d(1%, 0.5%, 0); }
+    @keyframes hero-kenburns {
+    from { transform: scale(1.12) translate3d(1.5%, 1%, 0); }
     to { transform: scale(1) translate3d(0, 0, 0); }
   }
   /* Velo: el Monasterio queda visible arriba y el texto se lee sobre la parte baja */
@@ -90,7 +89,7 @@ const anchos = [480, 800, 1280, 1600, 2000].filter((w) => w < foto.width).concat
     position: absolute; inset: 0; z-index: -2;
     background:
       linear-gradient(to top, rgb(23 18 15 / 0.95) 0%, rgb(23 18 15 / 0.8) 32%, rgb(23 18 15 / 0.25) 62%, rgb(23 18 15 / 0.1) 100%),
-      linear-gradient(95deg, rgb(23 18 15 / 0.55) 0%, transparent 60%),
+      linear-gradient(95deg, rgb(23 18 15 / 0.75) 0%, rgb(23 18 15 / 0.4) 45%, transparent 72%),
       linear-gradient(to bottom, rgb(23 18 15 / 0.55), transparent 22%);
   }
   /* En móvil el texto ocupa más altura y se monta sobre el edificio: velo más alto */

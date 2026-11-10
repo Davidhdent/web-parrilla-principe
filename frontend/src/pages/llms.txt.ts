@@ -27,12 +27,12 @@ export const GET: APIRoute = ({ site }) => {
   const platos = carta.map((c) => `${c.nombre.es}: ${c.platos.map((p) => p.nombre.es).join(', ')}`).join('. ');
 
   const platoCasa = r.platoCasa.pendiente
-    ? 'Los clientes destacan los huevos al ajillo, el entrecot a la parrilla, el tomate con ventresca y los postres caseros.'
+    ? 'Los clientes destacan los huevos al ajillo, el entrecot, el tomate con ventresca y los postres caseros.'
     : `Plato de la casa: ${r.platoCasa.nombre.es}.`;
 
   const cuerpo = `# ${r.nombre}
 
-> ${r.nombre} es un restaurante de cocina casera, con carnes a la parrilla, en ${d.localidad} (${d.provincia}, España), en ${d.calle}, a unos pasos del Real Monasterio de El Escorial. Tiene menú del día entre semana y una terraza a la sombra de grandes castaños. Las reservas se hacen por teléfono (${r.telefono.visible}). ${platoCasa} ${menuDia} ${horario} Carta: ${platos}. Alérgenos: consultar al personal o por teléfono antes de la visita.
+> ${r.nombre} es un restaurante de cocina casera en ${d.localidad} (${d.provincia}, España), en ${d.calle}, a unos pasos del Real Monasterio de El Escorial. Tiene menú del día entre semana y una terraza a la sombra de grandes castaños. Las reservas se hacen por teléfono (${r.telefono.visible}). ${platoCasa} ${menuDia} ${horario} Carta: ${platos}. Alérgenos: consultar al personal o por teléfono antes de la visita.
 
 ## Web
 

@@ -23,23 +23,23 @@
 10. ¿La carne es de la Sierra de Guadarrama? ¿De qué carnicería o ganadería?
 11. ¿Tenéis la tabla de **alérgenos** de cada plato? Es obligatoria y la pondremos en la web.
 12. ¿Tenéis opciones sin gluten, vegetarianas o menú infantil?
+13. Ya no tenéis parrilla: ¿cómo preparáis ahora las carnes (plancha, horno…)? ¿Sigue en la carta el entrecot, el chuletón y las chuletillas?
 
 **La casa**
-13. En varias reseñas se habla de una **huerta propia** («el tomate de la huerta»). ¿Es vuestra? ¿Dónde está y qué cultiváis?
-14. ¿Desde qué año lleváis el restaurante? ¿Es un negocio familiar? ¿Nos contáis la historia en dos líneas?
-15. ¿Podemos nombrar en la web al equipo (Javier, Ángel…) y poner alguna foto vuestra?
-16. ¿El edificio sigue funcionando como hotel o ya es solo restaurante?
-17. ¿Seguís teniendo salones para grupos? ¿Para cuántas personas? ¿Hacéis menús de grupo, comuniones o comidas de empresa?
+14. En varias reseñas se habla de una **huerta propia** («el tomate de la huerta»). ¿Es vuestra? ¿Dónde está y qué cultiváis?
+15. ¿Desde qué año lleváis el restaurante? ¿Es un negocio familiar? ¿Nos contáis la historia en dos líneas?
+16. ¿Podemos nombrar en la web al equipo (Javier, Ángel…) y poner alguna foto vuestra?
+17. ¿El edificio sigue funcionando como hotel o ya es solo restaurante?
+18. ¿Seguís teniendo salones para grupos? ¿Para cuántas personas? ¿Hacéis menús de grupo, comuniones o comidas de empresa?
 
 **Terraza y servicios**
-18. ¿La terraza está abierta todo el año o solo en temporada? ¿Cuántas mesas tiene? ¿Desde ella se ve el Monasterio?
-19. ¿Se admiten perros en la terraza?
-20. ¿Aceptáis tarjeta? (Alguien escribió que solo aceptabais efectivo.)
-21. ¿El local es accesible en silla de ruedas? ¿Dónde recomendáis aparcar?
+19. ¿La terraza está abierta todo el año o solo en temporada? ¿Cuántas mesas tiene? ¿Desde ella se ve el Monasterio?
+20. ¿Se admiten perros en la terraza?
+21. ¿Aceptáis tarjeta? (Alguien escribió que solo aceptabais efectivo.)
+22. ¿El local es accesible en silla de ruedas? ¿Dónde recomendáis aparcar?
 
 **Fotos y marca**
-22. ¿Tenéis logo? ¿Y fotos de los platos, la terraza, el comedor o la huerta? Si no, podemos quedar un día para hacerlas.
-23. La foto del Monasterio con el árbol en flor que tenéis en Facebook sale en la portada de la web. ¿Tenéis el archivo original? En Facebook se guarda muy pequeña.
+23. ¿Tenéis logo? ¿Y fotos de los platos, la terraza, el comedor o la huerta? Si no, podemos quedar un día para hacerlas.
 
 **Reservas**
 24. ¿Cómo preferís las reservas: solo por teléfono, por WhatsApp, o con algún sistema como TheFork?

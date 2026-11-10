@@ -2,18 +2,19 @@
  * Imágenes de la web y sus créditos.
  * Mientras no lleguen las fotos del restaurante se usan fotos de Unsplash
  * (licencia Unsplash: uso libre; se cita al autor en el pie) solo para
- * ambiente (Monasterio, la parrilla en Grupos), nunca para hacer pasar un plato por suyo.
+ * ambiente (Monasterio, un brindis en Grupos), nunca para hacer pasar un plato o el local por suyos.
+ * El restaurante ya no tiene parrilla: no usar fotos de brasas ni de parrilla.
  * Lo propio del restaurante (platos, terraza, comedor) va como marcador «Foto pendiente».
  * La galería se lee de src/contenido/galeria.json; sus fotos van en src/assets/img/galeria/.
  */
 import type { ImageMetadata } from 'astro';
 import { texto, type Texto } from './restaurante';
 import galeriaJson from '../contenido/galeria.json';
-import pinzasParrilla from '../assets/img/pinzas-parrilla.jpg';
+import brindis from '../assets/img/brindis.jpg';
 import monasterioCupula from '../assets/img/monasterio-cupula.jpg';
-// Foto del propio restaurante, publicada en su Facebook (604×453). No está hecha desde el local:
-// no presentarla como «vista desde la terraza». Pedir al dueño el archivo original en más resolución.
-import monasterioVista from '../assets/img/monasterio-vista.jpg';
+// Portada: el Monasterio desde el estanque del Jardín de los Frailes (2400×1350).
+// Sustituye a la foto del Facebook del restaurante, que solo medía 604 px.
+import monasterioEstanque from '../assets/img/monasterio-estanque.jpg';
 import monasterioTorre from '../assets/img/galeria/monasterio-torre.jpg';
 import monasterioFachada from '../assets/img/galeria/monasterio-fachada.jpg';
 
@@ -32,16 +33,8 @@ const unsplash = (autor: string, id: string): Credito => ({
 });
 
 export const fotos = {
-  monasterioVista: {
-    src: monasterioVista,
-    credito: {
-      autor: 'Parrilla Príncipe (foto del Monasterio publicada en su Facebook)',
-      licencia: 'Foto propia del restaurante',
-      licenciaUrl: '',
-      origen: 'https://www.facebook.com/p/Restaurante-PARRILLA-PRINCIPE-100070293513731/',
-    },
-  },
-  pinzasParrilla: { src: pinzasParrilla, credito: unsplash('Paul Hermann', 'jeiqzOgwwKU') },
+  monasterioEstanque: { src: monasterioEstanque, credito: unsplash('Tiplister', 'HsBrRGGrQ0U') },
+  brindis: { src: brindis, credito: unsplash('Micaela Peduzi', 'ch4Fc1cGTq4') },
   monasterioCupula: { src: monasterioCupula, credito: unsplash('Hernan Gonzalez', '2jBlzNmelIw') },
   monasterioTorre: { src: monasterioTorre, credito: unsplash('Fernando Mola-Davis', 'Z939vzXyUvU') },
   monasterioFachada: { src: monasterioFachada, credito: unsplash('Alejandro Pohlenz', 'h99RwnB0Sso') },

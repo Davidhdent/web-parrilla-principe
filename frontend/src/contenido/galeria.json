@@ -50,9 +50,9 @@
     },
     {
       "imagen": null,
-      "titulo": { "es": "La parrilla encendida", "en": "The grill, lit" },
-      "texto": { "es": "Entrecot, chuletón, solomillo y chuletillas de cordero, a la brasa.", "en": "Entrecôte, rib steak, fillet and lamb cutlets, over the embers." },
-      "alt": { "es": "La parrilla del restaurante con las brasas encendidas", "en": "The restaurant grill with glowing embers" },
+      "titulo": { "es": "Postres de la casa", "en": "House desserts" },
+      "texto": { "es": "Tarta de natillas, tarta de queso, torrijas: los postres caseros que piden las reseñas.", "en": "Custard cake, cheesecake, torrijas: the homemade desserts reviews ask for." },
+      "alt": { "es": "Postres caseros del restaurante", "en": "The restaurant’s homemade desserts" },
       "formato": "ancha",
       "credito": ""
     }

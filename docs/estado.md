@@ -49,8 +49,18 @@ Nombre oficial · teléfono que se publica (hay tres) · horario (¿cenas?) · p
 3. Recomendado: abrir una sesión nueva de Claude Code en esta carpeta, porque `preview_start` lee el `.claude/launch.json` de la carpeta de la sesión.
 
 ## Cambios tras el lanzamiento de la vista previa (30/09/2026)
-- Petición del usuario: se quitan las ascuas y el hero pasa a la **foto del Monasterio que aportó el usuario** (`frontend/src/assets/img/monasterio-vista.jpg`, 604×453). Es **foto propia del restaurante**, sacada de su Facebook; no está hecha desde el local. En los créditos figura así. **Pendiente: pedir el original en más resolución** (pregunta 23 del cuestionario).
+- Petición del usuario: se quitan las ascuas y el hero pasa a la **foto del Monasterio que aportó el usuario** (`frontend/src/assets/img/monasterio-vista.jpg`, 604×453). Es **foto propia del restaurante**, sacada de su Facebook; no está hecha desde el local. En los créditos figura así. (Sustituida el 10/11/2026 por una foto en alta resolución: ver más abajo.)
 - Menos peso a la parrilla: «el nombre dice parrilla, pero no es solo parrilla».
   - Nuevo titular: «La cocina de siempre, a la sombra de los castaños».
   - Cocina casera y menú del día por delante en los textos, en los metadatos, en el JSON-LD y en llms.txt.
   - Fuera las fotos de brasas: el plato de la casa usa de fondo la piedra del Monasterio, y la parrilla solo aparece en Grupos y en la carta.
+
+## Cambios del 10/11/2026 (petición del usuario)
+- **El restaurante ya no tiene parrilla.** No se ofrece ese servicio en ningún sitio de la web; solo se mantiene el nombre comercial «Parrilla Príncipe».
+  - Carta: la sección «De la parrilla» pasa a llamarse «Carnes» (entrecot, chuletón, solomillo a la pimienta y chuletillas), sin «a la parrilla». La forma de preparación es [VERIFICAR] (pregunta 13 del cuestionario).
+  - Fuera de los textos, los metadatos, el JSON-LD (`servesCuisine`) y `llms.txt`.
+  - Galería: «La parrilla encendida» pasa a ser «Postres de la casa» (marcador).
+  - Grupos y menú a pantalla completa: la foto de la parrilla se sustituye por un brindis (Unsplash, Micaela Peduzi).
+  - `docs/seo-geo.md`: la categoría de Google ya no es «parrilla/asador» y se cambian las preguntas de medición.
+  - Los nombres internos de la paleta (`--color-brasa`) y el motivo decorativo se quedan: no se ven en la web.
+- **Portada:** la foto del Facebook del restaurante (604 px, muy baja calidad) se sustituye por el Monasterio desde su estanque (Unsplash, Tiplister, 2400×1350). Ya no hace falta pedir el original al dueño.

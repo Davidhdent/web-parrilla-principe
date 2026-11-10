@@ -3,7 +3,7 @@
 **Objetivo:** que el restaurante aparezca, y bien descrito, cuando alguien pregunte a Google o a una IA (AI Overviews, Gemini, ChatGPT, Perplexity, Claude, Copilot) cosas como:
 - «dónde comer cerca del Monasterio de El Escorial»;
 - «menú del día en San Lorenzo de El Escorial»;
-- «parrilla en El Escorial»;
+- «comida casera cerca del Monasterio»;
 - o directamente por la Parrilla Príncipe.
 
 > **Honestidad:** ninguna técnica garantiza el primer puesto en buscadores ni en IA.
@@ -63,11 +63,11 @@ Revisar y corregir en:
 
 ## 3. Google Business Profile (lo que más pesa en las búsquedas locales)
 
-- **Categorías:** la principal, «Restaurante de parrilla» o «Asador» (la que exista en el perfil); como secundarias, «Restaurante de cocina española» y «Restaurante».
+- **Categorías:** la principal, «Restaurante de cocina española»; como secundaria, «Restaurante». **No usar «Restaurante de parrilla» ni «Asador»**: el restaurante ya no tiene parrilla, aunque el nombre la mencione.
 - **Horario:** el real, festivos incluidos, **igual que en la web**.
 - **Enlaces:** la web y, en «Menú», el enlace a `/#carta`.
 - **Atributos:** terraza, admite reservas, y las opciones vegetarianas, sin gluten, apto para niños y perros en la terraza solo si son ciertas.
-- **Fotos:** subir 20 o más reales. La terraza bajo los castaños, los huevos al ajillo, el entrecot, el comedor, la vista al Monasterio y el equipo.
+- **Fotos:** subir 20 o más reales. La terraza bajo los castaños, los huevos al ajillo, el comedor, los postres, la vista al Monasterio y el equipo. Retirar las fotos antiguas de la parrilla, si las hay.
 - **Reseñas:** responder a todas, también a las negativas, de forma breve y cordial.
 - **Publicaciones:** una a la semana, con el menú del día o el plato de temporada.
 
@@ -99,8 +99,8 @@ Lanzar cada mes en **Google, ChatGPT, Gemini, Perplexity, Claude y Copilot**, en
 | 1 | Dónde comer en San Lorenzo de El Escorial |
 | 2 | Restaurante cerca del Monasterio de El Escorial |
 | 3 | Menú del día en San Lorenzo de El Escorial |
-| 4 | Parrilla o asador en El Escorial |
-| 5 | Dónde comer carne a la brasa en San Lorenzo de El Escorial |
+| 4 | Comida casera en San Lorenzo de El Escorial |
+| 5 | Dónde comer huevos al ajillo en El Escorial |
 | 6 | Restaurante con terraza a la sombra en El Escorial |
 | 7 | Dónde comer barato y bien cerca del Monasterio de El Escorial |
 | 8 | Restaurante para comidas de grupo en San Lorenzo de El Escorial |
@@ -108,7 +108,7 @@ Lanzar cada mes en **Google, ChatGPT, Gemini, Perplexity, Claude y Copilot**, en
 | 10 | ¿La Parrilla Príncipe tiene menú del día? ¿Cuánto cuesta? |
 | 11 | Where to eat near El Escorial Monastery |
 | 12 | Set lunch menu in San Lorenzo de El Escorial |
-| 13 | Grilled meat restaurant El Escorial |
+| 13 | Home-cooked Spanish food near El Escorial |
 
 Plantilla de registro:
 

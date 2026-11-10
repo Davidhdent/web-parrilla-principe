@@ -136,21 +136,21 @@
       ]
     },
     {
-      "id": "parrilla",
+      "id": "carnes",
       "nombre": {
-        "es": "De la parrilla",
-        "en": "From the grill"
+        "es": "Carnes",
+        "en": "Meat"
       },
       "platos": [
         {
           "id": "entrecot",
           "nombre": {
-            "es": "Entrecot a la parrilla",
-            "en": "Grilled entrecôte"
+            "es": "Entrecot",
+            "en": "Entrecôte"
           },
           "descripcion": {
-            "es": "El corte de la parrilla que más nombran quienes vuelven.",
-            "en": "The grill cut returning guests mention most."
+            "es": "El corte de carne que más nombran quienes vuelven.",
+            "en": "The cut of meat returning guests mention most."
           },
           "precio": "",
           "alergenosConfirmados": false,
@@ -170,8 +170,8 @@
             "en": "Bone-in rib steak"
           },
           "descripcion": {
-            "es": "Chuletón a la parrilla.",
-            "en": "Bone-in rib steak from the grill."
+            "es": "Chuletón.",
+            "en": "Bone-in rib steak."
           },
           "precio": "",
           "alergenosConfirmados": false,
@@ -212,8 +212,8 @@
             "en": "Lamb cutlets"
           },
           "descripcion": {
-            "es": "Chuletillas de cordero a la parrilla.",
-            "en": "Grilled lamb cutlets."
+            "es": "Chuletillas de cordero.",
+            "en": "Lamb cutlets."
           },
           "precio": "",
           "alergenosConfirmados": false,
